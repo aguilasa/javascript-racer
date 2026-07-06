@@ -31,7 +31,7 @@ PHASER-TASK-20 (a única tarefa de merge, 👤).
 | -- | ------ | ------------ | ------ |
 | PHASER-TASK-03 | Portar `util.ts`, `types.ts`, `constants.ts` (verbatim) | PHASER-TASK-01 | ✅ Concluído |
 | PHASER-TASK-04 | Portar `sprites.ts`/`background.ts` e registrar frames nomeados no `Preloader` | PHASER-TASK-02, PHASER-TASK-03 | ✅ Concluído |
-| PHASER-TASK-05 | Portar `Road.ts` (DSL de construção de pista) | PHASER-TASK-03 | ⬜ Pendente |
+| PHASER-TASK-05 | Portar `Road.ts` (DSL de construção de pista) | PHASER-TASK-03 | ✅ Concluído |
 
 ### Fase 2 — Pista estática (`RoadRenderer`)
 

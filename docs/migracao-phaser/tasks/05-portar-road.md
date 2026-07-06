@@ -40,19 +40,25 @@ Portar `Road.ts` (classe `Road` + `export const ROAD`) verbatim para
 
 ## Critério de conclusão
 
-- [ ] `racer-phaser/src/game/racer/Road.ts` com a DSL completa (12 métodos públicos + `lastY`
+- [x] `racer-phaser/src/game/racer/Road.ts` com a DSL completa (12 métodos públicos + `lastY`
       privado) e `export const ROAD`
-- [ ] Fórmulas de `addRoad`/`addLowRollingHills`/`addSCurves`/`addBumps`/`addDownhillToEnd`
+- [x] Fórmulas de `addRoad`/`addLowRollingHills`/`addSCurves`/`addBumps`/`addDownhillToEnd`
       idênticas a `app/src/core/Road.ts`
-- [ ] `mise exec -- npm run build` sem erros
-- [ ] Commit feito em `feature/phaser-port`
+- [x] `mise exec -- npm run build` sem erros
+- [x] Commit feito em `feature/phaser-port`
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
 **Resumo do que foi feito:**
+- Copiou `Road.ts` de `app/src/core/` para `racer-phaser/src/game/racer/` (classe `Road` com 12 métodos públicos + `lastY` privado)
+- Ajustou imports relativos para `./types`, `./constants`, `./util`
+- Copiou `export const ROAD` com LENGTH/HILL/CURVE idênticos
+- Validado `mise exec -- npm run build` - build concluído sem erros
 
 **Problemas encontrados:**
+- Nenhum
 
 **Arquivos criados/modificados:**
+- `racer-phaser/src/game/racer/Road.ts` (criado)
