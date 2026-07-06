@@ -86,3 +86,34 @@ When editing gameplay/rendering, changes are almost always needed in exactly one
 `common.js`. The three earlier versions (`v1`–`v3`) are intentionally frozen snapshots of
 progressively simpler states of the same game, kept for the accompanying tutorial articles — do
 not "backport" v4 features into them unless explicitly asked.
+
+## TypeScript Version (`app/`)
+
+In addition to the original JavaScript version, this repository contains a faithful TypeScript port
+in the `app/` directory. The TypeScript version preserves the original JavaScript code unchanged
+as a reference and implements the same game logic using modern tooling (Vite, TypeScript strict
+mode).
+
+### Running the TypeScript version
+
+```bash
+cd app
+mise exec -- npm install
+mise exec -- npm run dev    # dev server
+mise exec -- npm run build  # production build
+mise exec -- npm run typecheck  # type checking
+```
+
+The TypeScript version follows the same incremental structure as the original:
+- `v1.html` — straight road (TypeScript port of `v1.straight.html`)
+- `v2.html` — curves (TypeScript port of `v2.curves.html`)
+- `v3.html` — hills (TypeScript port of `v3.hills.html`)
+- `v4.html` — final version with traffic, HUD, scenery (TypeScript port of `v4.final.html`)
+
+### Architecture
+
+The TypeScript version uses a class-based inheritance hierarchy (`RacerGame → RacerGameV1 → V2 → V3 → V4`)
+following the Template Method pattern. Shared logic lives in `app/src/core/` (Dom, Util, Renderer, Road, RacerGame, TweakUI),
+while version-specific extensions are in `app/src/versions/`.
+
+For detailed architecture documentation, see `docs/projeto/01-arquitetura-alvo.md`.

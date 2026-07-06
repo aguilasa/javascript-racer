@@ -66,7 +66,7 @@ RACER-TASK-19 (a única tarefa de merge, 👤).
 | ID | Tarefa | Dependências | 👤 | Status |
 | -- | ------ | ------------ | -- | ------ |
 | RACER-TASK-16 | Revisar duplicação residual entre `RacerGameV1`…`V4` e remover `any` | RACER-TASK-15 | | ✅ Concluído |
-| RACER-TASK-17 | Atualizar `CLAUDE.md`/`docs/` apontando para `app/` | RACER-TASK-16 | | ⬜ Pendente |
+| RACER-TASK-17 | Atualizar `CLAUDE.md`/`docs/` apontando para `app/` | RACER-TASK-16 | | ✅ Concluído |
 | RACER-TASK-18 | (Opcional) Vincular a versão TS a partir do `index.html`/`README.md` da raiz | RACER-TASK-17 | 👤 | ⬜ Pendente |
 | RACER-TASK-19 | Revisar e mergear `feature/ts-vite-port` em `master` | RACER-TASK-17 | 👤 | ⬜ Pendente |
 
