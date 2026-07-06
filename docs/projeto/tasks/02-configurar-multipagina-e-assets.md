@@ -121,10 +121,30 @@ npm run build
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-05
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Criados `app/index.html` (menu com links para v1–v4), `app/v1.html`,
+`app/v2.html`, `app/v3.html` e `app/v4.html` com estrutura de DOM idêntica aos originais
+(`v1.straight.html`…`v4.final.html`), incluindo todos os `id`s de canvas, HUD (v4), tweak UI,
+áudio e mute. Criado `app/vite.config.ts` com 5 entradas de build. Copiados `images/` e `music/`
+para `app/public/`. Criados stubs de `main.ts` para cada versão (importam `style.css`) para
+permitir que o build resolva os entry points. Criado `app/src/style.css` copiando `common.css`.
 
-**Problemas encontrados:**
+**Problemas encontrados:** `npm run build` falhava com "Failed to resolve .../main.ts" porque os
+arquivos de entrada não existiam. Solução: criar stubs mínimos de `main.ts` em cada pasta de
+versão, o que está alinhado à tarefa (os stubs serão preenchidos nas tarefas 10–15).
 
 **Arquivos criados/modificados:**
+- `app/index.html` (atualizado de stub para menu real)
+- `app/v1.html` (criado)
+- `app/v2.html` (criado)
+- `app/v3.html` (criado)
+- `app/v4.html` (criado)
+- `app/vite.config.ts` (criado)
+- `app/src/style.css` (criado, conteúdo de `common.css`)
+- `app/src/versions/v1-straight/main.ts` (criado — stub)
+- `app/src/versions/v2-curves/main.ts` (criado — stub)
+- `app/src/versions/v3-hills/main.ts` (criado — stub)
+- `app/src/versions/v4-final/main.ts` (criado — stub)
+- `app/public/images/` (criado, copiado de `images/`)
+- `app/public/music/` (criado, copiado de `music/`)
