@@ -12,6 +12,8 @@
 | CORR-RACER-006 | `StatsPanel.update()` conta frames em dobro e mede ~0ms (begin/end/update redundantes) | Alta | [x] concluída |
 | CORR-RACER-007 | `Renderer.fog()` duplica `COLORS.FOG` como literal em vez de importar de `core/constants.ts` | Baixa | [x] concluída |
 | CORR-RACER-008 | `Road.addLowRollingHills()` só implementa a variante v4 — sem como recuperar o traçado original da v3 | Alta | [x] concluída |
+| CORR-RACER-009 | `TweakUI` nunca é instanciada/conectada — controles da UI não fazem nada | Crítica | [ ] pendente |
+| CORR-RACER-010 | `buildRoad()` base produz 501 segmentos em vez dos 500 exatos do v1 original | Baixa | [ ] pendente |
 
 ## Checklist
 
@@ -23,6 +25,8 @@
 - [x] CORR-RACER-006 — simplificar `StatsPanel.update()` para uma única chamada de medição por frame
 - [x] CORR-RACER-007 — `Renderer.fog()` usar `COLORS.FOG` importado em vez do literal `'#005108'`
 - [x] CORR-RACER-008 — parametrizar a curva em `addLowRollingHills` (default v4, `0` para v3)
+- [ ] CORR-RACER-009 — instanciar/conectar `TweakUI` em `RacerGame.start()`/`reset()`
+- [ ] CORR-RACER-010 — trocar `addStraight(500/3)` por `addRoad(500, 0, 0, 0, 0)` em `buildRoad()`
 
 ## Detalhes por correção
 
@@ -124,3 +128,30 @@
   `addLowRollingHills`, usado nas duas chamadas centrais (`curve`/`-curve`) em vez do literal —
   preserva o comportamento atual da v4 (chamada sem o argumento) e permite que a v3 passe `0`
   explicitamente.
+
+### CORR-RACER-009
+
+- **Alvo com problema:** `app/src/core/RacerGame.ts` (`start()`/`reset()`)
+- **Sintoma:** `TweakUI` foi implementada corretamente na RACER-TASK-09, mas `grep -rn
+  "TweakUI" app/src/` só retorna a própria declaração da classe — nunca é importada, instanciada
+  nem usada. Consequência dupla: (1) `TweakUI.bind()` nunca é chamado, então os listeners de
+  `change` dos controles (`resolution`, `lanes`, `roadWidth`, `cameraHeight`, `drawDistance`,
+  `fieldOfView`, `fogDensity`) nunca são registrados — mover qualquer slider ou trocar qualquer
+  `<select>` não faz nada; (2) `TweakUI.refresh()` nunca é chamado a partir de `reset()` (o
+  original sempre chama `refreshTweakUI()` no fim de `reset()`, inclusive na primeira vez), então
+  os controles nunca refletiriam a configuração real. Toda a tweak UI — um recurso central e
+  visível desde a v1 — fica completamente não-funcional.
+- **Fix:** Instanciar `new TweakUI((options) => this.reset(options))` em `RacerGame.start()` e
+  chamar `.bind()` uma vez; chamar `this.tweakUI.refresh({...})` incondicionalmente ao final de
+  `reset()`.
+
+### CORR-RACER-010
+
+- **Alvo com problema:** `app/src/core/RacerGame.ts` (`buildRoad()`)
+- **Sintoma:** A implementação-base de `buildRoad()` chama `this.road.addStraight(500 / 3)`.
+  Como `500/3 = 166.667`, cada uma das 3 fases internas de `addStraight` (`enter`/`hold`/`leave`)
+  roda 167 iterações (não 166.67 arredondado), totalizando 501 segmentos — não os 500 exatos do
+  `for` cru original de `v1.straight.html`. `trackLength` fica `100200` em vez de `100000`
+  (0,2% mais longo). Confirmado rodando o loop equivalente em Node.
+- **Fix:** Trocar por `this.road.addRoad(500, 0, 0, 0, 0)` — uma única fase de exatamente 500
+  segmentos, sem a divisão fracionária em três partes.
