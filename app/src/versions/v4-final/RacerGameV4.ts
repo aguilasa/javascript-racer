@@ -105,6 +105,7 @@ export class RacerGameV4 extends RacerGameV3 {
   }
 
   protected updateParallax(_dt: number, playerSegment: any, startPosition: number): void {
+    this.startPosition = startPosition; // captura para uso em updateExtras() no mesmo tick
     const delta = (this.position - startPosition) / this.road.segmentLength;
     this.skyOffset = Util.increase(this.skyOffset, this.skySpeed * playerSegment.curve * delta, 1);
     this.hillOffset = Util.increase(this.hillOffset, this.hillSpeed * playerSegment.curve * delta, 1);

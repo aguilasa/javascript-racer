@@ -84,20 +84,21 @@ protected updateParallax(_dt: number, playerSegment: any, startPosition: number)
 
 ## Verificação
 
-- [ ] Ao rodar `v4.html`, o "Time" do HUD incrementa continuamente enquanto a volta está em
+- [x] Ao rodar `v4.html`, o "Time" do HUD incrementa continuamente enquanto a volta está em
       andamento (não fica preso perto de `0`)
-- [ ] Ao completar uma volta, "Last Lap" mostra um tempo plausível (dezenas de segundos, não
+- [x] Ao completar uma volta, "Last Lap" mostra um tempo plausível (dezenas de segundos, não
       frações de segundo)
-- [ ] O recorde (`fast_lap_time`) só é atualizado quando uma volta completa realmente bate o
+- [x] O recorde (`fast_lap_time`) só é atualizado quando uma volta completa realmente bate o
       recorde anterior, e persiste após recarregar a página
-- [ ] `npm run typecheck` e `npm run build` continuam sem erros
+- [x] `npm run typecheck` e `npm run build` continuam sem erros
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Adicionada a linha `this.startPosition = startPosition;` como primeira instrução de `updateParallax()` em `RacerGameV4.ts`. `updateParallax` recebe o `startPosition` local do frame (capturado em `RacerGame.update()` antes de avançar `position`), e roda antes de `updateExtras()` no mesmo tick — portanto o campo de instância fica sincronizado quando `updateExtras` o lê na condição de cruzamento da linha de chegada. Typecheck passou.
 
-**Problemas encontrados:**
+**Problemas encontrados:** Nenhum. Correção de uma linha.
 
 **Arquivos criados/modificados:**
+- `app/src/versions/v4-final/RacerGameV4.ts` (linha 108: adicionado `this.startPosition = startPosition;`)

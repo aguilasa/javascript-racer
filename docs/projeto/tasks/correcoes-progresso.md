@@ -28,7 +28,7 @@
 | CORR-RACER-023 | `Hud.updateSpeed()` normaliza por `maxSpeed` em vez de usar a fórmula fixa `5 * Math.round(speed/500)` | Crítica | [x] concluída |
 | CORR-RACER-024 | `Hud` não inicializa o recorde persistido de volta mais rápida (default `180s` + exibição inicial) | Alta | [x] concluída |
 | CORR-RACER-025 | `Hud.onLapComplete()` usa `<` em vez de `<=` ao comparar com o recorde salvo (empate não vira novo recorde) | Baixa | [x] concluída |
-| CORR-RACER-026 | `RacerGameV4.startPosition` nunca é atualizado — cronometragem de volta reinicia a cada frame | Crítica | [ ] pendente |
+| CORR-RACER-026 | `RacerGameV4.startPosition` nunca é atualizado — cronometragem de volta reinicia a cada frame | Crítica | [x] concluída |
 | CORR-RACER-027 | `TrafficManager` instanciado com `segmentLength` no lugar de `maxSpeed` — velocidade do tráfego ~60x errada | Crítica | [ ] pendente |
 | CORR-RACER-028 | `renderExtraLayer` descarta quase todos os sprites/carros por um filtro de `clip` inexistente no original | Crítica | [ ] pendente |
 | CORR-RACER-029 | Segunda passada de render inclui o segmento mais próximo (`n=0`), que o original exclui | Baixa | [ ] pendente |
@@ -61,7 +61,7 @@
 - [x] CORR-RACER-023 — corrigir `Hud.updateSpeed()` para `5 * Math.round(speed/500)`, sem `maxSpeed`
 - [x] CORR-RACER-024 — `Hud` seedar `Dom.storage.fast_lap_time` (default `180`) e exibir o valor inicial no construtor
 - [x] CORR-RACER-025 — `Hud.onLapComplete()` usar `<=` em vez de `<` na comparação com o recorde
-- [ ] CORR-RACER-026 — capturar `startPosition` do frame em `updateParallax` para uso em `updateExtras`
+- [x] CORR-RACER-026 — capturar `startPosition` do frame em `updateParallax` para uso em `updateExtras`
 - [ ] CORR-RACER-027 — instanciar `TrafficManager` com `this.maxSpeed` em vez de `this.segmentLength`
 - [ ] CORR-RACER-028 — remover o filtro `if ((segment.clip ?? maxy) >= maxy) continue;` de `renderExtraLayer`
 - [ ] CORR-RACER-029 — iniciar o laço de `renderExtraLayer` em `n = 1`, não `n = 0`
