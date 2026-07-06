@@ -36,7 +36,7 @@ export class Preloader extends Scene
 
         // Load racer assets
         this.load.image('sprites', 'racer/sprites.png');
-        this.load.image('background', 'racer/background.png');
+        this.load.image('racer_background', 'racer/background.png');
         this.load.audio('racer_music', ['racer/music/racer.mp3', 'racer/music/racer.ogg']);
 
         // Load template assets
@@ -55,7 +55,7 @@ export class Preloader extends Scene
         }
 
         // Register named frames for background
-        const backgroundTexture = this.textures.get('background');
+        const backgroundTexture = this.textures.get('racer_background');
         for (const [name, rect] of Object.entries(BACKGROUND)) {
             backgroundTexture.add(name, 0, rect.x, rect.y, rect.w, rect.h);
         }

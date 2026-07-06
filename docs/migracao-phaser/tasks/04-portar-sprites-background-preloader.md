@@ -76,6 +76,7 @@ status: pendente
 - Iterou sobre SPRITES pulando entradas não-rect (SCALE, BILLBOARDS, PLANTS, CARS) usando verificação `typeof rect === 'object' && 'x' in rect`
 - Validado `mise exec -- npm run build` - build concluído sem erros
 - Validado visualmente com teste temporário (`this.add.image(512, 384, 'sprites', 'PALM_TREE')`) - frame renderizou corretamente, teste removido
+- **Nota de correção (CORR-PHASER-002):** após a execução desta tarefa, foi identificado que a chave `'background'` colidia com a chave usada pelo template em `Boot.ts`. A correção renomeou a chave para `'racer_background'` no Preloader. Código futuro que precisar da folha de parallax do jogo deve usar a chave `'racer_background'`.
 
 **Problemas encontrados:**
 - Nenhum

@@ -3,12 +3,14 @@
 ## Resumo executivo
 
 | ID | Título | Criticidade | Status |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | CORR-PHASER-001 | Checklist de Critério de conclusão da PHASER-TASK-01 não marcado | Baixa | [x] concluído |
+| CORR-PHASER-002 | Colisão de chave de textura 'background' no Preloader impede carregamento real de background.png | Alta | [x] concluído |
 
 ## Checklist
 
 - [x] CORR-PHASER-001 — marcar `[x]` no Critério de conclusão de `01-criar-branch-e-tooling.md`
+- [x] CORR-PHASER-002 — renomear a chave de textura da folha de parallax no `Preloader` para não colidir com `'background'`
 
 ## Detalhes por correção
 
