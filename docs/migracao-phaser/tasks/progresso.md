@@ -22,7 +22,7 @@ PHASER-TASK-20 (a única tarefa de merge, 👤).
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| PHASER-TASK-01 | Criar branch de trabalho e preparar tooling (`mise`, `npm install`) | — | ⬜ Pendente |
+| PHASER-TASK-01 | Criar branch de trabalho e preparar tooling (`mise`, `npm install`) | — | ✅ Concluído |
 | PHASER-TASK-02 | Copiar assets (imagens/música) para `racer-phaser/public/assets/racer/` | PHASER-TASK-01 | ⬜ Pendente |
 
 ### Fase 1 — Núcleo portável (`src/game/racer/`)
