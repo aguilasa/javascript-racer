@@ -63,15 +63,15 @@ export class Road {
     this.addRoad(n, n, n, c, h)
   }
 
-  addLowRollingHills(num?: number, height?: number): void {
+  addLowRollingHills(num?: number, height?: number, curve: number = ROAD.CURVE.EASY): void {
     const n = num    || ROAD.LENGTH.SHORT
     const h = height || ROAD.HILL.LOW
-    this.addRoad(n, n, n,  0,                h / 2)
-    this.addRoad(n, n, n,  0,               -h)
-    this.addRoad(n, n, n,  ROAD.CURVE.EASY,  h)
-    this.addRoad(n, n, n,  0,                0)
-    this.addRoad(n, n, n, -ROAD.CURVE.EASY,  h / 2)
-    this.addRoad(n, n, n,  0,                0)
+    this.addRoad(n, n, n,  0,       h / 2)
+    this.addRoad(n, n, n,  0,      -h)
+    this.addRoad(n, n, n,  curve,   h)
+    this.addRoad(n, n, n,  0,       0)
+    this.addRoad(n, n, n, -curve,   h / 2)
+    this.addRoad(n, n, n,  0,       0)
   }
 
   addSCurves(): void {

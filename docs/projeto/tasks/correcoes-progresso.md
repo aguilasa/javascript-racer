@@ -11,6 +11,7 @@
 | CORR-RACER-005 | Desvios de comportamento não documentados em `dom.ts`/`util.ts` (`resolve()` e `overlap()`) | Baixa | [x] concluída |
 | CORR-RACER-006 | `StatsPanel.update()` conta frames em dobro e mede ~0ms (begin/end/update redundantes) | Alta | [x] concluída |
 | CORR-RACER-007 | `Renderer.fog()` duplica `COLORS.FOG` como literal em vez de importar de `core/constants.ts` | Baixa | [x] concluída |
+| CORR-RACER-008 | `Road.addLowRollingHills()` só implementa a variante v4 — sem como recuperar o traçado original da v3 | Alta | [x] concluída |
 
 ## Checklist
 
@@ -21,6 +22,7 @@
 - [x] CORR-RACER-005 — corrigir `overlap()` (`??`→`||`) e `resolve()` (retornar `document`, não `documentElement`)
 - [x] CORR-RACER-006 — simplificar `StatsPanel.update()` para uma única chamada de medição por frame
 - [x] CORR-RACER-007 — `Renderer.fog()` usar `COLORS.FOG` importado em vez do literal `'#005108'`
+- [x] CORR-RACER-008 — parametrizar a curva em `addLowRollingHills` (default v4, `0` para v3)
 
 ## Detalhes por correção
 
@@ -105,3 +107,20 @@
   silenciosamente.
 - **Fix:** Importar `COLORS` de `./constants` em `Renderer.ts` e usar `COLORS.FOG` no lugar do
   literal.
+
+### CORR-RACER-008
+
+- **Alvo com problema:** `app/src/core/Road.ts` (`addLowRollingHills`)
+- **Sintoma:** Comparando `v3.hills.html` e `v4.final.html` função por função, todas as 8
+  funções da DSL de pista são byte-idênticas entre as duas versões — **exceto
+  `addLowRollingHills`**: v3 usa `curve = 0` nas 6 chamadas internas, v4 usa
+  `ROAD.CURVE.EASY`/`-ROAD.CURVE.EASY` nas duas do meio. `Road.ts` implementou só a variante v4,
+  com o valor da curva hardcoded (não exposto como parâmetro) — não há como a futura
+  `RacerGameV3.buildRoad()` (RACER-TASK-12) recuperar o traçado sem curva do `v3.hills.html`
+  original a partir deste método compartilhado. Se RACER-TASK-12 simplesmente chamar
+  `road.addLowRollingHills()`, o traçado da v3 portada terá curvas onde o original não tinha —
+  uma violação de "paridade de comportamento" (objetivo explícito do projeto).
+- **Fix:** Adicionar um terceiro parâmetro opcional `curve: number = ROAD.CURVE.EASY` a
+  `addLowRollingHills`, usado nas duas chamadas centrais (`curve`/`-curve`) em vez do literal —
+  preserva o comportamento atual da v4 (chamada sem o argumento) e permite que a v3 passe `0`
+  explicitamente.
