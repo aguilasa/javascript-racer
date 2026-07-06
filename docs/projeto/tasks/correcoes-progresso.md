@@ -5,12 +5,12 @@
 | ID | Título | Criticidade | Status |
 |---|---|---|---|
 | CORR-RACER-001 | `mise.toml` ausente — versão do Node do projeto não está fixada | Alta | [x] concluída |
-| CORR-RACER-002 | Assets de exemplo do template Vite não removidos em `app/src/assets/` | Baixa | [ ] pendente |
+| CORR-RACER-002 | Assets de exemplo do template Vite não removidos em `app/src/assets/` | Baixa | [x] concluída |
 
 ## Checklist
 
 - [x] CORR-RACER-001 — criar `mise.toml` fixando a versão do Node
-- [ ] CORR-RACER-002 — remover `typescript.svg`/`vite.svg`/`hero.png` de `app/src/assets/`
+- [x] CORR-RACER-002 — remover `typescript.svg`/`vite.svg`/`hero.png` de `app/src/assets/`
 
 ## Detalhes por correção
 
