@@ -3,6 +3,7 @@ import { Scene } from 'phaser';
 import { RoadRenderer } from '../racer/RoadRenderer';
 import { COLORS } from '../racer/constants';
 import { SPRITES } from '../racer/sprites';
+import { BACKGROUND } from '../racer/background';
 import { RacerEngine } from '../racer/RacerEngine';
 
 export class Game extends Scene
@@ -11,6 +12,9 @@ export class Game extends Scene
     private roadRenderer!: RoadRenderer;
     private playerSprite!: Phaser.GameObjects.Image;
     private keys!: { left: Phaser.Input.Keyboard.Key; right: Phaser.Input.Keyboard.Key; up: Phaser.Input.Keyboard.Key; down: Phaser.Input.Keyboard.Key; a: Phaser.Input.Keyboard.Key; d: Phaser.Input.Keyboard.Key; w: Phaser.Input.Keyboard.Key; s: Phaser.Input.Keyboard.Key };
+    private skyTileSprite!: Phaser.GameObjects.TileSprite;
+    private hillsTileSprite!: Phaser.GameObjects.TileSprite;
+    private treesTileSprite!: Phaser.GameObjects.TileSprite;
 
     private gdt = 0; // accumulated time for fixed timestep
     private step = 1 / 60; // fixed timestep (60 FPS)
@@ -44,6 +48,20 @@ export class Game extends Scene
             w: Phaser.Input.Keyboard.KeyCodes.W,
             s: Phaser.Input.Keyboard.KeyCodes.S,
         }) as typeof this.keys;
+
+        // Create parallax background layers (sky, hills, trees)
+        // Order: sky (back), hills (middle), trees (front) - same as Renderer.background() calls
+        this.skyTileSprite = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, 'racer_background', 'SKY');
+        this.skyTileSprite.setOrigin(0, 0);
+        this.skyTileSprite.setDepth(-3);
+
+        this.hillsTileSprite = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, 'racer_background', 'HILLS');
+        this.hillsTileSprite.setOrigin(0, 0);
+        this.hillsTileSprite.setDepth(-2);
+
+        this.treesTileSprite = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, 'racer_background', 'TREES');
+        this.treesTileSprite.setOrigin(0, 0);
+        this.treesTileSprite.setDepth(-1);
     }
 
     update (_time: number, delta: number)
@@ -62,10 +80,23 @@ export class Game extends Scene
             this.racerEngine.update(this.step);
         }
 
+        this.renderParallax();
         this.renderRoad();
         this.renderPlayer();
     }
 
+
+    private renderParallax(): void
+    {
+        const state = this.racerEngine.getRenderState();
+
+        // Update tilePositionX based on parallax offsets
+        // Same relationship as Renderer.background() uses for sourceX calculation
+        // layer.w is the width of the layer in the texture (1280 for all background layers)
+        this.skyTileSprite.tilePositionX = state.skyOffset * BACKGROUND.SKY.w;
+        this.hillsTileSprite.tilePositionX = state.hillOffset * BACKGROUND.HILLS.w;
+        this.treesTileSprite.tilePositionX = state.treeOffset * BACKGROUND.TREES.w;
+    }
 
     private renderRoad(): void
     {

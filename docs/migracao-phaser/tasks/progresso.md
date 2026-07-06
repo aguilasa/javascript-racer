@@ -51,7 +51,7 @@ PHASER-TASK-20 (a única tarefa de merge, 👤).
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| PHASER-TASK-10 | Camadas de fundo (céu/morros/árvores) via `TileSprite` | PHASER-TASK-09 | ⬜ Pendente |
+| PHASER-TASK-10 | Camadas de fundo (céu/morros/árvores) via `TileSprite` | PHASER-TASK-09 | ✅ Concluído |
 
 ### Fase 5 — Cenário e colisão fora-de-pista
 
@@ -162,7 +162,7 @@ PHASER-TASK-01 ──┬──→ PHASER-TASK-02 ──┐
 
 ### Fase 4 — Parallax
 
-- [ ] Céu/morros/árvores como `TileSprite`, reagindo à curvatura da pista
+- [x] Céu/morros/árvores como `TileSprite`, reagindo à curvatura da pista
 
 ### Fase 5 — Cenário
 
