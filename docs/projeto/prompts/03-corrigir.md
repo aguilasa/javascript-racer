@@ -1,3 +1,5 @@
+# Prompt de Correção - javascript-racer
+
 Você vai trabalhar no projeto **javascript-racer**, localizado em:
 
 - **Projeto:** `/home/ingmar/WebstormProjects/javascript-racer/`
@@ -86,11 +88,14 @@ Ver detalhes completos em
 
 ### Comandos de validação
 
+Todos via `mise exec --` (garante a versão do Node fixada em `mise.toml`, em vez de depender
+do que estiver ativo no shell):
+
 ```bash
 cd app
-npm run typecheck
-npm run build
-npm run dev   # para checagem visual, se a correção for de comportamento de jogo
+mise exec -- npm run typecheck
+mise exec -- npm run build
+mise exec -- npm run dev   # para checagem visual, se a correção for de comportamento de jogo
 ```
 
 ---
@@ -110,7 +115,9 @@ npm run dev   # para checagem visual, se a correção for de comportamento de jo
 ### 3) Validar
 
 Antes de marcar como concluída:
-- `npm run typecheck` e `npm run build` sem erros (correções de código)
+
+- `mise exec -- npm run typecheck` e `mise exec -- npm run build` sem erros (correções de
+  código)
 - Todos os itens do checklist **Verificação** do arquivo da correção foram atendidos
 
 Se a correção ficar parcialmente pronta:
