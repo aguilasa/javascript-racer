@@ -3,30 +3,18 @@ import { Scene } from 'phaser';
 import { Road, ROAD } from '../racer/Road';
 import { RoadRenderer } from '../racer/RoadRenderer';
 import { COLORS } from '../racer/constants';
+import { SPRITES } from '../racer/sprites';
 import * as Util from '../racer/util';
-
-// Configuração provisória — mesmos valores padrão de RacerGame (app/src/core/RacerGame.ts).
-// Vira campos de RacerEngine na PHASER-TASK-08; aqui só serve para validar a projeção estática.
-const WIDTH = 1024;
-const HEIGHT = 768;
-const ROAD_WIDTH = 2000;
-const SEGMENT_LENGTH = 200;
-const RUMBLE_LENGTH = 3;
-const LANES = 3;
-const FIELD_OF_VIEW = 100;
-const CAMERA_HEIGHT = 1000;
-const DRAW_DISTANCE = 300;
-const FOG_DENSITY = 5;
+import { RacerEngine } from '../racer/RacerEngine';
 
 export class Game extends Scene
 {
-    private road!: Road;
+    private racerEngine!: RacerEngine;
     private roadRenderer!: RoadRenderer;
+    private playerSprite!: Phaser.GameObjects.Image;
 
-    private cameraDepth!: number;
-    private playerZ!: number;
-    private position = 0; // câmera fixa nesta tarefa — sem física de jogador ainda (PHASER-TASK-08/09)
-    private playerX = 0;
+    private gdt = 0; // accumulated time for fixed timestep
+    private step = 1 / 60; // fixed timestep (60 FPS)
 
     constructor ()
     {
@@ -37,90 +25,98 @@ export class Game extends Scene
     {
         this.cameras.main.setBackgroundColor(Phaser.Display.Color.HexStringToColor(COLORS.SKY).color);
 
-        this.cameraDepth = 1 / Math.tan((FIELD_OF_VIEW / 2) * Math.PI / 180);
-        this.playerZ = CAMERA_HEIGHT * this.cameraDepth;
-
-        this.buildRoad();
+        this.racerEngine = new RacerEngine();
+        this.racerEngine.reset();
 
         this.roadRenderer = new RoadRenderer(this);
+
+        // Create player sprite pool (single image reused)
+        this.playerSprite = this.add.image(0, 0, 'sprites');
+        this.playerSprite.setOrigin(0.5, 1);
     }
 
-    update ()
+    update (time: number, delta: number)
     {
+        // Update input flags from keyboard
+        const keys = this.input.keyboard!.addKeys({
+            left: Phaser.Input.Keyboard.KeyCodes.LEFT,
+            right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
+            up: Phaser.Input.Keyboard.KeyCodes.UP,
+            down: Phaser.Input.Keyboard.KeyCodes.DOWN,
+            a: Phaser.Input.Keyboard.KeyCodes.A,
+            d: Phaser.Input.Keyboard.KeyCodes.D,
+            w: Phaser.Input.Keyboard.KeyCodes.W,
+            s: Phaser.Input.Keyboard.KeyCodes.S,
+        });
+
+        this.racerEngine.keyLeft = (keys as any).left.isDown || (keys as any).a.isDown;
+        this.racerEngine.keyRight = (keys as any).right.isDown || (keys as any).d.isDown;
+        this.racerEngine.keyFaster = (keys as any).up.isDown || (keys as any).w.isDown;
+        this.racerEngine.keySlower = (keys as any).down.isDown || (keys as any).s.isDown;
+
+        // Fixed timestep accumulator (same pattern as GameLoop.start)
+        const dt = Math.min(1, delta / 1000);
+        this.gdt = this.gdt + dt;
+        while (this.gdt > this.step) {
+            this.gdt = this.gdt - this.step;
+            this.racerEngine.update(this.step);
+        }
+
         this.renderRoad();
+        this.renderPlayer();
     }
 
-    private buildRoad(): void
-    {
-        this.road = new Road(SEGMENT_LENGTH, RUMBLE_LENGTH);
 
-        this.road.addStraight(ROAD.LENGTH.SHORT);
-        this.road.addLowRollingHills();
-        this.road.addSCurves();
-        this.road.addCurve(ROAD.LENGTH.MEDIUM, ROAD.CURVE.MEDIUM, ROAD.HILL.LOW);
-        this.road.addBumps();
-        this.road.addLowRollingHills();
-        this.road.addCurve(ROAD.LENGTH.LONG * 2, ROAD.CURVE.MEDIUM, ROAD.HILL.MEDIUM);
-        this.road.addStraight();
-        this.road.addHill(ROAD.LENGTH.MEDIUM, ROAD.HILL.HIGH);
-        this.road.addSCurves();
-        this.road.addCurve(ROAD.LENGTH.LONG, -ROAD.CURVE.MEDIUM, ROAD.HILL.NONE);
-        this.road.addHill(ROAD.LENGTH.LONG, ROAD.HILL.HIGH);
-        this.road.addCurve(ROAD.LENGTH.LONG, ROAD.CURVE.MEDIUM, -ROAD.HILL.LOW);
-        this.road.addBumps();
-        this.road.addHill(ROAD.LENGTH.LONG, -ROAD.HILL.MEDIUM);
-        this.road.addStraight();
-        this.road.addSCurves();
-        this.road.addDownhillToEnd();
-
-        this.road.markStartFinish(this.playerZ);
-        this.road.finalize();
-    }
-
-    // Reproduz RacerGame.render() (app/src/core/RacerGame.ts), sem as camadas de fundo
-    // (PHASER-TASK-10) nem o carro do jogador/sprites/tráfego (fases 3, 5, 6).
     private renderRoad(): void
     {
-        const segments = this.road.segments;
-
-        const baseSegment   = this.road.findSegment(this.position);
-        const playerSegment = this.road.findSegment(this.position + this.playerZ);
-        const playerPercent = Util.percentRemaining(this.position + this.playerZ, SEGMENT_LENGTH);
-        const playerY       = Util.interpolate(playerSegment.p1.world.y, playerSegment.p2.world.y, playerPercent);
-        const cameraY        = playerY + CAMERA_HEIGHT; // câmera relativa ao terreno (v3/v4, ver RacerGameV3.getCameraY)
-        const basePercent    = Util.percentRemaining(this.position, SEGMENT_LENGTH);
-
-        let maxy = HEIGHT;
-        let x  = 0;
-        let dx = -(baseSegment.curve * basePercent);
+        const state = this.racerEngine.getRenderState();
+        const segments = state.segments;
 
         this.roadRenderer.clear();
 
-        for (let n = 0; n < DRAW_DISTANCE; n++) {
-            const segment = segments[(baseSegment.index + n) % segments.length]!;
-            segment.looped = segment.index < baseSegment.index;
-            segment.fog    = Util.exponentialFog(n / DRAW_DISTANCE, FOG_DENSITY);
+        for (let n = 0; n < state.drawDistance; n++) {
+            const segment = segments[n]!;
 
-            const cameraZ = this.position - (segment.looped ? this.road.trackLength : 0);
-
-            Util.project(segment.p1, (this.playerX * ROAD_WIDTH) - x,      cameraY, cameraZ, this.cameraDepth, WIDTH, HEIGHT, ROAD_WIDTH);
-            Util.project(segment.p2, (this.playerX * ROAD_WIDTH) - x - dx, cameraY, cameraZ, this.cameraDepth, WIDTH, HEIGHT, ROAD_WIDTH);
-
-            x  = x + dx;
-            dx = dx + segment.curve;
-
-            if ((segment.p1.camera.z <= this.cameraDepth) || (segment.p2.screen.y >= segment.p1.screen.y) || (segment.p2.screen.y >= maxy))
+            if ((segment.p1.camera.z <= state.cameraDepth) || (segment.p2.screen.y >= segment.p1.screen.y) || (segment.p2.screen.y >= state.maxy))
                 continue;
 
             this.roadRenderer.segment(
-                WIDTH, LANES,
+                state.width, this.racerEngine.lanes,
                 segment.p1.screen.x, segment.p1.screen.y, segment.p1.screen.w,
                 segment.p2.screen.x, segment.p2.screen.y, segment.p2.screen.w,
                 segment.fog, segment.color,
             );
-
-            segment.clip = maxy;
-            maxy = segment.p2.screen.y;
         }
+    }
+
+    private renderPlayer(): void
+    {
+        const state = this.racerEngine.getRenderState();
+        const speedPercent = state.speed / state.maxSpeed;
+        const steer = state.steer;
+        const updown = state.updown;
+        const resolution = state.resolution;
+        const roadWidth = state.roadWidth;
+
+        // Bounce: same formula as Renderer.player()
+        const bounce = (1.5 * Math.random() * speedPercent * resolution) * (Math.random() < 0.5 ? -1 : 1);
+
+        // Choose sprite based on steer and updown (same logic as Renderer.player())
+        let spriteRect;
+        if (steer < 0)
+            spriteRect = (updown > 0) ? SPRITES.PLAYER_UPHILL_LEFT : SPRITES.PLAYER_LEFT;
+        else if (steer > 0)
+            spriteRect = (updown > 0) ? SPRITES.PLAYER_UPHILL_RIGHT : SPRITES.PLAYER_RIGHT;
+        else
+            spriteRect = (updown > 0) ? SPRITES.PLAYER_UPHILL_STRAIGHT : SPRITES.PLAYER_STRAIGHT;
+
+        // Set frame and position
+        this.playerSprite.setFrame(spriteRect);
+        this.playerSprite.setPosition(state.width / 2, state.screenY + bounce);
+
+        // Scale: same formula as Renderer.sprite() for player
+        const scale = (spriteRect.w * state.playerZ / state.cameraDepth * state.width / 2) * (SPRITES.SCALE * roadWidth);
+        const destH = (spriteRect.h * state.playerZ / state.cameraDepth * state.width / 2) * (SPRITES.SCALE * roadWidth);
+        this.playerSprite.setScale(scale / spriteRect.w, destH / spriteRect.h);
     }
 }

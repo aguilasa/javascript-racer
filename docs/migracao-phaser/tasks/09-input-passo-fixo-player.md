@@ -70,10 +70,21 @@ status: pendente
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
 **Resumo do que foi feito:**
+Implementado input de teclado, passo fixo e sprite do jogador na `Game` scene:
+- Adicionado `RacerEngine` à scene, inicializado com `reset()` no `create()`
+- Input de teclado via `this.input.keyboard.addKeys()` para setas (LEFT/RIGHT/UP/DOWN) e WASD (A/D/W/S), atualizando as flags `keyLeft`/`keyRight`/`keyFaster`/`keySlower` do `RacerEngine` a cada frame
+- Acumulador de passo fixo em `Game.update(time, delta)`: mantém `gdt` (tempo acumulado) somando `delta / 1000` com proteção `Math.min(1, dt)`, e roda `racerEngine.update(step)` quantas vezes necessário para consumir a dívida (mesmo padrão de `GameLoop.start`)
+- Pool de `Image` do jogador: única `Phaser.GameObjects.Image` reaproveitada, trocando de frame (`PLAYER_STRAIGHT`/`PLAYER_LEFT`/`PLAYER_RIGHT`/`PLAYER_UPHILL_*`) conforme esterço/subida com a mesma lógica de `Renderer.player()`
+- Bounce vertical aleatório proporcional à velocidade (fórmula `1.5 * Math.random() * speedPercent * resolution * randomChoice([-1, 1])`)
+- Posição de tela do jogador: `width/2` horizontalmente, `getPlayerScreenY()` verticalmente (calculado por `RacerEngine.getRenderState()`)
+- `renderRoad()` simplificado para usar `RacerEngine.getRenderState()` em vez de duplicar a lógica de projeção
 
 **Problemas encontrados:**
+Nenhum.
 
 **Arquivos criados/modificados:**
+- Modificado: `racer-phaser/src/game/scenes/Game.ts` (adicionado RacerEngine, input, passo fixo, sprite do jogador, renderPlayer())
+- Modificado: `docs/migracao-phaser/tasks/progresso.md` (status PHASER-TASK-09 marcado como ✅ Concluído, checklist atualizado)
