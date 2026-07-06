@@ -101,7 +101,7 @@ export class RacerEngine {
     this.road.addLowRollingHills()
     this.road.addSCurves()
     this.road.addCurve(ROAD.LENGTH.MEDIUM, ROAD.CURVE.MEDIUM, ROAD.HILL.LOW)
-    this.addBumps()
+    this.road.addBumps()
     this.road.addLowRollingHills()
     this.road.addCurve(ROAD.LENGTH.LONG * 2, ROAD.CURVE.MEDIUM, ROAD.HILL.MEDIUM)
     this.road.addStraight()
@@ -110,7 +110,7 @@ export class RacerEngine {
     this.road.addCurve(ROAD.LENGTH.LONG, -ROAD.CURVE.MEDIUM, ROAD.HILL.NONE)
     this.road.addHill(ROAD.LENGTH.LONG, ROAD.HILL.HIGH)
     this.road.addCurve(ROAD.LENGTH.LONG, ROAD.CURVE.MEDIUM, -ROAD.HILL.LOW)
-    this.addBumps()
+    this.road.addBumps()
     this.road.addHill(ROAD.LENGTH.LONG, -ROAD.HILL.MEDIUM)
     this.road.addStraight()
     this.road.addSCurves()
@@ -118,17 +118,6 @@ export class RacerEngine {
 
     this.road.markStartFinish(this.playerZ)
     this.road.finalize()
-  }
-
-  private addBumps(): void {
-    this.road.addRoad(10, 10, 10, 0, 5)
-    this.road.addRoad(10, 10, 10, 0, -2)
-    this.road.addRoad(10, 10, 10, 0, -5)
-    this.road.addRoad(10, 10, 10, 0, 8)
-    this.road.addRoad(10, 10, 10, 0, 5)
-    this.road.addRoad(10, 10, 10, 0, -7)
-    this.road.addRoad(10, 10, 10, 0, 5)
-    this.road.addRoad(10, 10, 10, 0, -2)
   }
 
   update(dt: number): void {

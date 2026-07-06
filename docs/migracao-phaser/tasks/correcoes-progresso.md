@@ -10,7 +10,7 @@
 | CORR-PHASER-004 | RoadRenderer/Game usam Phaser.* como global sem importá-lo como valor — ReferenceError em runtime | Alta | [x] concluído |
 | CORR-PHASER-005 | RoadRenderer.colorToNumber() não entende nomes CSS ('white'/'black') — linha de largada renderiza preta | Alta | [x] concluído |
 | CORR-PHASER-006 | RacerEngine.getPlayerScreenY()/getPlayerUpdown() ficaram no comportamento base (v1) em vez do final v3/v4 | Alta | [x] concluído |
-| CORR-PHASER-007 | RacerEngine duplica addBumps() em vez de reaproveitar Road.addBumps() | Alta | [ ] pendente |
+| CORR-PHASER-007 | RacerEngine duplica addBumps() em vez de reaproveitar Road.addBumps() | Alta | [x] concluído |
 | CORR-PHASER-008 | RacerEngine tem campos privados mortos (fps, startPosition) que quebram tsc --noEmit | Alta | [ ] pendente |
 
 ## Checklist
@@ -21,7 +21,7 @@
 - [x] CORR-PHASER-004 — adicionar `import * as Phaser from 'phaser'` em `RoadRenderer.ts`/`Game.ts`
 - [x] CORR-PHASER-005 — tratar `'white'`/`'black'` explicitamente em `colorToNumber()`
 - [x] CORR-PHASER-006 — fundir `getPlayerScreenY`/`getPlayerUpdown` com o comportamento final v3/v4
-- [ ] CORR-PHASER-007 — remover `addBumps()` duplicado de `RacerEngine`, usar `road.addBumps()`
+- [x] CORR-PHASER-007 — remover `addBumps()` duplicado de `RacerEngine`, usar `road.addBumps()`
 - [ ] CORR-PHASER-008 — remover campos mortos `fps`/`startPosition` de `RacerEngine`
 
 ## Detalhes por correção
