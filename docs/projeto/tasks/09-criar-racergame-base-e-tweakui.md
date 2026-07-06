@@ -119,22 +119,50 @@ Portar os handlers de `Dom.on('resolution'/'lanes'/'roadWidth'/'cameraHeight'/
 
 ## Critério de conclusão
 
-- [ ] `core/RacerGame.ts` com os campos de configuração/estado, os pontos de extensão
+- [x] `core/RacerGame.ts` com os campos de configuração/estado, os pontos de extensão
       listados, e `update()`/`render()`/`reset()`/`start()` finais (não sobrescritos)
-- [ ] `core/TweakUI.ts` com todos os controles da tweak UI original (exceto `lanes` avançado
+- [x] `core/TweakUI.ts` com todos os controles da tweak UI original (exceto `lanes` avançado
       de v4, que é só um `<select>` a mais — pode já ser suportado aqui, já que existe desde
       v1 visualmente)
-- [ ] `npm run typecheck` sem erros
-- [ ] Nenhum arquivo fora de `app/` foi alterado
-- [ ] Qualquer desvio da lista de pontos de extensão proposta no plano está documentado no Log
+- [x] `npm run typecheck` sem erros
+- [x] Nenhum arquivo fora de `app/` foi alterado
+- [x] Qualquer desvio da lista de pontos de extensão proposta no plano está documentado no Log
       de Execução
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Criado `core/RacerGame.ts` (classe abstrata) com:
+- 20 campos de configuração/estado (fps, step, width, height, roadWidth, segmentLength, rumbleLength,
+  lanes, fieldOfView, cameraHeight, cameraDepth, drawDistance, playerX, playerZ, fogDensity,
+  position, speed, maxSpeed, accel, breaking, decel, offRoadDecel, offRoadLimit, resolution).
+- 4 flags de teclado (keyLeft, keyRight, keyFaster, keySlower).
+- 8 pontos de extensão protegidos: `buildRoad`, `updateLateralForces`, `updateParallax`,
+  `updateExtras`, `getCameraY`, `renderExtraLayer`, `getPlayerScreenY`, `getPlayerUpdown`.
+- `update()` final reproduzindo lógica de v1 (posição, lateral, aceleração/frenagem, off-road).
+- `render()` final reproduzindo loop de segmentos, projeção, descarte, fundo 3 camadas, player.
+- `reset()` com cálculo de cameraDepth/playerZ/resolution/maxSpeed/accel/breaking/decel/offRoadDecel/
+  offRoadLimit e chamada condicional a `buildRoad()`.
+- `start()` async carrega assets, inicializa Renderer/StatsPanel, monta InputController com
+  bindings padrão (setas + WASD), inicia GameLoop.
+- `onReset()` hook para subclasses reagirem a reset (ex: parallax em v2+).
 
-**Problemas encontrados:**
+Criado `core/TweakUI.ts` com:
+- Construtor recebe callback `resetFn`.
+- `bind()` registra listeners para resolution, lanes, roadWidth, cameraHeight, drawDistance,
+  fieldOfView, fogDensity (idênticos ao v1.straight.html).
+- `refresh()` atualiza valores nos controles DOM (lanes selectedIndex, range inputs e spans).
+- Métodos privados `bindRange` e `setRange` para evitar duplicação.
+
+**Desvios do plano:**
+- `Renderer.ctx` era privado; tornado público para `RacerGame.render()` poder chamar
+  `clearRect` (necessário para limpar o canvas antes de desenhar cada frame).
+- `StatsPanel` recebe `'fps'` como parentId em vez de nenhum argumento (conforme original v1).
+
+**Problemas encontrados:** Nenhum.
 
 **Arquivos criados/modificados:**
+- `app/src/core/RacerGame.ts` (criado)
+- `app/src/core/TweakUI.ts` (criado)
+- `app/src/core/Renderer.ts` (ctx tornado público)

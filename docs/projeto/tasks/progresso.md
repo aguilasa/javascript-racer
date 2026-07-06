@@ -38,7 +38,7 @@ RACER-TASK-19 (a única tarefa de merge, 👤).
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
 | RACER-TASK-08 | Criar a classe `Road` (DSL de construção de pista) | RACER-TASK-04, RACER-TASK-05 | ✅ Concluído |
-| RACER-TASK-09 | Criar a classe base `RacerGame` + `TweakUI` | RACER-TASK-06, RACER-TASK-07, RACER-TASK-08 | ⬜ Pendente |
+| RACER-TASK-09 | Criar a classe base `RacerGame` + `TweakUI` | RACER-TASK-06, RACER-TASK-07, RACER-TASK-08 | ✅ Concluído |
 | RACER-TASK-10 | Portar v1 (`RacerGameV1`) e validar contra o original | RACER-TASK-09 | ⬜ Pendente |
 
 ### Fase 3 — Portar v2 (curvas)
@@ -128,7 +128,7 @@ RACER-TASK-01 ──┬──→ RACER-TASK-02
 ### Fase 2 — v1
 
 - [x] `core/Road.ts` (DSL completa)
-- [ ] `core/RacerGame.ts` (classe base) + `core/TweakUI.ts`
+- [x] `core/RacerGame.ts` (classe base) + `core/TweakUI.ts`
 - [ ] `v1.html` jogável, comparável à `v1.straight.html` original
 
 ### Fase 3 — v2
@@ -217,3 +217,7 @@ das 19 tarefas acima:
   + `lastY` privado) e `export const ROAD` com `LENGTH`/`HILL`/`CURVE`. `addLowRollingHills`
   usa a versão da v4 (com `ROAD.CURVE.EASY` nos trechos internos, diferente da v3 que usava 0).
   `markStartFinish` extrai lógica de START/FINISH de `resetRoad`. Typecheck passa.
+- **RACER-TASK-09 (2026-07-06):** Criado `core/RacerGame.ts` (classe abstrata com 8 pontos de extensão
+  protegidos, `update()`/`render()`/`reset()`/`start()` finais) e `core/TweakUI.ts` (handlers de
+  tweak UI com `bind()`/`refresh()`). `Renderer.ctx` tornado público para `clearRect`. `StatsPanel`
+  recebe `'fps'` como parentId. Typecheck passa.

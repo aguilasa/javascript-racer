@@ -4,7 +4,7 @@ import { SPRITES } from './sprites'
 import { randomChoice } from './util'
 
 export class Renderer {
-  private readonly ctx: CanvasRenderingContext2D
+  public readonly ctx: CanvasRenderingContext2D
 
   constructor(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx
