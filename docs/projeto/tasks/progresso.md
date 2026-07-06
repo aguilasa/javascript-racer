@@ -45,7 +45,7 @@ RACER-TASK-19 (a única tarefa de merge, 👤).
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| RACER-TASK-11 | Portar v2 (`RacerGameV2`) e validar contra o original | RACER-TASK-10 | 🔄 Em andamento |
+| RACER-TASK-11 | Portar v2 (`RacerGameV2`) e validar contra o original | RACER-TASK-10 | ✅ Concluído |
 
 ### Fase 4 — Portar v3 (colinas)
 
@@ -133,7 +133,7 @@ RACER-TASK-01 ──┬──→ RACER-TASK-02
 
 ### Fase 3 — v2
 
-- [ ] `v2.html` jogável, comparável à `v2.curves.html` original
+- [x] `v2.html` jogável, comparável à `v2.curves.html` original
 
 ### Fase 4 — v3
 
