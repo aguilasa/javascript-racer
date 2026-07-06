@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import { Scene } from 'phaser';
 import { RoadRenderer } from '../racer/RoadRenderer';
+import { SceneryRenderer } from '../racer/SceneryRenderer';
 import { COLORS } from '../racer/constants';
 import { SPRITES } from '../racer/sprites';
 import { BACKGROUND } from '../racer/background';
@@ -10,6 +11,7 @@ export class Game extends Scene
 {
     private racerEngine!: RacerEngine;
     private roadRenderer!: RoadRenderer;
+    private sceneryRenderer!: SceneryRenderer;
     private playerSprite!: Phaser.GameObjects.Image;
     private keys!: { left: Phaser.Input.Keyboard.Key; right: Phaser.Input.Keyboard.Key; up: Phaser.Input.Keyboard.Key; down: Phaser.Input.Keyboard.Key; a: Phaser.Input.Keyboard.Key; d: Phaser.Input.Keyboard.Key; w: Phaser.Input.Keyboard.Key; s: Phaser.Input.Keyboard.Key };
     private skyTileSprite!: Phaser.GameObjects.TileSprite;
@@ -32,10 +34,14 @@ export class Game extends Scene
         this.racerEngine.reset();
 
         this.roadRenderer = new RoadRenderer(this);
+        this.sceneryRenderer = new SceneryRenderer(this);
 
         // Create player sprite pool (single image reused)
         this.playerSprite = this.add.image(0, 0, 'sprites');
         this.playerSprite.setOrigin(0.5, 1);
+        // Sempre à frente do cenário (pool de sprites, depth até ~100000) — ver SceneryRenderer.
+        // Interleaving correto com carros de tráfego fica para a PHASER-TASK-14.
+        this.playerSprite.setDepth(100001);
 
         // Setup keyboard input (called once, not every frame)
         this.keys = this.input.keyboard!.addKeys({
@@ -82,6 +88,7 @@ export class Game extends Scene
 
         this.renderParallax();
         this.renderRoad();
+        this.renderScenery();
         this.renderPlayer();
     }
 
@@ -118,6 +125,21 @@ export class Game extends Scene
                 segment.fog!, segment.color,
             );
         }
+    }
+
+    private renderScenery(): void
+    {
+        const state = this.racerEngine.getRenderState();
+
+        this.sceneryRenderer.clear();
+        this.sceneryRenderer.draw(
+            state.width,
+            state.roadWidth,
+            state.baseSegment,
+            state.segments,
+            state.drawDistance,
+            state.maxy,
+        );
     }
 
     private renderPlayer(): void

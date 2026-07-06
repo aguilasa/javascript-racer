@@ -57,7 +57,7 @@ PHASER-TASK-20 (a única tarefa de merge, 👤).
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| PHASER-TASK-11 | Portar `scenery.ts` (verbatim) e pool de sprites de cenário com recorte de horizonte | PHASER-TASK-09 | ⬜ Pendente |
+| PHASER-TASK-11 | Portar `scenery.ts` (verbatim) e pool de sprites de cenário com recorte de horizonte | PHASER-TASK-09 | ✅ Concluído |
 | PHASER-TASK-12 | Colisão jogador↔sprite de cenário fora da pista | PHASER-TASK-11 | ⬜ Pendente |
 
 ### Fase 6 — Tráfego
@@ -166,8 +166,8 @@ PHASER-TASK-01 ──┬──→ PHASER-TASK-02 ──┐
 
 ### Fase 5 — Cenário
 
-- [ ] `src/game/racer/scenery.ts` portado
-- [ ] Pool de sprites de cenário com recorte de horizonte (`setCrop`)
+- [x] `src/game/racer/scenery.ts` portado
+- [x] Pool de sprites de cenário com recorte de horizonte (`setCrop`)
 - [ ] Colisão jogador↔sprite de cenário fora da pista
 
 ### Fase 6 — Tráfego
@@ -231,3 +231,10 @@ das 20 tarefas acima:
 
 *(preenchido conforme as tarefas forem executadas — um item por tarefa concluída, com data,
 resumo e arquivos afetados, espelhando o Log de Execução de cada arquivo `PHASER-TASK-XX.md`)*
+
+- **PHASER-TASK-11 (2026-07-06):** Executada **fora de ordem** (antes da PHASER-TASK-12/13/14),
+  a pedido do usuário, como correção de um artefato visual real reportado durante testes manuais
+  (uma "cunha" verde-escura sobre a pista, causada por um salto de opacidade de neblina em um
+  trecho de `addLowRollingHills()` que o cenário do jogo original sempre cobriu). Ver Log de
+  Execução completo em `docs/migracao-phaser/tasks/11-portar-scenery-pool.md`. Nenhuma tarefa
+  entre 09 e 11 precisou ser refeita — PHASER-TASK-11 dependia só da PHASER-TASK-09.

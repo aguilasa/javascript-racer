@@ -1,5 +1,6 @@
 import type { Segment } from './types'
 import { Road, ROAD } from './Road'
+import { resetSprites } from './scenery'
 import * as Util from './util'
 
 export interface RenderState {
@@ -111,6 +112,8 @@ export class RacerEngine {
     this.road.addStraight()
     this.road.addSCurves()
     this.road.addDownhillToEnd()
+
+    resetSprites(this.road)
 
     this.road.markStartFinish(this.playerZ)
     this.road.finalize()

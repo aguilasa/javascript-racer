@@ -1,3 +1,4 @@
+import type { SpriteRect } from './types'
 
 const _S = {
   PALM_TREE:              { x:    5, y:    5, w:  215, h:  540 },
@@ -67,4 +68,17 @@ export const SPRITES = {
   BILLBOARDS,
   PLANTS,
   CARS,
+}
+
+// Mapa reverso rect -> nome do frame registrado no Preloader (PHASER-TASK-04) — necessário
+// porque SpriteSlot.source guarda a referência ao objeto {x,y,w,h}, não o nome usado em
+// `setFrame()` (mesma classe de problema corrigida em CORR-PHASER-010 para o sprite do jogador).
+const _nameByRect = new Map<SpriteRect, string>(
+  (Object.entries(_S) as [string, SpriteRect][]).map(([name, rect]) => [rect, name]),
+)
+
+export function spriteFrameName(rect: SpriteRect): string {
+  const name = _nameByRect.get(rect)
+  if (!name) throw new Error('Sprite rect não registrado em SPRITES')
+  return name
 }
