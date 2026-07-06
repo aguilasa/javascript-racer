@@ -16,7 +16,7 @@ export class RacerGameV4 extends RacerGameV3 {
 
   protected onReset(_options: any): void {
     if (!this.trafficManager) {
-      this.trafficManager = new TrafficManager(this.road, 200, this.segmentLength);
+      this.trafficManager = new TrafficManager(this.road, 200, this.maxSpeed);
     }
     if (!this.hud) {
       this.hud = new Hud();
