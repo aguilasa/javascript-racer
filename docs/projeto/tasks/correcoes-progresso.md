@@ -20,6 +20,7 @@
 | CORR-RACER-014 | Painel de FPS (`stats.js` do npm) fica fixo sobre os links de navegação em vez de fluir na tabela de controles | Alta | [x] concluída |
 | CORR-RACER-015 | `Road.addSCurves()` embute alturas de colina (v3/v4) — v2 exibe hills onde deveria ser só curva plana | Crítica | [x] concluída |
 | CORR-RACER-016 | `RacerGame.update()` calcula `playerSegment` após avançar `position`, um frame fora de fase com o original | Baixa | [x] concluída |
+| CORR-RACER-018 | `RacerGame.update()` chama `updateParallax()` após o bloco de aceleração, usando a velocidade já atualizada em vez da anterior ao frame | Baixa | [x] concluída |
 
 ## Checklist
 
@@ -39,6 +40,7 @@
 - [x] CORR-RACER-014 — neutralizar `position:fixed` do `stats.js` npm em `StatsPanel.ts`
 - [x] CORR-RACER-015 — parametrizar altura em `addSCurves` (default v3/v4, `false` para v2)
 - [x] CORR-RACER-016 — calcular `playerSegment` antes de avançar `position` em `update()`
+- [x] CORR-RACER-018 — mover `updateParallax()` para antes do bloco de aceleração em `update()`
 
 ## Detalhes por correção
 
@@ -245,3 +247,15 @@
   pequeno, mas é uma divergência real do algoritmo documentado.
 - **Fix:** Mover o cálculo de `playerSegment` para antes da linha
   `this.position = Util.increase(...)` em `update()`.
+
+### CORR-RACER-018
+
+- **Alvo com problema:** `app/src/core/RacerGame.ts` (`update()`)
+- **Sintoma:** `updateParallax()` é chamada depois do bloco `if (keyFaster)/.../offRoadDecel`,
+  então `RacerGameV2.updateParallax()` calcula `speedPercent` a partir do `this.speed` **já
+  acelerado/freado/clampado** neste frame — no original, os acumuladores `skyOffset`/
+  `hillOffset`/`treeOffset` usam o `speedPercent` capturado **antes** desse bloco, o mesmo usado
+  pela força centrífuga. Mesma classe de bug do CORR-RACER-016 (ponto de extensão lendo estado já
+  mutado por um passo posterior do próprio `update()`).
+- **Fix:** Mover a chamada `this.updateParallax(dt, playerSegment, startPosition)` para logo após
+  `this.updateLateralForces(...)`, antes do bloco de aceleração/frenagem/fora-de-pista.

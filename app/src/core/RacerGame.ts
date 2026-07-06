@@ -131,6 +131,7 @@ export abstract class RacerGame {
     this.position        = Util.increase(this.position, dt * this.speed, this.road.trackLength)
 
     this.updateLateralForces(dt, playerSegment)
+    this.updateParallax(dt, playerSegment, startPosition)
 
     if (this.keyFaster)
       this.speed = Util.accelerate(this.speed, this.accel, dt)
@@ -144,8 +145,6 @@ export abstract class RacerGame {
 
     this.playerX = Util.limit(this.playerX, -2, 2)
     this.speed   = Util.limit(this.speed,   0,  this.maxSpeed)
-
-    this.updateParallax(dt, playerSegment, startPosition)
     this.updateExtras(dt)
   }
 
