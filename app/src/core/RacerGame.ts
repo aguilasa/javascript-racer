@@ -131,7 +131,7 @@ export abstract class RacerGame {
 
   // Hook for subclasses to update traffic (v4) before playerX/speed are modified
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected updateTraffic(_dt: number, _playerSegment: any): void {
+  protected updateTraffic(_dt: number, _playerSegment: Segment): void {
     // no-op by default
   }
 

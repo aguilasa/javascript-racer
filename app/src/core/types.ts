@@ -25,7 +25,7 @@ export interface Segment {
   curve:   number
   color:   SegmentColorSet
   sprites: SpriteSlot[]
-  cars:    unknown[] // será restrito a Car[] a partir da RACER-TASK-13 (v4); manter genérico até lá
+  cars:    unknown[] // v1-v3: genérico; v4: Car[] (TrafficManager só é usado na v4)
   looped?: boolean
   fog?:    number
   clip?:   number

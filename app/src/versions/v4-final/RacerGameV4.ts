@@ -4,6 +4,9 @@ import { TrafficManager } from './TrafficManager';
 import { resetSprites } from './scenery';
 import { Hud } from './Hud';
 import { SPRITES } from '../../core/sprites';
+import type { Segment, SpriteSlot } from '../../core/types';
+import type { ResetOptions } from '../../core/RacerGame';
+import { Car } from './Car';
 import * as Util from '../../core/util';
 
 export class RacerGameV4 extends RacerGameV3 {
@@ -14,7 +17,7 @@ export class RacerGameV4 extends RacerGameV3 {
   protected offRoadHardLimit = 3;
   protected startPosition = 0;
 
-  protected onReset(_options: any): void {
+  protected onReset(_options: ResetOptions): void {
     if (!this.hud) {
       this.hud = new Hud();
     }
@@ -62,7 +65,7 @@ export class RacerGameV4 extends RacerGameV3 {
     this.road.addRoad(10, 10, 10, 0, -2);
   }
 
-  protected updateTraffic(dt: number, playerSegment: any): void {
+  protected updateTraffic(dt: number, playerSegment: Segment): void {
     const playerW = SPRITES.PLAYER_STRAIGHT.w * SPRITES.SCALE;
     this.trafficManager.updateCars(dt, playerSegment, this.playerX, playerW, this.speed, this.drawDistance);
   }
@@ -84,11 +87,12 @@ export class RacerGameV4 extends RacerGameV3 {
     }
 
     for (const car of playerSegment.cars) {
-      const carW = (car as any).sprite.w * SPRITES.SCALE;
-      if (this.speed > (car as any).speed) {
-        if (Util.overlap(this.playerX, playerW, (car as any).offset, carW, 0.8)) {
-          this.speed = (car as any).speed * ((car as any).speed / this.speed);
-          this.position = Util.increase((car as any).z, -this.playerZ, this.road.trackLength);
+      const carObj = car as Car;
+      const carW = carObj.sprite.w * SPRITES.SCALE;
+      if (this.speed > carObj.speed) {
+        if (Util.overlap(this.playerX, playerW, carObj.offset, carW, 0.8)) {
+          this.speed = carObj.speed * (carObj.speed / this.speed);
+          this.position = Util.increase(carObj.z, -this.playerZ, this.road.trackLength);
           break;
         }
       }
@@ -108,7 +112,7 @@ export class RacerGameV4 extends RacerGameV3 {
     this.hud.updateCurrentLapTime(this.currentLapTime);
   }
 
-  protected updateParallax(_dt: number, playerSegment: any, startPosition: number): void {
+  protected updateParallax(_dt: number, playerSegment: Segment, startPosition: number): void {
     this.startPosition = startPosition; // captura para uso em updateExtras() no mesmo tick
     const delta = (this.position - startPosition) / this.road.segmentLength;
     this.skyOffset = Util.increase(this.skyOffset, this.skySpeed * playerSegment.curve * delta, 1);
@@ -117,15 +121,15 @@ export class RacerGameV4 extends RacerGameV3 {
   }
 
   protected renderExtraLayer(
-    baseSegment: any,
-    _playerSegment: any,
+    baseSegment: Segment,
+    _playerSegment: Segment,
     _startPosition: number,
     _playerX: number,
     _cameraX: number,
     maxy: number
   ): void {
-    const sprites: Array<{ segment: any; sprite: any; scale: number; x: number; y: number }> = [];
-    const cars: Array<{ segment: any; car: any; scale: number; x: number; y: number }> = [];
+    const sprites: Array<{ segment: Segment; sprite: SpriteSlot; scale: number; x: number; y: number }> = [];
+    const cars: Array<{ segment: Segment; car: Car; scale: number; x: number; y: number }> = [];
 
     for (let n = 1; n < this.drawDistance; n++) {
       const segment = this.road.segments[(baseSegment.index + n) % this.road.segments.length]!;
@@ -140,10 +144,11 @@ export class RacerGameV4 extends RacerGameV3 {
 
       for (const car of segment.cars) {
         const carScale = segment.p1.screen.scale;
-        const carX = segment.p1.screen.x + carScale * (car as any).offset * this.roadWidth * this.width / 2;
+        const carObj = car as Car;
+        const carX = segment.p1.screen.x + carScale * carObj.offset * this.roadWidth * this.width / 2;
         const carY = segment.p1.screen.y;
 
-        cars.push({ segment, car, scale: carScale, x: carX, y: carY });
+        cars.push({ segment, car: carObj, scale: carScale, x: carX, y: carY });
       }
     }
 
@@ -173,7 +178,7 @@ export class RacerGameV4 extends RacerGameV3 {
           this.resolution,
           this.roadWidth,
           this.sprites,
-          (obj.car as any).sprite,
+          obj.car.sprite,
           obj.scale,
           obj.x,
           obj.y,
