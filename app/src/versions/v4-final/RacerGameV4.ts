@@ -1,5 +1,5 @@
 import { RacerGameV3 } from '../v3-hills/RacerGameV3';
-import { ROAD } from '../../core/Road';
+import { Road, ROAD } from '../../core/Road';
 import { TrafficManager } from './TrafficManager';
 import { resetSprites } from './scenery';
 import { Hud } from './Hud';
@@ -25,6 +25,8 @@ export class RacerGameV4 extends RacerGameV3 {
   }
 
   protected buildRoad(): void {
+    this.road = new Road(this.segmentLength, this.rumbleLength);
+
     this.road.addStraight(ROAD.LENGTH.SHORT);
     this.road.addLowRollingHills();
     this.road.addSCurves();
