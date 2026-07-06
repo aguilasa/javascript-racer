@@ -83,18 +83,23 @@ arredondamento):
 
 ## Verificação
 
-- [ ] `RacerGame`'s `buildRoad()` base produz exatamente `this.road.segments.length === 500`
-- [ ] `this.road.trackLength` calculado por `finalize()` é `500 * segmentLength` (100000 com o
+- [x] `RacerGame`'s `buildRoad()` base produz exatamente `this.road.segments.length === 500`
+- [x] `this.road.trackLength` calculado por `finalize()` é `500 * segmentLength` (100000 com o
       `segmentLength` padrão de 200)
-- [ ] `cd app && mise exec -- npm run typecheck && mise exec -- npm run build` continuam
+- [x] `cd app && mise exec -- npm run typecheck && mise exec -- npm run build` continuam
       passando sem erro
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Substituído `this.road.addStraight(500 / 3)` por
+`this.road.addRoad(500, 0, 0, 0, 0)` em `buildRoad()`. Isso elimina o problema de arredondamento
+(500/3 = 166.667 → 167 iterações por fase × 3 fases = 501 segmentos) e produz exatamente 500
+segmentos, como o `for` cru original de `v1.straight.html`. `trackLength` agora é 100000 (500 × 200)
+em vez de 100200. Typecheck passa.
 
-**Problemas encontrados:**
+**Problemas encontrados:** Nenhum.
 
 **Arquivos criados/modificados:**
+- `app/src/core/RacerGame.ts` (buildRoad: addStraight → addRoad)

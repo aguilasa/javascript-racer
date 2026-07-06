@@ -68,7 +68,7 @@ export abstract class RacerGame {
 
   protected buildRoad(): void {
     this.road = new Road(this.segmentLength, this.rumbleLength)
-    this.road.addStraight(500 / 3)
+    this.road.addRoad(500, 0, 0, 0, 0)
     this.road.markStartFinish(this.playerZ)
     this.road.finalize()
   }
