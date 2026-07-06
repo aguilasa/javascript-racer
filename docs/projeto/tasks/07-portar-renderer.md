@@ -55,21 +55,36 @@ Preservar exatamente as fórmulas geométricas documentadas em
 
 ## Critério de conclusão
 
-- [ ] `core/Renderer.ts` com todos os métodos de `Render.*` portados como métodos de
+- [x] `core/Renderer.ts` com todos os métodos de `Render.*` portados como métodos de
       instância (recebendo `ctx` uma vez no construtor)
-- [ ] `player` escolhe o sprite correto (reto/esquerda/direita × plano/subindo) idêntico ao
+- [x] `player` escolhe o sprite correto (reto/esquerda/direita × plano/subindo) idêntico ao
       original
-- [ ] `background` reproduz a técnica de textura "dobro da largura" sem costura
-- [ ] `sprite` recorta corretamente por `clipY` quando fornecido
-- [ ] `npm run typecheck` sem erros
-- [ ] Nenhum arquivo fora de `app/` foi alterado
+- [x] `background` reproduz a técnica de textura "dobro da largura" sem costura
+- [x] `sprite` recorta corretamente por `clipY` quando fornecido
+- [x] `npm run typecheck` sem erros
+- [x] Nenhum arquivo fora de `app/` foi alterado
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-05
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Criado `app/src/core/Renderer.ts` com os métodos `polygon`,
+`segment`, `background`, `sprite`, `player`, `fog` (públicos) e `rumbleWidth`/`laneMarkerWidth`
+(privados). Recebe `CanvasRenderingContext2D` no construtor; elimina o parâmetro `ctx` em toda
+chamada. Fórmulas idênticas ao original incluindo técnica de textura dupla em `background`,
+recorte por `clipY` em `sprite`, e bounce aleatório em `player`. `player` acessa `SPRITES.*`
+diretamente de `core/sprites.ts`.
+Efeito colateral necessário: corrigido `core/sprites.ts` — removida anotação explícita
+`Record<string, SpriteRect>` de `_S`, pois ocultava os nomes de propriedade no spread de
+`SPRITES`, tornando `SPRITES.PLAYER_STRAIGHT` etc. inacessíveis pelo compilador. Acesso
+migrado para dot notation sem `!`.
 
 **Problemas encontrados:**
+1. `SPRITES.PLAYER_*` inacessíveis — causado pela anotação `Record<string,SpriteRect>` em `_S`
+   que apagava informação de tipo no spread; corrigido removendo a anotação.
+2. Parâmetros `height`/`resolution` sem uso em `sprite()`/`player()` (exigidos pela assinatura
+   para compatibilidade com os call sites futuros) — prefixados com `_` para suprimir TS6133.
 
 **Arquivos criados/modificados:**
+- `app/src/core/Renderer.ts` (criado)
+- `app/src/core/sprites.ts` (anotação `Record<string,SpriteRect>` removida; bracket access → dot access)

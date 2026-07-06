@@ -1,6 +1,5 @@
-import type { SpriteRect } from './types'
 
-const _S: Record<string, SpriteRect> = {
+const _S = {
   PALM_TREE:              { x:    5, y:    5, w:  215, h:  540 },
   BILLBOARD08:            { x:  230, y:    5, w:  385, h:  265 },
   TREE1:                  { x:  625, y:    5, w:  360, h:  360 },
@@ -39,27 +38,27 @@ const _S: Record<string, SpriteRect> = {
 
 // SPRITES.SCALE: fator que converte pixels da folha para proporção relativa ao roadWidth
 // referência: largura do carro do jogador deve equivaler a 1/3 da meia-largura da pista
-const SCALE = 0.3 * (1 / _S['PLAYER_STRAIGHT']!.w)
+const SCALE = 0.3 * (1 / _S.PLAYER_STRAIGHT.w)
 
-const BILLBOARDS: SpriteRect[] = [
-  _S['BILLBOARD01']!, _S['BILLBOARD02']!, _S['BILLBOARD03']!,
-  _S['BILLBOARD04']!, _S['BILLBOARD05']!, _S['BILLBOARD06']!,
-  _S['BILLBOARD07']!, _S['BILLBOARD08']!, _S['BILLBOARD09']!,
+const BILLBOARDS = [
+  _S.BILLBOARD01, _S.BILLBOARD02, _S.BILLBOARD03,
+  _S.BILLBOARD04, _S.BILLBOARD05, _S.BILLBOARD06,
+  _S.BILLBOARD07, _S.BILLBOARD08, _S.BILLBOARD09,
 ]
 
-const PLANTS: SpriteRect[] = [
-  _S['TREE1']!, _S['TREE2']!,
-  _S['DEAD_TREE1']!, _S['DEAD_TREE2']!,
-  _S['PALM_TREE']!,
-  _S['BUSH1']!, _S['BUSH2']!,
-  _S['CACTUS']!,
-  _S['STUMP']!,
-  _S['BOULDER1']!, _S['BOULDER2']!, _S['BOULDER3']!,
+const PLANTS = [
+  _S.TREE1, _S.TREE2,
+  _S.DEAD_TREE1, _S.DEAD_TREE2,
+  _S.PALM_TREE,
+  _S.BUSH1, _S.BUSH2,
+  _S.CACTUS,
+  _S.STUMP,
+  _S.BOULDER1, _S.BOULDER2, _S.BOULDER3,
 ]
 
-const CARS: SpriteRect[] = [
-  _S['CAR01']!, _S['CAR02']!, _S['CAR03']!, _S['CAR04']!,
-  _S['SEMI']!, _S['TRUCK']!,
+const CARS = [
+  _S.CAR01, _S.CAR02, _S.CAR03, _S.CAR04,
+  _S.SEMI, _S.TRUCK,
 ]
 
 export const SPRITES = {

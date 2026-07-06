@@ -31,7 +31,7 @@ RACER-TASK-19 (a única tarefa de merge, 👤).
 | RACER-TASK-04 | Portar tipos, constantes e tabelas de sprites/background | RACER-TASK-03 | ✅ Concluído |
 | RACER-TASK-05 | Portar `Dom` e `Util` | RACER-TASK-04 | ✅ Concluído |
 | RACER-TASK-06 | Portar `GameLoop`, `AssetLoader`, `InputController`, `StatsPanel`, `MusicPlayer` | RACER-TASK-05 | ✅ Concluído |
-| RACER-TASK-07 | Portar `Renderer` | RACER-TASK-04, RACER-TASK-05 | ⬜ Pendente |
+| RACER-TASK-07 | Portar `Renderer` | RACER-TASK-04, RACER-TASK-05 | ✅ Concluído |
 
 ### Fase 2 — Portar v1 (estrada reta)
 
@@ -122,7 +122,7 @@ RACER-TASK-01 ──┬──→ RACER-TASK-02
 - [x] `core/types.ts`, `core/constants.ts`, `core/sprites.ts`, `core/background.ts`
 - [x] `core/dom.ts`, `core/util.ts`
 - [x] `core/GameLoop.ts`, `core/AssetLoader.ts`, `core/InputController.ts`, `core/StatsPanel.ts`, `core/MusicPlayer.ts`
-- [ ] `core/Renderer.ts`
+- [x] `core/Renderer.ts`
 - [ ] `npm run typecheck` sem erros
 
 ### Fase 2 — v1
@@ -208,3 +208,8 @@ das 19 tarefas acima:
   `private readonly` no construtor de `GameLoop` proibidos por `erasableSyntaxOnly` — corrigido
   usando campos explícitos. `stats.js` não expõe `current()` nos tipos — FPS calculado via
   `begin()`/`end()`. Typecheck passa.
+- **RACER-TASK-07 (2026-07-05):** Criado `core/Renderer.ts` com 7 métodos (`polygon`, `segment`,
+  `background`, `sprite`, `player`, `fog`, + privados `rumbleWidth`/`laneMarkerWidth`). Recebe
+  `ctx` no construtor. Fórmulas idênticas ao original. Corrigido `sprites.ts`: removida anotação
+  `Record<string, SpriteRect>` em `_S` (ocultava nomes de propriedades no spread), passou a usar
+  acesso por ponto. Typecheck passa.
