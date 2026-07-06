@@ -183,7 +183,7 @@ export abstract class RacerGame {
       x  = x + dx
       dx = dx + segment.curve
 
-      if ((segment.p1.camera.z <= this.cameraDepth) || (segment.p2.screen.y >= maxy))
+      if ((segment.p1.camera.z <= this.cameraDepth) || (segment.p2.screen.y >= segment.p1.screen.y) || (segment.p2.screen.y >= maxy))
         continue
 
       this.renderer.segment(

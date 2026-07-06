@@ -79,10 +79,13 @@ decisão tomada no Log de Execução.
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Adicionado critério de back-face culling `(segment.p2.screen.y >= segment.p1.screen.y)` ao laço de renderização comum em `core/RacerGame.ts` — seguro para v1/v2 pois nunca dispara em terreno plano. Criado `RacerGameV3.ts` com overrides: `buildRoad()` (receita com colinas usando DSL do `Road`), `getCameraY()` (câmera flutua acima do terreno), `render()` (calcula parallax vertical baseado em `playerY` e passa para `background()`), `getPlayerScreenY()` (posição vertical do carro derivada da projeção da câmera), `getPlayerUpdown()` (diferença de altura para escolher sprite de subida). Não sobrescreve `updateLateralForces`/`updateExtras`/`updateParallax` (física idêntica à v2). Atualizado `main.ts` para instanciar RacerGameV3. Typecheck e build passam. O back-face culling não afeta v1/v2 (terreno plano nunca ativa o critério). Validação visual (morros suaves, câmera acompanhando terreno, carro subindo/descendo visualmente) requer execução manual de `npm run dev`.
 
-**Problemas encontrados:**
+**Problemas encontrados:** Erro de import corrigido: `BACKGROUND` estava sendo importado de `constants.ts` mas está em `background.ts`.
 
 **Arquivos criados/modificados:**
+- `app/src/core/RacerGame.ts` (back-face culling no laço de renderização)
+- `app/src/versions/v3-hills/RacerGameV3.ts` (criado)
+- `app/src/versions/v3-hills/main.ts` (atualizado: stub → implementação real)
