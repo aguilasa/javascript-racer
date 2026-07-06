@@ -1,10 +1,8 @@
 import * as Phaser from 'phaser';
 import { Scene } from 'phaser';
-import { Road, ROAD } from '../racer/Road';
 import { RoadRenderer } from '../racer/RoadRenderer';
 import { COLORS } from '../racer/constants';
 import { SPRITES } from '../racer/sprites';
-import * as Util from '../racer/util';
 import { RacerEngine } from '../racer/RacerEngine';
 
 export class Game extends Scene
@@ -48,7 +46,7 @@ export class Game extends Scene
         }) as typeof this.keys;
     }
 
-    update (time: number, delta: number)
+    update (_time: number, delta: number)
     {
         // Update input flags from keyboard
         this.racerEngine.keyLeft = this.keys.left.isDown || this.keys.a.isDown;
@@ -84,9 +82,9 @@ export class Game extends Scene
 
             this.roadRenderer.segment(
                 state.width, this.racerEngine.lanes,
-                segment.p1.screen.x, segment.p1.screen.y, segment.p1.screen.w,
-                segment.p2.screen.x, segment.p2.screen.y, segment.p2.screen.w,
-                segment.fog, segment.color,
+                segment.p1.screen.x, segment.p1.screen.y, segment.p1.screen.w!,
+                segment.p2.screen.x, segment.p2.screen.y, segment.p2.screen.w!,
+                segment.fog!, segment.color,
             );
         }
     }
@@ -112,7 +110,7 @@ export class Game extends Scene
         else
             frameName = (updown > 0) ? 'PLAYER_UPHILL_STRAIGHT' : 'PLAYER_STRAIGHT';
 
-        const spriteRect = SPRITES[frameName];
+        const spriteRect = (SPRITES as any)[frameName] as { x: number; y: number; w: number; h: number };
 
         // Set frame and position
         this.playerSprite.setFrame(frameName);
