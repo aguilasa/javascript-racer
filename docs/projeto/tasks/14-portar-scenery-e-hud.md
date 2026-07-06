@@ -82,19 +82,21 @@ Preservar a otimização de "só tocar o DOM se o valor mudou" (ver
 
 ## Critério de conclusão
 
-- [ ] `scenery.ts` com as 5 seções de povoamento de sprites, parâmetros idênticos ao original
-- [ ] `Hud.ts` com velocímetro, tempo de volta atual, última volta, recorde persistido
-- [ ] Otimização "só atualiza DOM se valor mudou" preservada
-- [ ] `formatTime` idêntico ao original (`M.SS.T` / `S.T`)
-- [ ] `npm run typecheck` sem erros
-- [ ] Nenhum arquivo fora de `app/` foi alterado
+- [x] `scenery.ts` com as 5 seções de povoamento de sprites, parâmetros idênticos ao original
+- [x] `Hud.ts` com velocímetro, tempo de volta atual, última volta, recorde persistido
+- [x] Otimização "só atualiza DOM se valor mudou" preservada
+- [x] `formatTime` idêntico ao original (`M.SS.T` / `S.T`)
+- [x] `npm run typecheck` sem erros
+- [x] Nenhum arquivo fora de `app/` foi alterado
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Criado `scenery.ts` com função `resetSprites(road)` que popula `road.segments[i].sprites` em 5 seções: (1) billboards fixas no início (segmentos 20, 40, 240, fim-25), (2) palmeiras com espaçamento incremental (10-200, incremento `4 + n/100`), (3) colunas/árvores (250-1000, incremento 5), (4) plantas aleatórias (200-fim, incremento 3), (5) billboards+plantas aleatórias agrupadas (1000-fim-50, incremento 100, 20 plantas por grupo). Todos os parâmetros preservados exatamente como no original. Criado `Hud.ts` com métodos `updateSpeed` (arredonda para múltiplos de 5, escala `/maxSpeed * 500`), `updateCurrentLapTime`, `onLapComplete` (compara com recorde em `Dom.storage.fast_lap_time`, atualiza classes CSS `fastest`), `formatTime` (formato `M.SS.T` ou `S.T`), e `setIfChanged` (otimização de só tocar DOM se valor mudou, usando `Map` para cache). Typecheck e build passam.
 
-**Problemas encontrados:**
+**Problemas encontrados:** Erro inicial de import (`import * as Dom` em vez de `import { Dom }`), corrigido. Erro de tipo ao chamar `Dom.set` com `number`, corrigido convertendo para `String(value)`.
 
 **Arquivos criados/modificados:**
+- `app/src/versions/v4-final/scenery.ts` (criado)
+- `app/src/versions/v4-final/Hud.ts` (criado)
