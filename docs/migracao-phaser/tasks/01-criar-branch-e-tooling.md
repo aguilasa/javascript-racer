@@ -90,13 +90,13 @@ commitar — está tudo bem, a tarefa ainda está completa.
 
 ## Critério de conclusão
 
-- [ ] Branch `feature/phaser-port` criada a partir do estado atual (contém `racer-phaser/` e
+- [x] Branch `feature/phaser-port` criada a partir do estado atual (contém `racer-phaser/` e
       `docs/migracao-phaser/`)
-- [ ] `mise current node` resolve corretamente dentro de `racer-phaser/`
-- [ ] `mise exec -- npm install` roda sem erro
-- [ ] `mise exec -- npm run dev` e `mise exec -- npm run build` rodam sem erro
-- [ ] Nenhum arquivo em `app/` foi alterado
-- [ ] Se houve alteração em `racer-phaser/`, commit feito em `feature/phaser-port`
+- [x] `mise current node` resolve corretamente dentro de `racer-phaser/`
+- [x] `mise exec -- npm install` roda sem erro
+- [x] `mise exec -- npm run dev` e `mise exec -- npm run build` rodam sem erro
+- [x] Nenhum arquivo em `app/` foi alterado
+- [x] Se houve alteração em `racer-phaser/`, commit feito em `feature/phaser-port`
 
 ## Log de Execução *(preenchido após execução)*
 
