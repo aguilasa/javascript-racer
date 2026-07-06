@@ -20,7 +20,7 @@ RACER-TASK-19 (a única tarefa de merge, 👤).
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| RACER-TASK-01 | Criar branch e o scaffold do projeto Vite (`vanilla-ts`) em `app/` | — | ⬜ Pendente |
+| RACER-TASK-01 | Criar branch e o scaffold do projeto Vite (`vanilla-ts`) em `app/` | — | ✅ Concluído |
 | RACER-TASK-02 | Configurar multi-page (index + v1–v4) e copiar assets para `app/public/` | RACER-TASK-01 | ⬜ Pendente |
 | RACER-TASK-03 | Instalar/tipar `stats.js` via npm e criar a estrutura de pastas `src/core/`, `src/versions/*` | RACER-TASK-01 | ⬜ Pendente |
 
@@ -109,9 +109,9 @@ RACER-TASK-01 ──┬──→ RACER-TASK-02
 
 ### Fase 0 — Scaffolding
 
-- [ ] Branch `feature/ts-vite-port` criada
-- [ ] `app/` criado com `npm create vite@latest -- --template vanilla-ts`
-- [ ] `tsconfig.json` com `strict: true` + `noUncheckedIndexedAccess: true`
+- [x] Branch `feature/ts-vite-port` criada
+- [x] `app/` criado com `npm create vite@latest -- --template vanilla-ts`
+- [x] `tsconfig.json` com `strict: true` + `noUncheckedIndexedAccess: true`
 - [ ] `vite.config.ts` com 5 entradas (`index`, `v1`…`v4`)
 - [ ] `images/` e `music/` copiados para `app/public/`
 - [ ] `stats.js` instalado via npm e tipado
