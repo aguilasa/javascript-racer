@@ -123,7 +123,7 @@ export class RacerGameV4 extends RacerGameV3 {
     const sprites: Array<{ segment: any; sprite: any; scale: number; x: number; y: number }> = [];
     const cars: Array<{ segment: any; car: any; scale: number; x: number; y: number }> = [];
 
-    for (let n = 0; n < this.drawDistance; n++) {
+    for (let n = 1; n < this.drawDistance; n++) {
       const segment = this.road.segments[(baseSegment.index + n) % this.road.segments.length]!;
 
       for (const sprite of segment.sprites) {

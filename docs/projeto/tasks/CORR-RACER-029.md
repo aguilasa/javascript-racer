@@ -60,16 +60,17 @@ for (let n = 1; n < this.drawDistance; n++) {
 
 ## Verificação
 
-- [ ] `grep -n "for (let n = 1; n < this.drawDistance" app/src/versions/v4-final/RacerGameV4.ts`
+- [x] `grep -n "for (let n = 1; n < this.drawDistance" app/src/versions/v4-final/RacerGameV4.ts`
       confirma o limite inferior corrigido
-- [ ] `npm run typecheck` e `npm run build` continuam sem erros
+- [x] `npm run typecheck` e `npm run build` continuam sem erros
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Mudado o limite inferior do laço em `renderExtraLayer()` de `n = 0` para `n = 1` (linha 126 de `RacerGameV4.ts`). O original (`docs/05-v4-final.md#56`) usa `for(n = drawDistance-1; n > 0; n--)`, excluindo explicitamente o segmento mais próximo da câmera (`n=0`). Typecheck passou.
 
-**Problemas encontrados:**
+**Problemas encontrados:** Nenhum. Correção de um caractere.
 
 **Arquivos criados/modificados:**
+- `app/src/versions/v4-final/RacerGameV4.ts` (linha 126: `n = 0` → `n = 1`)
