@@ -98,20 +98,34 @@ existentes nos arquivos `.js` gerados.
 
 ## Critério de conclusão
 
-- [ ] `core/types.ts` com `WorldPoint`, `CameraPoint`, `ScreenPoint`, `SegmentPoint`,
+- [x] `core/types.ts` com `WorldPoint`, `CameraPoint`, `ScreenPoint`, `SegmentPoint`,
       `SpriteRect`, `SpriteSlot`, `SegmentColorSet`, `Segment`
-- [ ] `core/constants.ts` com `KEY` e `COLORS` tipados, valores idênticos ao original
-- [ ] `core/sprites.ts` com todas as entradas de `SPRITES` + `SCALE`/`BILLBOARDS`/`PLANTS`/`CARS`
-- [ ] `core/background.ts` com `SKY`/`HILLS`/`TREES`
-- [ ] `npm run typecheck` sem erros
-- [ ] Nenhum arquivo fora de `app/` foi alterado
+- [x] `core/constants.ts` com `KEY` e `COLORS` tipados, valores idênticos ao original
+- [x] `core/sprites.ts` com todas as entradas de `SPRITES` + `SCALE`/`BILLBOARDS`/`PLANTS`/`CARS`
+- [x] `core/background.ts` com `SKY`/`HILLS`/`TREES`
+- [x] `npm run typecheck` sem erros
+- [x] Nenhum arquivo fora de `app/` foi alterado
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-05
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Criados 4 arquivos em `app/src/core/`:
+- `types.ts`: interfaces `WorldPoint`, `CameraPoint`, `ScreenPoint`, `SegmentPoint`, `SpriteRect`,
+  `SpriteSlot`, `SegmentColorSet`, `Segment` (com `cars: unknown[]` até RACER-TASK-13).
+- `constants.ts`: `KEY as const` com 8 keycodes; `COLORS` explicitamente tipado com `SegmentColorSet`
+  para `LIGHT`/`DARK`/`START`/`FINISH` + `SKY`/`TREE`/`FOG` como strings — valores idênticos ao
+  original `common.js`.
+- `sprites.ts`: 35 entradas de `SPRITES` transcritas de `images/sprites.js`; `SCALE`, `BILLBOARDS`,
+  `PLANTS`, `CARS` calculados/montados conforme `docs/05-v4-final.md §5.1`. Usa `_S` interno para
+  evitar forward references, exporta `SPRITES` combinado.
+- `background.ts`: `BACKGROUND` com `HILLS`/`SKY`/`TREES` transcritos de `images/background.js`.
+Typecheck passa sem erros. `git diff` confirma zero alterações fora de `app/`/`docs/projeto/`.
 
-**Problemas encontrados:**
+**Problemas encontrados:** Nenhum.
 
 **Arquivos criados/modificados:**
+- `app/src/core/types.ts` (criado)
+- `app/src/core/constants.ts` (criado)
+- `app/src/core/sprites.ts` (criado)
+- `app/src/core/background.ts` (criado)

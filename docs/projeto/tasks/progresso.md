@@ -28,7 +28,7 @@ RACER-TASK-19 (a única tarefa de merge, 👤).
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| RACER-TASK-04 | Portar tipos, constantes e tabelas de sprites/background | RACER-TASK-03 | ⬜ Pendente |
+| RACER-TASK-04 | Portar tipos, constantes e tabelas de sprites/background | RACER-TASK-03 | ✅ Concluído |
 | RACER-TASK-05 | Portar `Dom` e `Util` | RACER-TASK-04 | ⬜ Pendente |
 | RACER-TASK-06 | Portar `GameLoop`, `AssetLoader`, `InputController`, `StatsPanel`, `MusicPlayer` | RACER-TASK-05 | ⬜ Pendente |
 | RACER-TASK-07 | Portar `Renderer` | RACER-TASK-04, RACER-TASK-05 | ⬜ Pendente |
@@ -119,7 +119,7 @@ RACER-TASK-01 ──┬──→ RACER-TASK-02
 
 ### Fase 1 — Núcleo compartilhado
 
-- [ ] `core/types.ts`, `core/constants.ts`, `core/sprites.ts`, `core/background.ts`
+- [x] `core/types.ts`, `core/constants.ts`, `core/sprites.ts`, `core/background.ts`
 - [ ] `core/dom.ts`, `core/util.ts`
 - [ ] `core/GameLoop.ts`, `core/AssetLoader.ts`, `core/InputController.ts`, `core/StatsPanel.ts`, `core/MusicPlayer.ts`
 - [ ] `core/Renderer.ts`
@@ -192,3 +192,8 @@ das 19 tarefas acima:
 - **RACER-TASK-03 (2026-07-05):** Instalado `stats.js` (dep) e `@types/stats.js` (devDep) via
   npm. Criada pasta `src/core/`. Pastas `src/versions/v*` já existiam do RACER-TASK-02. Typecheck
   passa.
+- **RACER-TASK-04 (2026-07-05):** Criados `core/types.ts` (interfaces `WorldPoint`, `CameraPoint`,
+  `ScreenPoint`, `SegmentPoint`, `SpriteRect`, `SpriteSlot`, `SegmentColorSet`, `Segment`),
+  `core/constants.ts` (`KEY as const`, `COLORS` tipado com `SegmentColorSet`), `core/sprites.ts`
+  (35 entradas de `SPRITES` + `SCALE`, `BILLBOARDS`, `PLANTS`, `CARS`), `core/background.ts`
+  (`SKY`, `HILLS`, `TREES`). Typecheck passa.
