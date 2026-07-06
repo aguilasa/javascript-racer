@@ -83,6 +83,7 @@ construtor e expõe um método `segment(...)` equivalente a `Renderer.segment()`
 - Implementado conversão de cor CSS string → número Phaser via `Phaser.Display.Color.HexStringToColor(str).color`
 - Validado `mise exec -- npm run build` - build concluído sem erros
 - Validado visualmente com teste temporário em `Game.ts` (segmento com coordenadas fabricadas) - trapézios renderizaram corretamente com grama, rumble, pista, marcadores de faixa e neblina, teste removido
+- **Nota posterior (CORR-PHASER-003):** A implementação original usava `number[][]` para `fillPoints`, mas Phaser espera objetos `{x, y}`. O bug foi corrigido em CORR-PHASER-003, convertendo para `Phaser.Math.Vector2` explicitamente. O teste visual original pode não ter detectado o problema porque grama/neblina usam `fillRect` (não afetados) e a verificação visual pode não ter sido suficientemente detalhada.
 
 **Problemas encontrados:**
 - Nenhum

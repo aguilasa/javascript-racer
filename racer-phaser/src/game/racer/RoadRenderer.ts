@@ -32,25 +32,25 @@ export class RoadRenderer {
 
     // Rumble strips (two trapezoids)
     this.polygon([
-      [x1 - w1 - r1, y1],
-      [x1 - w1, y1],
-      [x2 - w2, y2],
-      [x2 - w2 - r2, y2],
+      { x: x1 - w1 - r1, y: y1 },
+      { x: x1 - w1,      y: y1 },
+      { x: x2 - w2,      y: y2 },
+      { x: x2 - w2 - r2, y: y2 },
     ], this.colorToNumber(color.rumble));
 
     this.polygon([
-      [x1 + w1 + r1, y1],
-      [x1 + w1, y1],
-      [x2 + w2, y2],
-      [x2 + w2 + r2, y2],
+      { x: x1 + w1 + r1, y: y1 },
+      { x: x1 + w1,      y: y1 },
+      { x: x2 + w2,      y: y2 },
+      { x: x2 + w2 + r2, y: y2 },
     ], this.colorToNumber(color.rumble));
 
     // Road surface (trapezoid)
     this.polygon([
-      [x1 - w1, y1],
-      [x1 + w1, y1],
-      [x2 + w2, y2],
-      [x2 - w2, y2],
+      { x: x1 - w1, y: y1 },
+      { x: x1 + w1, y: y1 },
+      { x: x2 + w2, y: y2 },
+      { x: x2 - w2, y: y2 },
     ], this.colorToNumber(color.road));
 
     // Lane markers
@@ -61,10 +61,10 @@ export class RoadRenderer {
       let lanex2 = x2 - w2 + lanew2;
       for (let lane = 1; lane < lanes; lanex1 += lanew1, lanex2 += lanew2, lane++) {
         this.polygon([
-          [lanex1 - l1 / 2, y1],
-          [lanex1 + l1 / 2, y1],
-          [lanex2 + l2 / 2, y2],
-          [lanex2 - l2 / 2, y2],
+          { x: lanex1 - l1 / 2, y: y1 },
+          { x: lanex1 + l1 / 2, y: y1 },
+          { x: lanex2 + l2 / 2, y: y2 },
+          { x: lanex2 - l2 / 2, y: y2 },
         ], this.colorToNumber(color.lane));
       }
     }
@@ -81,9 +81,10 @@ export class RoadRenderer {
     }
   }
 
-  private polygon(points: number[][], color: number): void {
+  private polygon(points: { x: number; y: number }[], color: number): void {
     this.graphics.fillStyle(color, 1);
-    this.graphics.fillPoints(points, true);
+    const vectorPoints = points.map(p => new Phaser.Math.Vector2(p.x, p.y));
+    this.graphics.fillPoints(vectorPoints, true);
   }
 
   private rumbleWidth(projectedRoadWidth: number, lanes: number): number {
