@@ -12,6 +12,7 @@ export class Game extends Scene
     private racerEngine!: RacerEngine;
     private roadRenderer!: RoadRenderer;
     private playerSprite!: Phaser.GameObjects.Image;
+    private keys!: { left: Phaser.Input.Keyboard.Key; right: Phaser.Input.Keyboard.Key; up: Phaser.Input.Keyboard.Key; down: Phaser.Input.Keyboard.Key; a: Phaser.Input.Keyboard.Key; d: Phaser.Input.Keyboard.Key; w: Phaser.Input.Keyboard.Key; s: Phaser.Input.Keyboard.Key };
 
     private gdt = 0; // accumulated time for fixed timestep
     private step = 1 / 60; // fixed timestep (60 FPS)
@@ -33,12 +34,9 @@ export class Game extends Scene
         // Create player sprite pool (single image reused)
         this.playerSprite = this.add.image(0, 0, 'sprites');
         this.playerSprite.setOrigin(0.5, 1);
-    }
 
-    update (time: number, delta: number)
-    {
-        // Update input flags from keyboard
-        const keys = this.input.keyboard!.addKeys({
+        // Setup keyboard input (called once, not every frame)
+        this.keys = this.input.keyboard!.addKeys({
             left: Phaser.Input.Keyboard.KeyCodes.LEFT,
             right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
             up: Phaser.Input.Keyboard.KeyCodes.UP,
@@ -47,12 +45,16 @@ export class Game extends Scene
             d: Phaser.Input.Keyboard.KeyCodes.D,
             w: Phaser.Input.Keyboard.KeyCodes.W,
             s: Phaser.Input.Keyboard.KeyCodes.S,
-        });
+        }) as typeof this.keys;
+    }
 
-        this.racerEngine.keyLeft = (keys as any).left.isDown || (keys as any).a.isDown;
-        this.racerEngine.keyRight = (keys as any).right.isDown || (keys as any).d.isDown;
-        this.racerEngine.keyFaster = (keys as any).up.isDown || (keys as any).w.isDown;
-        this.racerEngine.keySlower = (keys as any).down.isDown || (keys as any).s.isDown;
+    update (time: number, delta: number)
+    {
+        // Update input flags from keyboard
+        this.racerEngine.keyLeft = this.keys.left.isDown || this.keys.a.isDown;
+        this.racerEngine.keyRight = this.keys.right.isDown || this.keys.d.isDown;
+        this.racerEngine.keyFaster = this.keys.up.isDown || this.keys.w.isDown;
+        this.racerEngine.keySlower = this.keys.down.isDown || this.keys.s.isDown;
 
         // Fixed timestep accumulator (same pattern as GameLoop.start)
         const dt = Math.min(1, delta / 1000);

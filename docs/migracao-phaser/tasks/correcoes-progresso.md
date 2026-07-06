@@ -15,7 +15,7 @@
 | CORR-PHASER-009 | Game.renderRoad() reindexação errada + reuso de um maxy final estático — pista não desenha nada | Crítica | [x] concluído |
 | CORR-PHASER-010 | Game.renderPlayer() passa o objeto SpriteRect para setFrame() em vez do nome do frame | Alta | [x] concluído |
 | CORR-PHASER-011 | Game.renderPlayer() inverte cameraDepth/playerZ — escala do jogador ~1000x errada | Alta | [x] concluído |
-| CORR-PHASER-012 | Game.update() chama this.input.keyboard.addKeys(...) a cada frame em vez de uma única vez | Baixa | [ ] pendente |
+| CORR-PHASER-012 | Game.update() chama this.input.keyboard.addKeys(...) a cada frame em vez de uma única vez | Baixa | [x] concluído |
 
 ## Checklist
 
@@ -30,7 +30,7 @@
 - [x] CORR-PHASER-009 — corrigir reindexação e culling de `Game.renderRoad()`
 - [x] CORR-PHASER-010 — usar o nome do frame (string) em `setFrame()`, não o objeto `SpriteRect`
 - [x] CORR-PHASER-011 — corrigir razão `cameraDepth/playerZ` (não invertida) em `renderPlayer()`
-- [ ] CORR-PHASER-012 — mover `addKeys(...)` de `update()` para `create()`
+- [x] CORR-PHASER-012 — mover `addKeys(...)` de `update()` para `create()`
 
 ## Detalhes por correção
 
