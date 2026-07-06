@@ -27,7 +27,7 @@
 | CORR-RACER-022 | `scenery.ts` omite 7 das 9 billboards fixas do início de `resetSprites()` | Crítica | [x] concluída |
 | CORR-RACER-023 | `Hud.updateSpeed()` normaliza por `maxSpeed` em vez de usar a fórmula fixa `5 * Math.round(speed/500)` | Crítica | [x] concluída |
 | CORR-RACER-024 | `Hud` não inicializa o recorde persistido de volta mais rápida (default `180s` + exibição inicial) | Alta | [x] concluída |
-| CORR-RACER-025 | `Hud.onLapComplete()` usa `<` em vez de `<=` ao comparar com o recorde salvo (empate não vira novo recorde) | Baixa | [ ] pendente |
+| CORR-RACER-025 | `Hud.onLapComplete()` usa `<` em vez de `<=` ao comparar com o recorde salvo (empate não vira novo recorde) | Baixa | [x] concluída |
 
 ## Checklist
 
@@ -54,7 +54,7 @@
 - [x] CORR-RACER-022 — adicionar as 7 chamadas de billboard faltantes (segmentos 60-180) em `scenery.ts`
 - [x] CORR-RACER-023 — corrigir `Hud.updateSpeed()` para `5 * Math.round(speed/500)`, sem `maxSpeed`
 - [x] CORR-RACER-024 — `Hud` seedar `Dom.storage.fast_lap_time` (default `180`) e exibir o valor inicial no construtor
-- [ ] CORR-RACER-025 — `Hud.onLapComplete()` usar `<=` em vez de `<` na comparação com o recorde
+- [x] CORR-RACER-025 — `Hud.onLapComplete()` usar `<=` em vez de `<` na comparação com o recorde
 
 ## Detalhes por correção
 

@@ -32,7 +32,7 @@ export class Hud {
     this.setIfChanged('last_lap_time', this.lastLapTimeDom, value);
 
     const fastLapTime = parseFloat(Dom.storage.fast_lap_time || '0');
-    if (!fastLapTime || lapTime < fastLapTime) {
+    if (!fastLapTime || lapTime <= fastLapTime) {
       Dom.storage.fast_lap_time = String(lapTime);
       this.setIfChanged('fast_lap_time', this.fastLapTimeDom, value);
       Dom.addClassName(this.fastLapTimeDom, 'fastest');
