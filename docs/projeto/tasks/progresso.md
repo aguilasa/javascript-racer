@@ -39,7 +39,7 @@ RACER-TASK-19 (a única tarefa de merge, 👤).
 | -- | ------ | ------------ | ------ |
 | RACER-TASK-08 | Criar a classe `Road` (DSL de construção de pista) | RACER-TASK-04, RACER-TASK-05 | ✅ Concluído |
 | RACER-TASK-09 | Criar a classe base `RacerGame` + `TweakUI` | RACER-TASK-06, RACER-TASK-07, RACER-TASK-08 | ✅ Concluído |
-| RACER-TASK-10 | Portar v1 (`RacerGameV1`) e validar contra o original | RACER-TASK-09 | ⬜ Pendente |
+| RACER-TASK-10 | Portar v1 (`RacerGameV1`) e validar contra o original | RACER-TASK-09 | ✅ Concluído |
 
 ### Fase 3 — Portar v2 (curvas)
 
@@ -129,7 +129,7 @@ RACER-TASK-01 ──┬──→ RACER-TASK-02
 
 - [x] `core/Road.ts` (DSL completa)
 - [x] `core/RacerGame.ts` (classe base) + `core/TweakUI.ts`
-- [ ] `v1.html` jogável, comparável à `v1.straight.html` original
+- [x] `v1.html` jogável, comparável à `v1.straight.html` original
 
 ### Fase 3 — v2
 
@@ -221,3 +221,7 @@ das 19 tarefas acima:
   protegidos, `update()`/`render()`/`reset()`/`start()` finais) e `core/TweakUI.ts` (handlers de
   tweak UI com `bind()`/`refresh()`). `Renderer.ctx` tornado público para `clearRect`. `StatsPanel`
   recebe `'fps'` como parentId. Typecheck passa.
+- **RACER-TASK-10 (2026-07-06):** Criado `src/versions/v1-straight/RacerGameV1.ts` (extends RacerGame,
+  sem overrides — base já corresponde ao comportamento da v1). Atualizado `main.ts` para instanciar
+  e iniciar RacerGameV1. Typecheck e build passam. Validação visual requer execução manual
+  de `npm run dev` e comparação lado a lado com `v1.straight.html`.
