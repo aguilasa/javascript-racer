@@ -30,7 +30,7 @@ RACER-TASK-19 (a única tarefa de merge, 👤).
 | -- | ------ | ------------ | ------ |
 | RACER-TASK-04 | Portar tipos, constantes e tabelas de sprites/background | RACER-TASK-03 | ✅ Concluído |
 | RACER-TASK-05 | Portar `Dom` e `Util` | RACER-TASK-04 | ✅ Concluído |
-| RACER-TASK-06 | Portar `GameLoop`, `AssetLoader`, `InputController`, `StatsPanel`, `MusicPlayer` | RACER-TASK-05 | ⬜ Pendente |
+| RACER-TASK-06 | Portar `GameLoop`, `AssetLoader`, `InputController`, `StatsPanel`, `MusicPlayer` | RACER-TASK-05 | ✅ Concluído |
 | RACER-TASK-07 | Portar `Renderer` | RACER-TASK-04, RACER-TASK-05 | ⬜ Pendente |
 
 ### Fase 2 — Portar v1 (estrada reta)
@@ -121,7 +121,7 @@ RACER-TASK-01 ──┬──→ RACER-TASK-02
 
 - [x] `core/types.ts`, `core/constants.ts`, `core/sprites.ts`, `core/background.ts`
 - [x] `core/dom.ts`, `core/util.ts`
-- [ ] `core/GameLoop.ts`, `core/AssetLoader.ts`, `core/InputController.ts`, `core/StatsPanel.ts`, `core/MusicPlayer.ts`
+- [x] `core/GameLoop.ts`, `core/AssetLoader.ts`, `core/InputController.ts`, `core/StatsPanel.ts`, `core/MusicPlayer.ts`
 - [ ] `core/Renderer.ts`
 - [ ] `npm run typecheck` sem erros
 
@@ -201,3 +201,10 @@ das 19 tarefas acima:
   `set`, `on`, `un`, `show`, `blur`, `addClassName`, `removeClassName`, `toggleClassName`,
   `storage`) e `core/util.ts` (16 funções exportadas; `project` usa `SegmentPoint`;
   `randomChoice<T>` genérico). Fórmulas idênticas ao original. Typecheck passa.
+- **RACER-TASK-06 (2026-07-05):** Criadas 5 classes em `core/`: `GameLoop` (acumulador de passo
+  fixo, `requestAnimationFrame`), `AssetLoader` (`loadImages` retorna `Promise`), `InputController`
+  (`bind` encapsula listeners de teclado), `StatsPanel` (usa `stats.js`, FPS via `begin`/`end`),
+  `MusicPlayer` (loop, volume 0.05, persistência de mute via `localStorage`). Problema: parâmetros
+  `private readonly` no construtor de `GameLoop` proibidos por `erasableSyntaxOnly` — corrigido
+  usando campos explícitos. `stats.js` não expõe `current()` nos tipos — FPS calculado via
+  `begin()`/`end()`. Typecheck passa.
