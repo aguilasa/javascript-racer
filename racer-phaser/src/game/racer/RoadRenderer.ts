@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser';
 import type { Scene } from 'phaser';
 import type { SegmentColorSet } from './types';
 import { COLORS } from './constants';
@@ -96,6 +97,11 @@ export class RoadRenderer {
   }
 
   private colorToNumber(cssColor: string): number {
+    // COLORS.START/FINISH usam nomes CSS ('white'/'black'), não hex — HexStringToColor só
+    // entende hex e, para uma entrada não reconhecida, retorna silenciosamente um Color()
+    // default (preto), então tratamos os dois nomes usados explicitamente antes de delegar.
+    if (cssColor === 'white') return 0xffffff;
+    if (cssColor === 'black') return 0x000000;
     return Phaser.Display.Color.HexStringToColor(cssColor).color;
   }
 }
