@@ -59,7 +59,7 @@ RACER-TASK-19 (a única tarefa de merge, 👤).
 | -- | ------ | ------------ | ------ |
 | RACER-TASK-13 | Portar `Car` e `TrafficManager` (IA de tráfego) | RACER-TASK-12 | ✅ Concluído |
 | RACER-TASK-14 | Portar `scenery` (sprites de cenário) e `Hud` | RACER-TASK-12 | ✅ Concluído |
-| RACER-TASK-15 | Portar v4 (`RacerGameV4` + tweak UI de `lanes`) e validar contra o original | RACER-TASK-13, RACER-TASK-14 | 🔄 Em andamento |
+| RACER-TASK-15 | Portar v4 (`RacerGameV4` + tweak UI de `lanes`) e validar contra o original | RACER-TASK-13, RACER-TASK-14 | ✅ Concluído |
 
 ### Fase 6 — Polimento, documentação e merge
 

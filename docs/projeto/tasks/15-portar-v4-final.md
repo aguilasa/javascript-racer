@@ -93,7 +93,7 @@ duplicar a classe, só adicionar o controle que faltava.
 
 **Resumo do que foi feito:**
 1. Criado `RacerGameV4.ts` estendendo `RacerGameV3` com:
-   - Integração de `TrafficManager` e `Hud` (inicializados em `onReset`)
+   - Integração de `TrafficManager` e `Hud` (inicializados em `onReset`, depois movido para `buildRoad`)
    - `buildRoad()` com traçado completo da v4 (retas, S-curves, morros, bumps) + `resetSprites` + `resetCars`
    - `addBumps()` privado (8 segmentos curtos com variações de altura)
    - `updateExtras()` com colisão contra sprites de cenário e carros, lógica de lap time
@@ -106,8 +106,18 @@ duplicar a classe, só adicionar o controle que faltava.
    - Modificado limite de `playerX` para usar `offRoadHardLimit` em vez de hardcoded `-2, 2`
    - Adicionado `segment.clip = maxy` no render base (necessário para clipping de sprites/carros)
    - Adicionado parâmetro `maxy` a `renderExtraLayer`
+   - Adicionado ponto de extensão `updateTraffic(dt, playerSegment)` chamado antes de `updateLateralForces`
 4. Controle de `lanes` já estava implementado em `TweakUI.ts` (linhas 28-32)
 5. Typecheck e build passaram sem erros
+6. **Validação visual realizada após correções CORR-RACER-026 a CORR-RACER-035:**
+   - `v4.html` carrega sem erros no console
+   - Pista desenhada normalmente (retas, curvas, morros, bumps)
+   - Faixa quadriculada de largada/chegada visível
+   - Tráfego se move com velocidade correta (não ~60x devagar)
+   - Sprites de cenário e carros de tráfego aparecem na tela
+   - Sprites de cenário ancorados corretamente pela borda (não invadem a pista)
+   - Cronômetro de volta funciona (não reseta a cada frame)
+   - Comportamento geral comparável a `v4.final.html`
 
 **Problemas encontrados:**
 - Inicialmente tentei usar construtor para inicializar `trafficManager` e `hud`, mas `RacerGame` não tem construtor. Solução: usar `onReset()` hook
