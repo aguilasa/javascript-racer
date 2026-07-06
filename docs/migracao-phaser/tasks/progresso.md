@@ -37,7 +37,7 @@ PHASER-TASK-20 (a única tarefa de merge, 👤).
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| PHASER-TASK-06 | Criar `RoadRenderer` (`Graphics`) — desenho estático de um segmento | PHASER-TASK-04, PHASER-TASK-05 | ⬜ Pendente |
+| PHASER-TASK-06 | Criar `RoadRenderer` (`Graphics`) — desenho estático de um segmento | PHASER-TASK-04, PHASER-TASK-05 | ✅ Concluído |
 | PHASER-TASK-07 | Integrar `Road`+`RoadRenderer` na `Game` scene (pista fixa, câmera parada) | PHASER-TASK-06 | ⬜ Pendente |
 
 ### Fase 3 — Motor do jogo e player
