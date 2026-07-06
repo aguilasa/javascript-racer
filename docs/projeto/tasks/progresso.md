@@ -29,7 +29,7 @@ RACER-TASK-19 (a única tarefa de merge, 👤).
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
 | RACER-TASK-04 | Portar tipos, constantes e tabelas de sprites/background | RACER-TASK-03 | ✅ Concluído |
-| RACER-TASK-05 | Portar `Dom` e `Util` | RACER-TASK-04 | ⬜ Pendente |
+| RACER-TASK-05 | Portar `Dom` e `Util` | RACER-TASK-04 | ✅ Concluído |
 | RACER-TASK-06 | Portar `GameLoop`, `AssetLoader`, `InputController`, `StatsPanel`, `MusicPlayer` | RACER-TASK-05 | ⬜ Pendente |
 | RACER-TASK-07 | Portar `Renderer` | RACER-TASK-04, RACER-TASK-05 | ⬜ Pendente |
 
@@ -120,7 +120,7 @@ RACER-TASK-01 ──┬──→ RACER-TASK-02
 ### Fase 1 — Núcleo compartilhado
 
 - [x] `core/types.ts`, `core/constants.ts`, `core/sprites.ts`, `core/background.ts`
-- [ ] `core/dom.ts`, `core/util.ts`
+- [x] `core/dom.ts`, `core/util.ts`
 - [ ] `core/GameLoop.ts`, `core/AssetLoader.ts`, `core/InputController.ts`, `core/StatsPanel.ts`, `core/MusicPlayer.ts`
 - [ ] `core/Renderer.ts`
 - [ ] `npm run typecheck` sem erros
@@ -197,3 +197,7 @@ das 19 tarefas acima:
   `core/constants.ts` (`KEY as const`, `COLORS` tipado com `SegmentColorSet`), `core/sprites.ts`
   (35 entradas de `SPRITES` + `SCALE`, `BILLBOARDS`, `PLANTS`, `CARS`), `core/background.ts`
   (`SKY`, `HILLS`, `TREES`). Typecheck passa.
+- **RACER-TASK-05 (2026-07-05):** Criados `core/dom.ts` (`Dom` como objeto exportado com `get`,
+  `set`, `on`, `un`, `show`, `blur`, `addClassName`, `removeClassName`, `toggleClassName`,
+  `storage`) e `core/util.ts` (16 funções exportadas; `project` usa `SegmentPoint`;
+  `randomChoice<T>` genérico). Fórmulas idênticas ao original. Typecheck passa.
