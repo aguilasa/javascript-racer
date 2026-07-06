@@ -1,0 +1,27 @@
+# IDEs / editors
+.idea/
+.vscode/
+*.iml
+*.sublime-project
+*.sublime-workspace
+
+# OS cruft
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# AI assistant tooling (local session state, not project config)
+.claude/
+.devin/
+
+# Ruby (Rakefile / sprite_factory)
+.bundle/
+Gemfile.lock
+*.gem
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp
+*~
