@@ -38,6 +38,7 @@
 | CORR-RACER-033 | `RacerGameV4.buildRoad()` nunca chama `markStartFinish()` — pista sem faixa de largada/chegada | Alta | [x] concluída |
 | CORR-RACER-034 | `TrafficManager` construído em `onReset()` com `this.road` ainda `undefined` — `v4.html` quebra ao carregar | Crítica | [x] concluída |
 | CORR-RACER-035 | Sprites de cenário usam âncora horizontal de carro (`-0.5`) em vez da âncora por lado do original — invadem a pista | Crítica | [x] concluída |
+| CORR-RACER-036 | RACER-TASK-16 concluída sem atualizar frontmatter/checklist do próprio arquivo da tarefa | Baixa | [ ] pendente |
 
 ## Checklist
 
@@ -75,6 +76,7 @@
 - [x] CORR-RACER-033 — chamar `this.road.markStartFinish(this.playerZ)` em `RacerGameV4.buildRoad()`
 - [x] CORR-RACER-034 — mover a construção de `TrafficManager` de `onReset()` para `buildRoad()`
 - [x] CORR-RACER-035 — calcular `offsetX` por lado (`sprite.offset < 0 ? -1 : 0`) para sprites de cenário em vez de `-0.5`
+- [ ] CORR-RACER-036 — atualizar `status`/checklist de `16-revisar-duplicacao-e-tipos.md` para refletir a conclusão real
 
 ## Detalhes por correção
 
@@ -480,3 +482,16 @@
 - **Fix:** No ramo de sprites de cenário de `renderExtraLayer`, calcular
   `offsetX = obj.sprite.offset < 0 ? -1 : 0` em vez do literal `-0.5`; o ramo de carros manteve
   `-0.5`.
+
+### CORR-RACER-036
+
+- **Alvo com problema:** `docs/projeto/tasks/16-revisar-duplicacao-e-tipos.md`
+  (frontmatter/checklist)
+- **Sintoma:** `progresso.md` marca RACER-TASK-16 como concluída e o Log de Execução da tarefa
+  descreve o trabalho feito, mas o frontmatter do arquivo ainda diz `status: pendente` e todos os
+  itens do "Critério de conclusão" seguem desmarcados — apesar de a verificação independente
+  desta revisão confirmar que o trabalho foi de fato feito corretamente (zero `any`/`as any`
+  remanescentes, sem duplicação óbvia entre `RacerGameV1`…`V4`, `typecheck`/`build` limpos, diff
+  do commit `36d9bb1` behavior-neutro).
+- **Fix:** Atualizar `status` para `concluído` e marcar `[x]` todos os itens do Critério de
+  conclusão em `16-revisar-duplicacao-e-tipos.md`.
