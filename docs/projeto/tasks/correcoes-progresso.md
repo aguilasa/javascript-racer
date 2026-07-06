@@ -28,6 +28,12 @@
 | CORR-RACER-023 | `Hud.updateSpeed()` normaliza por `maxSpeed` em vez de usar a fórmula fixa `5 * Math.round(speed/500)` | Crítica | [x] concluída |
 | CORR-RACER-024 | `Hud` não inicializa o recorde persistido de volta mais rápida (default `180s` + exibição inicial) | Alta | [x] concluída |
 | CORR-RACER-025 | `Hud.onLapComplete()` usa `<` em vez de `<=` ao comparar com o recorde salvo (empate não vira novo recorde) | Baixa | [x] concluída |
+| CORR-RACER-026 | `RacerGameV4.startPosition` nunca é atualizado — cronometragem de volta reinicia a cada frame | Crítica | [ ] pendente |
+| CORR-RACER-027 | `TrafficManager` instanciado com `segmentLength` no lugar de `maxSpeed` — velocidade do tráfego ~60x errada | Crítica | [ ] pendente |
+| CORR-RACER-028 | `renderExtraLayer` descarta quase todos os sprites/carros por um filtro de `clip` inexistente no original | Crítica | [ ] pendente |
+| CORR-RACER-029 | Segunda passada de render inclui o segmento mais próximo (`n=0`), que o original exclui | Baixa | [ ] pendente |
+| CORR-RACER-030 | `updateCars`/colisão rodam no fim de `update()`, usando `playerX`/`speed` já mutados neste frame | Baixa | [ ] pendente |
+| CORR-RACER-031 | RACER-TASK-15 marcada como concluída sem a comparação lado a lado exigida pelo critério de conclusão | Alta | [ ] pendente |
 
 ## Checklist
 
@@ -55,6 +61,12 @@
 - [x] CORR-RACER-023 — corrigir `Hud.updateSpeed()` para `5 * Math.round(speed/500)`, sem `maxSpeed`
 - [x] CORR-RACER-024 — `Hud` seedar `Dom.storage.fast_lap_time` (default `180`) e exibir o valor inicial no construtor
 - [x] CORR-RACER-025 — `Hud.onLapComplete()` usar `<=` em vez de `<` na comparação com o recorde
+- [ ] CORR-RACER-026 — capturar `startPosition` do frame em `updateParallax` para uso em `updateExtras`
+- [ ] CORR-RACER-027 — instanciar `TrafficManager` com `this.maxSpeed` em vez de `this.segmentLength`
+- [ ] CORR-RACER-028 — remover o filtro `if ((segment.clip ?? maxy) >= maxy) continue;` de `renderExtraLayer`
+- [ ] CORR-RACER-029 — iniciar o laço de `renderExtraLayer` em `n = 1`, não `n = 0`
+- [ ] CORR-RACER-030 — mover `updateCars` para um novo ponto de extensão chamado antes de `updateLateralForces`
+- [ ] CORR-RACER-031 — reverter status da RACER-TASK-15 até a comparação lado a lado ser feita de verdade
 
 ## Detalhes por correção
 
@@ -358,3 +370,58 @@
   (`lapTime < fastLapTime`) — um empate exato cai no `else`, removendo a classe `fastest` em vez
   de reafirmá-la. Divergência de baixo impacto prático, mas real.
 - **Fix:** Trocar `lapTime < fastLapTime` por `lapTime <= fastLapTime`.
+
+### CORR-RACER-026
+
+- **Alvo com problema:** `app/src/versions/v4-final/RacerGameV4.ts` (`startPosition`)
+- **Sintoma:** `this.startPosition` é declarado (`= 0`) e nunca reatribuído. `updateExtras()` usa
+  esse campo sempre-zero para checar `startPosition < playerZ`, condição que fica sempre
+  verdadeira — o cronômetro da volta atual reseta a cada frame assim que `currentLapTime` deixa
+  de ser `0`, nunca acumulando um tempo de volta real.
+- **Fix:** Capturar o `startPosition` do frame dentro de `updateParallax` (que já o recebe como
+  parâmetro e roda antes de `updateExtras` no mesmo tick), atribuindo a `this.startPosition`.
+
+### CORR-RACER-027
+
+- **Alvo com problema:** `app/src/versions/v4-final/RacerGameV4.ts` (`onReset`)
+- **Sintoma:** `new TrafficManager(this.road, 200, this.segmentLength)` passa `segmentLength`
+  (200) no lugar de `maxSpeed` (12000) como terceiro argumento — carros de tráfego calculados com
+  velocidade ~60x menor que o pretendido, e esterço da IA com magnitude inflada na mesma
+  proporção.
+- **Fix:** Trocar para `new TrafficManager(this.road, 200, this.maxSpeed)`.
+
+### CORR-RACER-028
+
+- **Alvo com problema:** `app/src/versions/v4-final/RacerGameV4.ts` (`renderExtraLayer`)
+- **Sintoma:** Filtro `if ((segment.clip ?? maxy) >= maxy) continue;` sem equivalente no
+  original — como `maxy` recebido é o valor final (mais restritivo) da primeira passada e
+  `segment.clip` de cada segmento foi gravado antes disso, a condição é verdadeira para quase
+  todo segmento, descartando a maioria dos sprites/carros da segunda passada de renderização.
+- **Fix:** Remover essa linha de filtro; o recorte por horizonte já é feito corretamente via o
+  parâmetro `clipY` de `Renderer.sprite`.
+
+### CORR-RACER-029
+
+- **Alvo com problema:** `app/src/versions/v4-final/RacerGameV4.ts` (`renderExtraLayer`)
+- **Sintoma:** Laço `for (let n = 0; ...)` inclui o segmento mais próximo da câmera (`n=0`); o
+  original (`for(n = drawDistance-1; n > 0; n--)`) nunca o inclui na segunda passada.
+- **Fix:** Iniciar o laço em `n = 1`.
+
+### CORR-RACER-030
+
+- **Alvo com problema:** `app/src/core/RacerGame.ts` / `app/src/versions/v4-final/RacerGameV4.ts`
+- **Sintoma:** `updateCars` roda dentro de `updateExtras`, chamada ao final de `update()` — a IA
+  de tráfego reage a `playerX`/`speed` já atualizados neste frame, não aos valores commitados no
+  frame anterior como no original (`docs/05-v4-final.md#55`, item 1).
+- **Fix:** Adicionar um ponto de extensão chamado no início de `update()` (antes de
+  `updateLateralForces`) para `updateCars`, mantendo o restante de `updateExtras` como está.
+
+### CORR-RACER-031
+
+- **Alvo com problema:** `docs/projeto/tasks/progresso.md` (status da RACER-TASK-15) e
+  `docs/projeto/tasks/15-portar-v4-final.md` (Log de Execução)
+- **Sintoma:** Log de Execução só menciona typecheck/build, sem registrar a comparação lado a
+  lado com `v4.final.html` exigida pelo critério de conclusão — e três bugs facilmente visíveis
+  (`CORR-RACER-026`/`027`/`028`) confirmam que essa comparação não foi de fato feita.
+- **Fix:** Reverter o status da RACER-TASK-15 até `CORR-RACER-026` a `030` serem aplicadas e a
+  validação lado a lado ser executada e documentada de verdade.
