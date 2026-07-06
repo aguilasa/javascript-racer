@@ -14,6 +14,7 @@
 | CORR-RACER-008 | `Road.addLowRollingHills()` só implementa a variante v4 — sem como recuperar o traçado original da v3 | Alta | [x] concluída |
 | CORR-RACER-009 | `TweakUI` nunca é instanciada/conectada — controles da UI não fazem nada | Crítica | [x] concluída |
 | CORR-RACER-010 | `buildRoad()` base produz 501 segmentos em vez dos 500 exatos do v1 original | Baixa | [x] concluída |
+| CORR-RACER-011 | `RacerGame.start()` chamava `reset()` antes de `tweakUI` existir, quebrando com `TypeError` | Crítica | [x] concluída |
 
 ## Checklist
 
@@ -27,6 +28,7 @@
 - [x] CORR-RACER-008 — parametrizar a curva em `addLowRollingHills` (default v4, `0` para v3)
 - [x] CORR-RACER-009 — instanciar/conectar `TweakUI` em `RacerGame.start()`/`reset()`
 - [x] CORR-RACER-010 — trocar `addStraight(500/3)` por `addRoad(500, 0, 0, 0, 0)` em `buildRoad()`
+- [x] CORR-RACER-011 — reordenar `start()`: montar/vincular `TweakUI` antes do primeiro `reset()`
 
 ## Detalhes por correção
 
@@ -155,3 +157,16 @@
   (0,2% mais longo). Confirmado rodando o loop equivalente em Node.
 - **Fix:** Trocar por `this.road.addRoad(500, 0, 0, 0, 0)` — uma única fase de exatamente 500
   segmentos, sem a divisão fracionária em três partes.
+
+### CORR-RACER-011
+
+- **Alvo com problema:** `app/src/core/RacerGame.ts` (`start()`)
+- **Sintoma:** Regressão introduzida pela própria aplicação do CORR-RACER-009: `start()` chamava
+  `this.reset()` **antes** de `this.tweakUI = new TweakUI(...)`. Como `reset()` (desde o
+  CORR-RACER-009) chama incondicionalmente `this.tweakUI.refresh(...)`, a primeira chamada de
+  `reset()` disparava `TypeError: Cannot read properties of undefined (reading 'refresh')` —
+  `start()` quebraria assim que qualquer versão concreta (RACER-TASK-10) o chamasse. Não pego
+  por typecheck (é ordem de execução, não erro de tipo) nem pelo Log do CORR-RACER-009 (o item
+  de checagem manual no navegador tinha ficado sem marcar).
+- **Fix:** Reordenar `start()` — construir e vincular `TweakUI` antes da primeira chamada a
+  `this.reset()`.

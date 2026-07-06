@@ -253,10 +253,10 @@ export abstract class RacerGame {
     this.background = images[0]!
     this.sprites    = images[1]!
 
-    this.reset()
-
     this.tweakUI = new TweakUI((options) => this.reset(options))
     this.tweakUI.bind()
+
+    this.reset()
 
     const input = new InputController()
     input.bind([
