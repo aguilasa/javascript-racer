@@ -37,7 +37,7 @@ RACER-TASK-19 (a única tarefa de merge, 👤).
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| RACER-TASK-08 | Criar a classe `Road` (DSL de construção de pista) | RACER-TASK-04, RACER-TASK-05 | ⬜ Pendente |
+| RACER-TASK-08 | Criar a classe `Road` (DSL de construção de pista) | RACER-TASK-04, RACER-TASK-05 | ✅ Concluído |
 | RACER-TASK-09 | Criar a classe base `RacerGame` + `TweakUI` | RACER-TASK-06, RACER-TASK-07, RACER-TASK-08 | ⬜ Pendente |
 | RACER-TASK-10 | Portar v1 (`RacerGameV1`) e validar contra o original | RACER-TASK-09 | ⬜ Pendente |
 
@@ -127,7 +127,7 @@ RACER-TASK-01 ──┬──→ RACER-TASK-02
 
 ### Fase 2 — v1
 
-- [ ] `core/Road.ts` (DSL completa)
+- [x] `core/Road.ts` (DSL completa)
 - [ ] `core/RacerGame.ts` (classe base) + `core/TweakUI.ts`
 - [ ] `v1.html` jogável, comparável à `v1.straight.html` original
 
@@ -213,3 +213,7 @@ das 19 tarefas acima:
   `ctx` no construtor. Fórmulas idênticas ao original. Corrigido `sprites.ts`: removida anotação
   `Record<string, SpriteRect>` em `_S` (ocultava nomes de propriedades no spread), passou a usar
   acesso por ponto. Typecheck passa.
+- **RACER-TASK-08 (2026-07-05):** Criado `core/Road.ts` com DSL completa (12 métodos públicos
+  + `lastY` privado) e `export const ROAD` com `LENGTH`/`HILL`/`CURVE`. `addLowRollingHills`
+  usa a versão da v4 (com `ROAD.CURVE.EASY` nos trechos internos, diferente da v3 que usava 0).
+  `markStartFinish` extrai lógica de START/FINISH de `resetRoad`. Typecheck passa.
