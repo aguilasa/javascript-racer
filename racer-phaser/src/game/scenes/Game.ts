@@ -102,16 +102,18 @@ export class Game extends Scene
         const bounce = (1.5 * Math.random() * speedPercent * resolution) * (Math.random() < 0.5 ? -1 : 1);
 
         // Choose sprite based on steer and updown (same logic as Renderer.player())
-        let spriteRect;
+        let frameName: string;
         if (steer < 0)
-            spriteRect = (updown > 0) ? SPRITES.PLAYER_UPHILL_LEFT : SPRITES.PLAYER_LEFT;
+            frameName = (updown > 0) ? 'PLAYER_UPHILL_LEFT' : 'PLAYER_LEFT';
         else if (steer > 0)
-            spriteRect = (updown > 0) ? SPRITES.PLAYER_UPHILL_RIGHT : SPRITES.PLAYER_RIGHT;
+            frameName = (updown > 0) ? 'PLAYER_UPHILL_RIGHT' : 'PLAYER_RIGHT';
         else
-            spriteRect = (updown > 0) ? SPRITES.PLAYER_UPHILL_STRAIGHT : SPRITES.PLAYER_STRAIGHT;
+            frameName = (updown > 0) ? 'PLAYER_UPHILL_STRAIGHT' : 'PLAYER_STRAIGHT';
+
+        const spriteRect = SPRITES[frameName];
 
         // Set frame and position
-        this.playerSprite.setFrame(spriteRect);
+        this.playerSprite.setFrame(frameName);
         this.playerSprite.setPosition(state.width / 2, state.screenY + bounce);
 
         // Scale: same formula as Renderer.sprite() for player
