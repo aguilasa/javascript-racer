@@ -73,22 +73,28 @@ original é montar o `TweakUI` em `start()`, uma única vez, antes ou logo após
 
 ## Verificação
 
-- [ ] `grep -rn "new TweakUI" app/src/` retorna pelo menos uma ocorrência dentro de
+- [x] `grep -rn "new TweakUI" app/src/` retorna pelo menos uma ocorrência dentro de
       `RacerGame.start()`
-- [ ] `RacerGame.reset()` chama `this.tweakUI.refresh(...)` de forma incondicional (mesma
+- [x] `RacerGame.reset()` chama `this.tweakUI.refresh(...)` de forma incondicional (mesma
       posição/frequência do `refreshTweakUI()` original)
 - [ ] Manualmente (ou via `mise exec -- npm run dev`), mover o slider `roadWidth`/`cameraHeight`/
       etc. de fato altera o comportamento do jogo (reconstrução da pista/render), e o `<span>`
       de valor atual reflete o número correto
-- [ ] `cd app && mise exec -- npm run typecheck && mise exec -- npm run build` continuam
+- [x] `cd app && mise exec -- npm run typecheck && mise exec -- npm run build` continuam
       passando sem erro
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Importado `TweakUI` em `RacerGame.ts`. Adicionado campo
+`protected tweakUI!: TweakUI`. Em `start()`, após `reset()`, instanciado `new TweakUI((options) =>
+this.reset(options))` e chamado `.bind()` para registrar listeners de change. Em `reset()`,
+após `onReset()`, chamado `this.tweakUI.refresh({ lanes, roadWidth, cameraHeight, drawDistance,
+fieldOfView, fogDensity })` incondicionalmente — reproduzindo `refreshTweakUI()` do original.
+Typecheck passa.
 
-**Problemas encontrados:**
+**Problemas encontrados:** Nenhum.
 
 **Arquivos criados/modificados:**
+- `app/src/core/RacerGame.ts` (import TweakUI, campo, instanciação em start(), refresh em reset())

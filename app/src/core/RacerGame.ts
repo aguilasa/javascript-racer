@@ -7,6 +7,7 @@ import { InputController } from './InputController'
 import { Renderer } from './Renderer'
 import { Road } from './Road'
 import { StatsPanel } from './StatsPanel'
+import { TweakUI } from './TweakUI'
 import * as Util from './util'
 
 export interface ResetOptions {
@@ -61,6 +62,7 @@ export abstract class RacerGame {
   protected background!: HTMLImageElement
   protected sprites!:    HTMLImageElement
   protected stats!:      StatsPanel
+  protected tweakUI!:    TweakUI
 
   // Extension points (Template Method pattern)
 
@@ -219,6 +221,15 @@ export abstract class RacerGame {
 
     this.onReset(options)
 
+    this.tweakUI.refresh({
+      lanes:        this.lanes,
+      roadWidth:    this.roadWidth,
+      cameraHeight: this.cameraHeight,
+      drawDistance: this.drawDistance,
+      fieldOfView:  this.fieldOfView,
+      fogDensity:   this.fogDensity,
+    })
+
     if (!this.road || this.road.segments.length === 0 || options.segmentLength || options.rumbleLength)
       this.buildRoad()
   }
@@ -243,6 +254,9 @@ export abstract class RacerGame {
     this.sprites    = images[1]!
 
     this.reset()
+
+    this.tweakUI = new TweakUI((options) => this.reset(options))
+    this.tweakUI.bind()
 
     const input = new InputController()
     input.bind([
