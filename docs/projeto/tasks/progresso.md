@@ -22,7 +22,7 @@ RACER-TASK-19 (a única tarefa de merge, 👤).
 | -- | ------ | ------------ | ------ |
 | RACER-TASK-01 | Criar branch e o scaffold do projeto Vite (`vanilla-ts`) em `app/` | — | ✅ Concluído |
 | RACER-TASK-02 | Configurar multi-page (index + v1–v4) e copiar assets para `app/public/` | RACER-TASK-01 | ✅ Concluído |
-| RACER-TASK-03 | Instalar/tipar `stats.js` via npm e criar a estrutura de pastas `src/core/`, `src/versions/*` | RACER-TASK-01 | ⬜ Pendente |
+| RACER-TASK-03 | Instalar/tipar `stats.js` via npm e criar a estrutura de pastas `src/core/`, `src/versions/*` | RACER-TASK-01 | ✅ Concluído |
 
 ### Fase 1 — Núcleo compartilhado (`core/`)
 
@@ -114,8 +114,8 @@ RACER-TASK-01 ──┬──→ RACER-TASK-02
 - [x] `tsconfig.json` com `strict: true` + `noUncheckedIndexedAccess: true`
 - [x] `vite.config.ts` com 5 entradas (`index`, `v1`…`v4`)
 - [x] `images/` e `music/` copiados para `app/public/`
-- [ ] `stats.js` instalado via npm e tipado
-- [ ] Estrutura de pastas `src/core/`, `src/versions/v1-straight/`…`v4-final/` criada (vazia)
+- [x] `stats.js` instalado via npm e tipado
+- [x] Estrutura de pastas `src/core/`, `src/versions/v1-straight/`…`v4-final/` criada (vazia)
 
 ### Fase 1 — Núcleo compartilhado
 
@@ -189,3 +189,6 @@ das 19 tarefas acima:
   idêntico aos originais. Criado `vite.config.ts` com 5 entradas. Copiados `images/` e `music/`
   para `app/public/`. Criados stubs de `main.ts` para cada versão (necessário para o build
   resolver os entry points). CSS importado via `style.css` nos stubs. Typecheck e build passam.
+- **RACER-TASK-03 (2026-07-05):** Instalado `stats.js` (dep) e `@types/stats.js` (devDep) via
+  npm. Criada pasta `src/core/`. Pastas `src/versions/v*` já existiam do RACER-TASK-02. Typecheck
+  passa.

@@ -63,19 +63,25 @@ npm run typecheck
 
 ## Critério de conclusão
 
-- [ ] `stats.js` instalado como dependência em `app/package.json`
-- [ ] Tipos disponíveis (via `@types/stats.js` ou `.d.ts` local em `src/types/`)
-- [ ] `src/core/` criado (vazio)
-- [ ] `src/versions/v1-straight/`, `v2-curves/`, `v3-hills/`, `v4-final/` criados (vazios)
-- [ ] `npm run typecheck` sem erros
-- [ ] Nenhum arquivo fora de `app/` foi alterado
+- [x] `stats.js` instalado como dependência em `app/package.json`
+- [x] Tipos disponíveis (via `@types/stats.js` — versão 0.17.4 existe no npm)
+- [x] `src/core/` criado (vazio, com `.gitkeep`)
+- [x] `src/versions/v1-straight/`, `v2-curves/`, `v3-hills/`, `v4-final/` criados (já existiam do RACER-TASK-02)
+- [x] `npm run typecheck` sem erros
+- [x] Nenhum arquivo fora de `app/` foi alterado
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-05
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Verificado que `@types/stats.js` existe no npm (v0.17.4). Instalado
+`stats.js` como dependência de runtime e `@types/stats.js` como devDependency. Criada pasta
+`app/src/core/` com `.gitkeep`. As pastas `src/versions/v*` já existiam do RACER-TASK-02.
+Typecheck passou sem erros.
 
-**Problemas encontrados:**
+**Problemas encontrados:** Nenhum.
 
 **Arquivos criados/modificados:**
+- `app/package.json` (adicionados `stats.js` e `@types/stats.js`)
+- `app/package-lock.json` (atualizado pelo npm install)
+- `app/src/core/.gitkeep` (criado)

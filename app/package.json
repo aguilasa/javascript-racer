@@ -10,7 +10,11 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@types/stats.js": "^0.17.4",
     "typescript": "~6.0.2",
     "vite": "^8.1.1"
+  },
+  "dependencies": {
+    "stats.js": "^0.17.0"
   }
 }
