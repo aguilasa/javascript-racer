@@ -14,8 +14,8 @@ export class Hud {
     this.fastLapTimeDom = Dom.get('fast_lap_time_value');
   }
 
-  updateSpeed(speed: number, maxSpeed: number): void {
-    const value = Math.round(speed / maxSpeed * 500 / 5) * 5;
+  updateSpeed(speed: number): void {
+    const value = 5 * Math.round(speed / 500);
     this.setIfChanged('speed', this.speedDom, value);
   }
 
