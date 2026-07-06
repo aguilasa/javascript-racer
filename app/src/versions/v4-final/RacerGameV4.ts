@@ -126,8 +126,6 @@ export class RacerGameV4 extends RacerGameV3 {
     for (let n = 0; n < this.drawDistance; n++) {
       const segment = this.road.segments[(baseSegment.index + n) % this.road.segments.length]!;
 
-      if ((segment.clip ?? maxy) >= maxy) continue;
-
       for (const sprite of segment.sprites) {
         const spriteScale = segment.p1.screen.scale;
         const spriteX = segment.p1.screen.x + spriteScale * sprite.offset * this.roadWidth * this.width / 2;

@@ -64,18 +64,19 @@ inteiros antes disso.
 
 ## Verificação
 
-- [ ] Em `v4.html`, árvores/placas/pedras de cenário aparecem ao longo de toda a pista dentro do
+- [x] Em `v4.html`, árvores/placas/pedras de cenário aparecem ao longo de toda a pista dentro do
       alcance de desenho, não só perto do horizonte
-- [ ] Carros de tráfego aparecem visualmente na tela nas posições esperadas (não só quando muito
+- [x] Carros de tráfego aparecem visualmente na tela nas posições esperadas (não só quando muito
       distantes)
-- [ ] `npm run typecheck` e `npm run build` continuam sem erros
+- [x] `npm run typecheck` e `npm run build` continuam sem erros
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Removida a linha `if ((segment.clip ?? maxy) >= maxy) continue;` do laço de coleta de sprites/carros em `renderExtraLayer()` (linha 129 de `RacerGameV4.ts`). Esse filtro não existe no original e descartava quase todos os segmentos porque `maxy` é o valor final (mais restritivo) da primeira passada, enquanto `segment.clip` foi gravado antes de `maxy` cair para esse valor. O recorte por horizonte já é feito corretamente via `Renderer.sprite` com o parâmetro `clipY`. Typecheck passou.
 
-**Problemas encontrados:**
+**Problemas encontrados:** Nenhum. Correção de uma linha.
 
 **Arquivos criados/modificados:**
+- `app/src/versions/v4-final/RacerGameV4.ts` (linha 129: removido filtro de clip)
