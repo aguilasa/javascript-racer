@@ -117,8 +117,8 @@ export class Game extends Scene
         this.playerSprite.setPosition(state.width / 2, state.screenY + bounce);
 
         // Scale: same formula as Renderer.sprite() for player
-        const scale = (spriteRect.w * state.playerZ / state.cameraDepth * state.width / 2) * (SPRITES.SCALE * roadWidth);
-        const destH = (spriteRect.h * state.playerZ / state.cameraDepth * state.width / 2) * (SPRITES.SCALE * roadWidth);
+        const scale = (spriteRect.w * state.cameraDepth / state.playerZ * state.width / 2) * (SPRITES.SCALE * roadWidth);
+        const destH = (spriteRect.h * state.cameraDepth / state.playerZ * state.width / 2) * (SPRITES.SCALE * roadWidth);
         this.playerSprite.setScale(scale / spriteRect.w, destH / spriteRect.h);
     }
 }
