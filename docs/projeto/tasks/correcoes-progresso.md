@@ -22,7 +22,7 @@
 | CORR-RACER-016 | `RacerGame.update()` calcula `playerSegment` após avançar `position`, um frame fora de fase com o original | Baixa | [x] concluída |
 | CORR-RACER-018 | `RacerGame.update()` chama `updateParallax()` após o bloco de aceleração, usando a velocidade já atualizada em vez da anterior ao frame | Baixa | [x] concluída |
 | CORR-RACER-019 | `RacerGameV3` duplica o `render()` inteiro em vez de usar pontos de extensão (ponto de extensão da arquitetura não seguido) | Alta | [x] concluída |
-| CORR-RACER-020 | RACER-TASK-12 marcada como concluída sem a comparação lado a lado exigida pelo critério de conclusão | Alta | [ ] pendente |
+| CORR-RACER-020 | RACER-TASK-12 marcada como concluída sem a comparação lado a lado exigida pelo critério de conclusão | Alta | [x] concluída |
 
 ## Checklist
 
@@ -44,7 +44,7 @@
 - [x] CORR-RACER-016 — calcular `playerSegment` antes de avançar `position` em `update()`
 - [x] CORR-RACER-018 — mover `updateParallax()` para antes do bloco de aceleração em `update()`
 - [x] CORR-RACER-019 — remover `render()` de `RacerGameV3`, adicionar `getBackgroundOffsetY` ao `render()` compartilhado e corrigir a fração de `playerY`
-- [ ] CORR-RACER-020 — executar a validação lado a lado real da RACER-TASK-12 antes de mantê-la como concluída
+- [x] CORR-RACER-020 — executar a validação lado a lado real da RACER-TASK-12 antes de mantê-la como concluída
 
 ## Detalhes por correção
 

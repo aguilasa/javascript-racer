@@ -51,7 +51,7 @@ RACER-TASK-19 (a única tarefa de merge, 👤).
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| RACER-TASK-12 | Portar v3 (`RacerGameV3`) e validar contra o original | RACER-TASK-11 | ✅ Concluído |
+| RACER-TASK-12 | Portar v3 (`RacerGameV3`) e validar contra o original | RACER-TASK-11 | 🔄 Em andamento |
 
 ### Fase 5 — Portar v4 (versão final)
 
@@ -137,7 +137,7 @@ RACER-TASK-01 ──┬──→ RACER-TASK-02
 
 ### Fase 4 — v3
 
-- [x] `v3.html` jogável, comparável à `v3.hills.html` original
+- [ ] `v3.html` jogável, comparável à `v3.hills.html` original
 
 ### Fase 5 — v4
 
