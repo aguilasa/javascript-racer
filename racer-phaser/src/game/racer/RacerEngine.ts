@@ -185,12 +185,14 @@ export class RacerEngine {
     return playerY + this.cameraHeight
   }
 
-  private getPlayerScreenY(_playerSegment: Segment): number {
-    return this.height
+  private getPlayerScreenY(playerSegment: Segment): number {
+    const playerPercent = Util.percentRemaining(this.position + this.playerZ, this.segmentLength)
+    const cameraY = Util.interpolate(playerSegment.p1.camera.y, playerSegment.p2.camera.y, playerPercent)
+    return (this.height / 2) - (this.cameraDepth / this.playerZ * cameraY * this.height / 2)
   }
 
-  private getPlayerUpdown(_playerSegment: Segment): number {
-    return 0
+  private getPlayerUpdown(playerSegment: Segment): number {
+    return playerSegment.p2.world.y - playerSegment.p1.world.y
   }
 
   getRenderState(): RenderState {
