@@ -39,6 +39,7 @@
 | CORR-RACER-034 | `TrafficManager` construído em `onReset()` com `this.road` ainda `undefined` — `v4.html` quebra ao carregar | Crítica | [x] concluída |
 | CORR-RACER-035 | Sprites de cenário usam âncora horizontal de carro (`-0.5`) em vez da âncora por lado do original — invadem a pista | Crítica | [x] concluída |
 | CORR-RACER-036 | RACER-TASK-16 concluída sem atualizar frontmatter/checklist do próprio arquivo da tarefa | Baixa | [x] concluída |
+| CORR-RACER-037 | Checklist geral (Fase 6) de `progresso.md` não reflete conclusão real das RACER-TASK-16/17 | Baixa | [ ] pendente |
 
 ## Checklist
 
@@ -77,6 +78,7 @@
 - [x] CORR-RACER-034 — mover a construção de `TrafficManager` de `onReset()` para `buildRoad()`
 - [x] CORR-RACER-035 — calcular `offsetX` por lado (`sprite.offset < 0 ? -1 : 0`) para sprites de cenário em vez de `-0.5`
 - [x] CORR-RACER-036 — atualizar `status`/checklist de `16-revisar-duplicacao-e-tipos.md` para refletir a conclusão real
+- [ ] CORR-RACER-037 — marcar `[x]` os três primeiros itens de "Checklist geral" → "Fase 6" em `progresso.md`
 
 ## Detalhes por correção
 
@@ -495,3 +497,14 @@
   do commit `36d9bb1` behavior-neutro).
 - **Fix:** Atualizar `status` para `concluído` e marcar `[x]` todos os itens do Critério de
   conclusão em `16-revisar-duplicacao-e-tipos.md`.
+
+### CORR-RACER-037
+
+- **Alvo com problema:** `docs/projeto/tasks/progresso.md` (seção "Checklist geral" → "Fase 6")
+- **Sintoma:** A tabela de resumo já marca RACER-TASK-16 e RACER-TASK-17 como `✅ Concluído`, mas
+  a seção separada "Checklist geral" → "Fase 6" segue com os três primeiros itens ("Sem
+  duplicação evitável...", "Zero `any` não-justificado", "`CLAUDE.md`/`docs/` atualizados...")
+  desmarcados, apesar de todos já estarem confirmados como satisfeitos (verificado nesta e na
+  revisão anterior).
+- **Fix:** Marcar `[x]` os três primeiros itens dessa seção; os dois últimos (dependentes de
+  RACER-TASK-18/19) permanecem `[ ]`.
