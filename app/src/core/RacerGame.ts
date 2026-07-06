@@ -126,9 +126,9 @@ export abstract class RacerGame {
   // Core update — final (not overridden)
   update(dt: number): void {
     const startPosition  = this.position
-    this.position        = Util.increase(this.position, dt * this.speed, this.road.trackLength)
-
     const playerSegment  = this.road.findSegment(this.position + this.playerZ)
+
+    this.position        = Util.increase(this.position, dt * this.speed, this.road.trackLength)
 
     this.updateLateralForces(dt, playerSegment)
 

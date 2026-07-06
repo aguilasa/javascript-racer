@@ -19,7 +19,7 @@
 | CORR-RACER-013 | RACER-TASK-10 marcada como concluída sem a comparação lado a lado exigida pelo critério de conclusão | Alta | [x] concluída |
 | CORR-RACER-014 | Painel de FPS (`stats.js` do npm) fica fixo sobre os links de navegação em vez de fluir na tabela de controles | Alta | [x] concluída |
 | CORR-RACER-015 | `Road.addSCurves()` embute alturas de colina (v3/v4) — v2 exibe hills onde deveria ser só curva plana | Crítica | [x] concluída |
-| CORR-RACER-016 | `RacerGame.update()` calcula `playerSegment` após avançar `position`, um frame fora de fase com o original | Baixa | [ ] pendente |
+| CORR-RACER-016 | `RacerGame.update()` calcula `playerSegment` após avançar `position`, um frame fora de fase com o original | Baixa | [x] concluída |
 
 ## Checklist
 
@@ -38,7 +38,7 @@
 - [x] CORR-RACER-013 — reverter status da RACER-TASK-10 até a comparação lado a lado ser feita de verdade
 - [x] CORR-RACER-014 — neutralizar `position:fixed` do `stats.js` npm em `StatsPanel.ts`
 - [x] CORR-RACER-015 — parametrizar altura em `addSCurves` (default v3/v4, `false` para v2)
-- [ ] CORR-RACER-016 — calcular `playerSegment` antes de avançar `position` em `update()`
+- [x] CORR-RACER-016 — calcular `playerSegment` antes de avançar `position` em `update()`
 
 ## Detalhes por correção
 
