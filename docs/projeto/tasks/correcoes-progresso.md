@@ -24,6 +24,10 @@
 | CORR-RACER-019 | `RacerGameV3` duplica o `render()` inteiro em vez de usar pontos de extensão (ponto de extensão da arquitetura não seguido) | Alta | [x] concluída |
 | CORR-RACER-020 | RACER-TASK-12 marcada como concluída sem a comparação lado a lado exigida pelo critério de conclusão | Alta | [x] concluída |
 | CORR-RACER-021 | `TrafficManager` duplica `findSegment`/`segmentLength` de `Road` e depende de `trackLength` já calculado | Alta | [x] concluída |
+| CORR-RACER-022 | `scenery.ts` omite 7 das 9 billboards fixas do início de `resetSprites()` | Crítica | [x] concluída |
+| CORR-RACER-023 | `Hud.updateSpeed()` normaliza por `maxSpeed` em vez de usar a fórmula fixa `5 * Math.round(speed/500)` | Crítica | [ ] pendente |
+| CORR-RACER-024 | `Hud` não inicializa o recorde persistido de volta mais rápida (default `180s` + exibição inicial) | Alta | [ ] pendente |
+| CORR-RACER-025 | `Hud.onLapComplete()` usa `<` em vez de `<=` ao comparar com o recorde salvo (empate não vira novo recorde) | Baixa | [ ] pendente |
 
 ## Checklist
 
@@ -47,6 +51,10 @@
 - [x] CORR-RACER-019 — remover `render()` de `RacerGameV3`, adicionar `getBackgroundOffsetY` ao `render()` compartilhado e corrigir a fração de `playerY`
 - [x] CORR-RACER-020 — executar a validação lado a lado real da RACER-TASK-12 antes de mantê-la como concluída
 - [x] CORR-RACER-021 — `TrafficManager` usar `road.findSegment()`/`road.segmentLength` em vez de derivar de `trackLength`
+- [x] CORR-RACER-022 — adicionar as 7 chamadas de billboard faltantes (segmentos 60-180) em `scenery.ts`
+- [ ] CORR-RACER-023 — corrigir `Hud.updateSpeed()` para `5 * Math.round(speed/500)`, sem `maxSpeed`
+- [ ] CORR-RACER-024 — `Hud` seedar `Dom.storage.fast_lap_time` (default `180`) e exibir o valor inicial no construtor
+- [ ] CORR-RACER-025 — `Hud.onLapComplete()` usar `<=` em vez de `<` na comparação com o recorde
 
 ## Detalhes por correção
 
@@ -306,3 +314,47 @@
 - **Fix:** Remover o `findSegment` privado de `TrafficManager` e usar `road.findSegment(z)`;
   expor `segmentLength` publicamente em `Road` (getter) para os dois cálculos restantes que
   precisam do valor numérico (`resetCars()`, `car.percent`).
+
+### CORR-RACER-022
+
+- **Alvo com problema:** `app/src/versions/v4-final/scenery.ts` (`resetSprites`)
+- **Sintoma:** O original (`v4.final.html`, linhas 545-553) tem nove chamadas fixas de billboard
+  no início (segmentos 20-180, incremento 20: `BILLBOARD07,06,08,09,01,02,03,04,05`). O
+  `scenery.ts` portado só tem as duas primeiras (segmentos 20 e 40) — faltam as sete de 60 a 180.
+  O Log de Execução da RACER-TASK-14 afirma preservação exata dos parâmetros, o que não é
+  verdade aqui. Causa provável: `docs/05-v4-final.md` abrevia esse bloco com um comentário
+  (`// ... mais placas fixas próximas ao início`), e a implementação não consultou
+  `v4.final.html` diretamente para recuperar as linhas elididas.
+- **Fix:** Adicionar as sete chamadas `addSprite(road, N, SPRITES.BILLBOARDxx, -1)` faltantes
+  (segmentos 60/80/100/120/140/160/180, sprites `BILLBOARD08/09/01/02/03/04/05`).
+
+### CORR-RACER-023
+
+- **Alvo com problema:** `app/src/versions/v4-final/Hud.ts` (`updateSpeed`)
+- **Sintoma:** Original: `updateHud('speed', 5 * Math.round(speed/500))` — não depende de
+  `maxSpeed`. Portado: `Math.round(speed / maxSpeed * 500 / 5) * 5` — normaliza por `maxSpeed`
+  antes de escalar, uma fórmula diferente. Com `maxSpeed = 12000` (valor real do projeto), a
+  velocidade máxima exibiria `500` no lugar de `120` do original.
+- **Fix:** Trocar por `5 * Math.round(speed/500)`, removendo `maxSpeed` do cálculo.
+
+### CORR-RACER-024
+
+- **Alvo com problema:** `app/src/versions/v4-final/Hud.ts` (construtor)
+- **Sintoma:** O original inicializa `Dom.storage.fast_lap_time = Dom.storage.fast_lap_time ||
+  180` e atualiza o HUD com esse valor uma vez, no callback `ready` de `Game.run`
+  (`v4.final.html`, linhas 625-626). `Hud.ts` portado não faz nada equivalente no construtor —
+  falta parte do "recorde persistido" explicitamente listado no critério de conclusão da
+  RACER-TASK-14. Há precedente direto: `MusicPlayer` (RACER-TASK-06) já se auto-inicializa a
+  partir de `Dom.storage` no próprio construtor, replicando o que era `Game.playMusic()` no
+  original.
+- **Fix:** No construtor de `Hud`, seedar `Dom.storage.fast_lap_time` com `'180'` se ainda não
+  existir, e chamar `setIfChanged('fast_lap_time', ...)` com o valor formatado.
+
+### CORR-RACER-025
+
+- **Alvo com problema:** `app/src/versions/v4-final/Hud.ts` (`onLapComplete`)
+- **Sintoma:** Original usa `<=` (`lastLapTime <= Util.toFloat(Dom.storage.fast_lap_time)`) —
+  uma volta empatada com o recorde ainda conta como novo recorde. Portado usa `<` estrito
+  (`lapTime < fastLapTime`) — um empate exato cai no `else`, removendo a classe `fastest` em vez
+  de reafirmá-la. Divergência de baixo impacto prático, mas real.
+- **Fix:** Trocar `lapTime < fastLapTime` por `lapTime <= fastLapTime`.

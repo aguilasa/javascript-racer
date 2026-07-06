@@ -5,6 +5,13 @@ import { randomChoice, randomInt } from '../../core/util';
 export function resetSprites(road: Road): void {
   addSprite(road, 20, SPRITES.BILLBOARD07, -1);
   addSprite(road, 40, SPRITES.BILLBOARD06, -1);
+  addSprite(road, 60, SPRITES.BILLBOARD08, -1);
+  addSprite(road, 80, SPRITES.BILLBOARD09, -1);
+  addSprite(road, 100, SPRITES.BILLBOARD01, -1);
+  addSprite(road, 120, SPRITES.BILLBOARD02, -1);
+  addSprite(road, 140, SPRITES.BILLBOARD03, -1);
+  addSprite(road, 160, SPRITES.BILLBOARD04, -1);
+  addSprite(road, 180, SPRITES.BILLBOARD05, -1);
 
   addSprite(road, 240, SPRITES.BILLBOARD07, -1.2);
   addSprite(road, 240, SPRITES.BILLBOARD06, 1.2);
