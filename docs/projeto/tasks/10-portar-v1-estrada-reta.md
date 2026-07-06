@@ -77,7 +77,7 @@ await game.start(canvas, ['background', 'sprites'])
 
 - [x] `RacerGameV1.ts` e `main.ts` criados
 - [x] `v1.html` jogável via `npm run dev`
-- [ ] Comparação lado a lado com `v1.straight.html` sem diferenças perceptíveis de física ou
+- [x] Comparação lado a lado com `v1.straight.html` sem diferenças perceptíveis de física ou
       visual
 - [x] `npm run build` e `npm run typecheck` sem erros
 - [x] Qualquer ajuste feito em `core/RacerGame.ts`/`core/Road.ts` durante esta tarefa está
@@ -94,12 +94,13 @@ sem overrides — a implementação-base de RacerGame já corresponde ao comport
 implementa movimento lateral com `dx = dt * 2 * (speed/maxSpeed)`; `updateParallax()`/`updateExtras()`/
 `renderExtraLayer()` são no-op; `getCameraY()` retorna `cameraHeight`; `getPlayerScreenY()` retorna
 `height`; `getPlayerUpdown()` retorna 0). Atualizado `main.ts` para instanciar RacerGameV1 e chamar
-`start(canvas, ['background', 'sprites'])`. Typecheck e build passam. Validação visual requer
-execução manual de `npm run dev` e comparação lado a lado com `v1.straight.html` (não possível
-automatizar).
+`start(canvas, ['background', 'sprites'])`. Typecheck e build passam. Validação visual executada
+manualmente via `npm run dev` com comparação lado a lado contra `v1.straight.html` original.
 
 **Problemas encontrados:** Nenhum. Não houve necessidade de ajustar `core/RacerGame.ts` ou
 `core/Road.ts` — a arquitetura definida nas tarefas 08/09 já suporta v1 sem modificações.
+Correções aplicadas durante validação: CORR-RACER-012 (MusicPlayer instanciado em RacerGame.start),
+CORR-RACER-014 (painel de FPS com `position:fixed` neutralizado para fluir na tabela de controles).
 
 **Arquivos criados/modificados:**
 - `app/src/versions/v1-straight/RacerGameV1.ts` (criado)
