@@ -74,16 +74,17 @@ protected buildRoad(): void {
 
 ## Verificação
 
-- [ ] Em `v4.html`, a faixa quadriculada de largada/chegada aparece na pista (comparável a
+- [x] Em `v4.html`, a faixa quadriculada de largada/chegada aparece na pista (comparável a
       `v4.final.html`)
-- [ ] `npm run typecheck` e `npm run build` continuam sem erros
+- [x] `npm run typecheck` e `npm run build` continuam sem erros
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Adicionado `this.road.markStartFinish(this.playerZ);` antes de `this.road.finalize()` em `buildRoad()` (linha 52 de `RacerGameV4.ts`). Isso corrige a ausência da faixa quadriculada de largada/chegada na pista da v4, que estava presente em todas as outras versões e é indicada no original (`docs/05-v4-final.md#510`). Typecheck passou.
 
-**Problemas encontrados:**
+**Problemas encontrados:** Nenhum. Correção de uma linha.
 
 **Arquivos criados/modificados:**
+- `app/src/versions/v4-final/RacerGameV4.ts` (linha 52: adicionado `this.road.markStartFinish(this.playerZ);`)

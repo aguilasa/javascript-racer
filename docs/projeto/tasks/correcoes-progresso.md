@@ -35,7 +35,7 @@
 | CORR-RACER-030 | `updateCars`/colisão rodam no fim de `update()`, usando `playerX`/`speed` já mutados neste frame | Baixa | [x] concluída |
 | CORR-RACER-031 | RACER-TASK-15 marcada como concluída sem a comparação lado a lado exigida pelo critério de conclusão | Alta | [x] concluída |
 | CORR-RACER-032 | `RacerGameV4.buildRoad()` nunca instancia `this.road` — `v4.html` quebra ao carregar | Crítica | [x] concluída |
-| CORR-RACER-033 | `RacerGameV4.buildRoad()` nunca chama `markStartFinish()` — pista sem faixa de largada/chegada | Alta | [ ] pendente |
+| CORR-RACER-033 | `RacerGameV4.buildRoad()` nunca chama `markStartFinish()` — pista sem faixa de largada/chegada | Alta | [x] concluída |
 
 ## Checklist
 
@@ -70,7 +70,7 @@
 - [x] CORR-RACER-030 — mover `updateCars` para um novo ponto de extensão chamado antes de `updateLateralForces`
 - [x] CORR-RACER-031 — reverter status da RACER-TASK-15 até a comparação lado a lado ser feita de verdade
 - [x] CORR-RACER-032 — instanciar `this.road = new Road(...)` no início de `RacerGameV4.buildRoad()`
-- [ ] CORR-RACER-033 — chamar `this.road.markStartFinish(this.playerZ)` em `RacerGameV4.buildRoad()`
+- [x] CORR-RACER-033 — chamar `this.road.markStartFinish(this.playerZ)` em `RacerGameV4.buildRoad()`
 
 ## Detalhes por correção
 

@@ -49,6 +49,7 @@ export class RacerGameV4 extends RacerGameV3 {
     resetSprites(this.road);
     this.trafficManager.resetCars();
 
+    this.road.markStartFinish(this.playerZ);
     this.road.finalize();
   }
 
