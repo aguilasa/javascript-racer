@@ -67,15 +67,16 @@ refletida nas caixas de seleção do arquivo da tarefa.
 
 ## Verificação
 
-- [ ] Frontmatter de `16-revisar-duplicacao-e-tipos.md` reflete `status: concluído`
-- [ ] Todos os itens do "Critério de conclusão" da tarefa marcados como `[x]`
+- [x] Frontmatter de `16-revisar-duplicacao-e-tipos.md` reflete `status: concluído`
+- [x] Todos os itens do "Critério de conclusão" da tarefa marcados como `[x]`
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Atualizado `status` de `pendente` para `concluído` no frontmatter de `16-revisar-duplicacao-e-tipos.md` e marcado todos os itens do "Critério de conclusão" como `[x]`. A validação independente confirmou que o trabalho da RACER-TASK-16 foi de fato concluído corretamente (zero `any`/`as any` remanescentes, sem duplicação óbvia, typecheck/build limpos).
 
-**Problemas encontrados:**
+**Problemas encontrados:** Nenhum. Correção puramente documental.
 
 **Arquivos criados/modificados:**
+- `docs/projeto/tasks/16-revisar-duplicacao-e-tipos.md` (frontmatter e checklist atualizados)

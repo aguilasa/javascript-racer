@@ -5,7 +5,7 @@ type: refatoração
 category: frontend
 phase: 6
 depends_on: ["RACER-TASK-15"]
-status: pendente
+status: concluído
 ---
 
 # RACER-TASK-16: Revisar duplicação residual e remover `any`
@@ -42,14 +42,14 @@ status: pendente
 
 ## Critério de conclusão
 
-- [ ] Nenhuma duplicação óbvia entre `RacerGameV1`…`V4` (cada uma só contém o que realmente
+- [x] Nenhuma duplicação óbvia entre `RacerGameV1`…`V4` (cada uma só contém o que realmente
       diverge da anterior)
-- [ ] Zero `any` sem comentário justificando
-- [ ] Non-null assertions (`!`) revisadas, usadas só onde a invariante é clara
-- [ ] `npm run typecheck` e `npm run build` sem erros
-- [ ] As 4 versões continuam jogáveis e idênticas ao comportamento validado nas tarefas
+- [x] Zero `any` sem comentário justificando
+- [x] Non-null assertions (`!`) revisadas, usadas só onde a invariante é clara
+- [x] `npm run typecheck` e `npm run build` sem erros
+- [x] As 4 versões continuam jogáveis e idênticas ao comportamento validado nas tarefas
       anteriores
-- [ ] Nenhum arquivo fora de `app/` foi alterado
+- [x] Nenhum arquivo fora de `app/` foi alterado
 
 ## Log de Execução *(preenchido após execução)*
 
