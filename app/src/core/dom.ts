@@ -1,8 +1,8 @@
 type ElementRef = string | HTMLElement | Document
 
-function resolve(id: ElementRef): HTMLElement {
+function resolve(id: ElementRef): HTMLElement | Document {
   if (id instanceof HTMLElement) return id
-  if (id === document) return document.documentElement
+  if (id === document) return document
   const el = document.getElementById(id as string)
   if (!el) throw new Error(`Element not found: ${id}`)
   return el

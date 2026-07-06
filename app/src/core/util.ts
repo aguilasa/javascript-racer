@@ -87,7 +87,7 @@ export function project(
 }
 
 export function overlap(x1: number, w1: number, x2: number, w2: number, percent?: number): boolean {
-  const half = (percent ?? 1) / 2
+  const half = (percent || 1) / 2
   const min1 = x1 - (w1 * half)
   const max1 = x1 + (w1 * half)
   const min2 = x2 - (w2 * half)

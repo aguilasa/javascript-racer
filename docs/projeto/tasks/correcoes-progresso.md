@@ -8,6 +8,7 @@
 | CORR-RACER-002 | Assets de exemplo do template Vite não removidos em `app/src/assets/` | Baixa | [x] concluída |
 | CORR-RACER-003 | Ícone do botão de mute quebra no build de produção (`url()` relativo em CSS bundlado) | Alta | [x] concluída |
 | CORR-RACER-004 | `app/src/main.ts` órfão — não referenciado e fora da estrutura documentada | Baixa | [x] concluída |
+| CORR-RACER-005 | Desvios de comportamento não documentados em `dom.ts`/`util.ts` (`resolve()` e `overlap()`) | Baixa | [x] concluída |
 
 ## Checklist
 
@@ -15,6 +16,7 @@
 - [x] CORR-RACER-002 — remover `typescript.svg`/`vite.svg`/`hero.png` de `app/src/assets/`
 - [x] CORR-RACER-003 — trocar `url(images/mute.png)` por `url(/images/mute.png)` em `app/src/style.css`
 - [x] CORR-RACER-004 — remover `app/src/main.ts` (stub órfão do scaffold original)
+- [x] CORR-RACER-005 — corrigir `overlap()` (`??`→`||`) e `resolve()` (retornar `document`, não `documentElement`)
 
 ## Detalhes por correção
 
@@ -52,3 +54,26 @@
   images/mute.png didn't resolve at build time".
 - **Fix:** Trocar para `url(/images/mute.png)` (caminho absoluto a partir da raiz do site), que
   resolve corretamente tanto em dev quanto em build, independente de onde o Vite emite o CSS.
+
+### CORR-RACER-004
+
+- **Alvo com problema:** `app/src/main.ts`
+- **Sintoma:** Stub deixado pela RACER-TASK-01 ("será preenchido nas próximas tarefas"), mas as
+  RACER-TASK-02/03 criaram os entry points reais em `src/versions/*/main.ts` sem remover o stub.
+  Não é referenciado por nenhuma página HTML nem pelo `vite.config.ts`, e não faz parte da árvore
+  documentada em `02-estrutura-vite.md`.
+- **Fix:** Remover `app/src/main.ts`.
+
+### CORR-RACER-005
+
+- **Alvo com problema:** `app/src/core/util.ts` (`overlap`) e `app/src/core/dom.ts` (`resolve`)
+- **Sintoma:** Duas substituições não documentadas de `||` por `??` (ou equivalente) que
+  divergem do original: (1) `overlap` usa `(percent ?? 1)/2` em vez de `(percent || 1)/2` —
+  diferente do caso de `project` (fallback `0`, equivalente), aqui o fallback é `1`, então
+  `percent = 0` produz resultados diferentes (`0 ?? 1 = 0` vs `0 || 1 = 1`); (2) o helper interno
+  `resolve()` de `dom.ts` retorna `document.documentElement` para `id === document`, em vez do
+  próprio `document` como no original — usado por `Dom.on(document, ...)`, que a RACER-TASK-06
+  (`InputController`) vai depender para o teclado global. Nenhuma das duas mudanças foi
+  mencionada no Log de Execução da RACER-TASK-05, que só disclosed a substituição em `project`.
+- **Fix:** Reverter `overlap` para `(percent || 1)/2`; fazer `resolve()` retornar o próprio
+  `document` (não `documentElement`) para `id === document`.
