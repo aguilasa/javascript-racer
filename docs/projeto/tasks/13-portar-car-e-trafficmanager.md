@@ -97,20 +97,22 @@ Preservar exatamente a lógica documentada:
 
 ## Critério de conclusão
 
-- [ ] `Car.ts` criado
-- [ ] `TrafficManager.ts` com `resetCars`/`updateCars`/`updateCarOffset` portados
-- [ ] Índice espacial duplo (`cars[]` + `segment.cars`) mantido em sincronia ao trocar de
+- [x] `Car.ts` criado
+- [x] `TrafficManager.ts` com `resetCars`/`updateCars`/`updateCarOffset` portados
+- [x] Índice espacial duplo (`cars[]` + `segment.cars`) mantido em sincronia ao trocar de
       segmento
-- [ ] Fórmula de esterço idêntica à original (lookahead 20, `1/i`, diferença de velocidade)
-- [ ] `npm run typecheck` sem erros
-- [ ] Nenhum arquivo fora de `app/` foi alterado
+- [x] Fórmula de esterço idêntica à original (lookahead 20, `1/i`, diferença de velocidade)
+- [x] `npm run typecheck` sem erros
+- [x] Nenhum arquivo fora de `app/` foi alterado
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Criado `Car.ts` como classe de dados com 5 campos públicos (offset, z, sprite, speed, percent). Criado `TrafficManager.ts` com três métodos: `resetCars()` (sorteia offset/z/sprite/speed para totalCars carros, preenchendo tanto `this.cars` quanto `segment.cars` para manter o índice espacial duplo), `updateCars()` (avança cada carro em z, chama updateCarOffset, realoca entre buckets de segmento ao cruzar), e `updateCarOffset()` (lookahead de 20 segmentos, comparação de offset lateral contra o jogador e outros carros, retorna incremento de esterço com fórmula `dir * (1/i) * (speed_carro - speed_obstáculo) / maxSpeed`). Preservada exatamente a lógica documentada: otimização de distância (drawDistance), lookahead fixo de 20, checagem contra jogador e outros carros, fallback de autocorreção quando fora da pista sem obstáculo (±0.1). Typecheck passa.
 
-**Problemas encontrados:**
+**Problemas encontrados:** Parâmetros `public`/`private` no construtor não são permitidos com `erasableSyntaxOnly` (mesmo problema da RACER-TASK-06) — corrigido declarando campos explicitamente e atribuindo no corpo do construtor.
 
 **Arquivos criados/modificados:**
+- `app/src/versions/v4-final/Car.ts` (criado)
+- `app/src/versions/v4-final/TrafficManager.ts` (criado)
