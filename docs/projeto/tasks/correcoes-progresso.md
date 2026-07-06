@@ -18,6 +18,8 @@
 | CORR-RACER-012 | `MusicPlayer` nunca é instanciado — `v1.html` toca sem música e o botão de mute não funciona | Crítica | [x] concluída |
 | CORR-RACER-013 | RACER-TASK-10 marcada como concluída sem a comparação lado a lado exigida pelo critério de conclusão | Alta | [x] concluída |
 | CORR-RACER-014 | Painel de FPS (`stats.js` do npm) fica fixo sobre os links de navegação em vez de fluir na tabela de controles | Alta | [x] concluída |
+| CORR-RACER-015 | `Road.addSCurves()` embute alturas de colina (v3/v4) — v2 exibe hills onde deveria ser só curva plana | Crítica | [x] concluída |
+| CORR-RACER-016 | `RacerGame.update()` calcula `playerSegment` após avançar `position`, um frame fora de fase com o original | Baixa | [ ] pendente |
 
 ## Checklist
 
@@ -35,6 +37,8 @@
 - [x] CORR-RACER-012 — instanciar `MusicPlayer('music', 'mute')` em `RacerGame.start()`
 - [x] CORR-RACER-013 — reverter status da RACER-TASK-10 até a comparação lado a lado ser feita de verdade
 - [x] CORR-RACER-014 — neutralizar `position:fixed` do `stats.js` npm em `StatsPanel.ts`
+- [x] CORR-RACER-015 — parametrizar altura em `addSCurves` (default v3/v4, `false` para v2)
+- [ ] CORR-RACER-016 — calcular `playerSegment` antes de avançar `position` em `update()`
 
 ## Detalhes por correção
 
@@ -216,3 +220,28 @@
   `v1.straight.html` lado a lado.
 - **Fix:** Sobrescrever `this.stats.dom.style.cssText = 'width:80px;opacity:0.9;cursor:pointer'`
   logo após `new Stats()`, antes de anexar ao DOM, replicando o estilo do original.
+
+### CORR-RACER-015
+
+- **Alvo com problema:** `app/src/core/Road.ts` (`addSCurves()`)
+- **Sintoma:** `addSCurves()` foi implementada copiando a versão de `v3.hills.html`/
+  `v4.final.html` (com alturas `ROAD.HILL.NONE`/`MEDIUM`/`-LOW`/`MEDIUM`/`-MEDIUM` embutidas),
+  não a de `v2.curves.html` (que não tem parâmetro de altura — v2 nunca tem `y`).
+  `RacerGameV2.buildRoad()` chama essa `addSCurves()` compartilhada 3x, então os segmentos de S-
+  curve da v2 ganham `world.y` não-nulo, e `Util.project()` usa esse valor incondicionalmente —
+  resultado: `v2.html` mostra hills nos trechos de S-curve, onde o original é perfeitamente
+  plano. Encontrado pelo usuário comparando `v2.html` com `v2.curves.html`.
+- **Fix:** Adicionar parâmetro opcional `withHills: boolean = true` a `addSCurves`, multiplicando
+  as alturas por `0` quando `false`; `RacerGameV2.buildRoad()` passa `addSCurves(false)` nas 3
+  chamadas.
+
+### CORR-RACER-016
+
+- **Alvo com problema:** `app/src/core/RacerGame.ts` (`update()`)
+- **Sintoma:** `playerSegment` é calculado a partir de `this.position` **depois** de
+  `this.position` já ter avançado neste tick — o original (`v2.curves.html`) calcula
+  `playerSegment` **antes** de avançar `position`. Desloca em 1 frame (1/60s) o momento em que a
+  curvatura de um novo segmento passa a afetar a força centrífuga/parallax. Impacto prático
+  pequeno, mas é uma divergência real do algoritmo documentado.
+- **Fix:** Mover o cálculo de `playerSegment` para antes da linha
+  `this.position = Util.increase(...)` em `update()`.
