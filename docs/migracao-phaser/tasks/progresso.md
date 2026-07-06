@@ -44,7 +44,7 @@ PHASER-TASK-20 (a única tarefa de merge, 👤).
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| PHASER-TASK-08 | Criar `RacerEngine` (física/regras fundidas de `RacerGame`+`RacerGameV4`) | PHASER-TASK-07 | ⬜ Pendente |
+| PHASER-TASK-08 | Criar `RacerEngine` (física/regras fundidas de `RacerGame`+`RacerGameV4`) | PHASER-TASK-07 | ✅ Concluído |
 | PHASER-TASK-09 | Ligar input de teclado + passo fixo em `Game.update`; sprite do jogador via pool | PHASER-TASK-08 | ⬜ Pendente |
 
 ### Fase 4 — Parallax
@@ -156,7 +156,7 @@ PHASER-TASK-01 ──┬──→ PHASER-TASK-02 ──┐
 
 ### Fase 3 — Motor e player
 
-- [ ] `src/game/racer/RacerEngine.ts` com `update()`/`render()` fundidos
+- [x] `src/game/racer/RacerEngine.ts` com `update()`/`render()` fundidos
 - [ ] Input de teclado (setas + WASD) via `this.input.keyboard`
 - [ ] Sprite do jogador via pool de `Image`, dirigível
 

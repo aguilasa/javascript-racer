@@ -88,10 +88,25 @@ expõe:
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
 **Resumo do que foi feito:**
+Criado `racer-phaser/src/game/racer/RacerEngine.ts` fundindo `RacerGame` e `RacerGameV4` em uma única classe sem dependência do Phaser. A classe implementa:
+- Campos de configuração/estado (mesmos de `RacerGame`, com `offRoadHardLimit = 3` da v4)
+- Flags de input (`keyLeft`, `keyRight`, `keyFaster`, `keySlower`)
+- `road: Road` instância criada via `reset()`/`buildRoad()` (mesma receita de `RacerGameV4.buildRoad()`, sem `resetSprites()`/`TrafficManager` ainda)
+- Método `reset()`: calcula `cameraDepth`/`playerZ`/`resolution`/`maxSpeed`/`accel`/`breaking`/`decel`/`offRoadDecel`/`offRoadLimit` com as mesmas fórmulas de `RacerGame.reset()`
+- Método `update(dt)`: funde o corpo de `RacerGame.update()` com o comportamento final de v2→v4 já aplicado diretamente (força centrífuga em curvas, offsets de parallax, câmera relativa ao terreno)
+- Método `getRenderState()`: calcula e retorna os dados necessários para desenhar o frame atual (lista de segmentos visíveis já projetados via `Util.project`, posição/escala do jogador) sem desenhar nada
+- `updateLateralForces()`: movimento lateral + força centrífuga
+- `updateParallax()`: offsets de parallax (sky/hill/tree) usando a fórmula da v4
+- `getCameraY()`: retorna `playerY + cameraHeight` (herdado de V3)
+- `getPlayerScreenY()`: retorna `this.height`
+- `getPlayerUpdown()`: retorna 0 (sem hills no player ainda)
 
 **Problemas encontrados:**
+Nenhum.
 
 **Arquivos criados/modificados:**
+- Criado: `racer-phaser/src/game/racer/RacerEngine.ts`
+- Modificado: `docs/migracao-phaser/tasks/progresso.md` (status PHASER-TASK-08 marcado como ✅ Concluído, checklist atualizado)
