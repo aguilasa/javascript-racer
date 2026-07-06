@@ -16,6 +16,8 @@
 | CORR-PHASER-010 | Game.renderPlayer() passa o objeto SpriteRect para setFrame() em vez do nome do frame | Alta | [x] concluído |
 | CORR-PHASER-011 | Game.renderPlayer() inverte cameraDepth/playerZ — escala do jogador ~1000x errada | Alta | [x] concluído |
 | CORR-PHASER-012 | Game.update() chama this.input.keyboard.addKeys(...) a cada frame em vez de uma única vez | Baixa | [x] concluído |
+| CORR-PHASER-013 | segment.clip nunca é resetado — segmentos fantasmas corrompem a pista progressivamente ao dirigir | Crítica | [x] concluído |
+| CORR-PHASER-014 | Checklist de Critério de conclusão da PHASER-TASK-10 não marcado | Baixa | [ ] pendente |
 
 ## Checklist
 
@@ -31,6 +33,8 @@
 - [x] CORR-PHASER-010 — usar o nome do frame (string) em `setFrame()`, não o objeto `SpriteRect`
 - [x] CORR-PHASER-011 — corrigir razão `cameraDepth/playerZ` (não invertida) em `renderPlayer()`
 - [x] CORR-PHASER-012 — mover `addKeys(...)` de `update()` para `create()`
+- [x] CORR-PHASER-013 — resetar `segment.clip` entre frames em `getRenderState()`
+- [ ] CORR-PHASER-014 — marcar checklist da PHASER-TASK-10 (após CORR-PHASER-013 resolvida)
 
 ## Detalhes por correção
 
@@ -131,3 +135,26 @@
 - **Sintoma:** `this.input.keyboard.addKeys(...)` chamado dentro de `update()`, recriado a cada
   frame (60x/s) em vez de uma única vez em `create()`; força `as any` para acessar as teclas
 - **Fix:** mover `addKeys(...)` para `create()`, guardar o resultado tipado como campo da classe
+
+### CORR-PHASER-013
+
+- **Alvo com problema:** `racer-phaser/src/game/racer/RacerEngine.ts` (`getRenderState()`),
+  `racer-phaser/src/game/scenes/Game.ts` (`renderRoad()`)
+- **Sintoma:** `segment.clip` só é definido quando um segmento é aceito, nunca limpo quando deixa
+  de ser — como os objetos `Segment` são persistentes entre frames, segmentos aceitos uma vez
+  continuam "visíveis" para sempre no sinal usado por `renderRoad()`
+  (`if (segment.clip === undefined) continue`, introduzido pela `CORR-PHASER-009`). Confirmado
+  visualmente: a tela inicial (t=0) renderiza perfeitamente (céu, morros, árvores, pista, carro),
+  mas depois de alguns segundos dirigindo a área do céu/fundo fica coberta por formas geométricas
+  degeneradas, piorando progressivamente
+- **Fix:** resetar `clip` (de toda a pista ou da janela do frame anterior) no início de cada
+  `getRenderState()`, ou mudar para uma lista explícita de segmentos visíveis (não depender de
+  estado mutável residual em objetos persistentes)
+
+### CORR-PHASER-014
+
+- **Alvo com problema:** `docs/migracao-phaser/tasks/10-parallax-tilesprite.md`
+- **Sintoma:** tarefa `✅ Concluído`, mas os 5 itens de `## Critério de conclusão` continuam
+  todos `[ ]` (mesmo padrão da `CORR-PHASER-001`)
+- **Fix:** marcar os itens — mas só depois de `CORR-PHASER-013` resolvida e revalidada
+  visualmente, já que o item de validação visual não pode ser marcado como verdadeiro hoje

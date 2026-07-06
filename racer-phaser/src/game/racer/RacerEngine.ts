@@ -195,6 +195,11 @@ export class RacerEngine {
 
     const segments = this.road.segments
 
+    // Reset clip for all segments at the start of each frame
+    // This prevents "ghost segments" from previous frames from being drawn
+    // when they should have been culled in the current frame (CORR-PHASER-013)
+    for (const s of segments) s.clip = undefined
+
     for (let n = 0; n < this.drawDistance; n++) {
       const segment    = segments[(baseSegment.index + n) % segments.length]!
       segment.looped   = segment.index < baseSegment.index
