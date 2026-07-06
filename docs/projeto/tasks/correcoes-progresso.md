@@ -17,6 +17,7 @@
 | CORR-RACER-011 | `RacerGame.start()` chamava `reset()` antes de `tweakUI` existir, quebrando com `TypeError` | Crítica | [x] concluída |
 | CORR-RACER-012 | `MusicPlayer` nunca é instanciado — `v1.html` toca sem música e o botão de mute não funciona | Crítica | [x] concluída |
 | CORR-RACER-013 | RACER-TASK-10 marcada como concluída sem a comparação lado a lado exigida pelo critério de conclusão | Alta | [x] concluída |
+| CORR-RACER-014 | Painel de FPS (`stats.js` do npm) fica fixo sobre os links de navegação em vez de fluir na tabela de controles | Alta | [x] concluída |
 
 ## Checklist
 
@@ -33,6 +34,7 @@
 - [x] CORR-RACER-011 — reordenar `start()`: montar/vincular `TweakUI` antes do primeiro `reset()`
 - [x] CORR-RACER-012 — instanciar `MusicPlayer('music', 'mute')` em `RacerGame.start()`
 - [x] CORR-RACER-013 — reverter status da RACER-TASK-10 até a comparação lado a lado ser feita de verdade
+- [x] CORR-RACER-014 — neutralizar `position:fixed` do `stats.js` npm em `StatsPanel.ts`
 
 ## Detalhes por correção
 
@@ -200,3 +202,17 @@
 - **Fix:** Reverter o status da RACER-TASK-10 em `progresso.md` (e o item correspondente no
   checklist da Fase 2) até que a comparação lado a lado seja de fato executada e documentada no
   Log, só então remarcar como concluída.
+
+### CORR-RACER-014
+
+- **Alvo com problema:** `app/src/core/StatsPanel.ts`
+- **Sintoma:** O `stats.js` vendorizado usado pelo original cria o painel de FPS sem `position`
+  (`width:80px;opacity:0.9;cursor:pointer`), fluindo dentro do `<td id="fps">` da tabela de
+  controles. O pacote **npm** `stats.js` usado por `StatsPanel` (decisão aceita do projeto) define
+  o painel com `position:fixed;top:0;left:0;...` por padrão — como `StatsPanel` também o anexa
+  dentro de `Dom.get('fps')`, o `fixed` inline ignora a célula da tabela e ancora o painel no
+  canto superior-esquerdo da viewport, sobrepondo a linha dos links de navegação
+  (`straight | curves | hills | final`). Encontrado pelo usuário comparando `v1.html` com
+  `v1.straight.html` lado a lado.
+- **Fix:** Sobrescrever `this.stats.dom.style.cssText = 'width:80px;opacity:0.9;cursor:pointer'`
+  logo após `new Stats()`, antes de anexar ao DOM, replicando o estilo do original.

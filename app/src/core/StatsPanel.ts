@@ -9,6 +9,7 @@ export class StatsPanel {
   constructor(parentId: string, id?: string) {
     this.stats = new Stats()
     this.stats.dom.id = id ?? 'stats'
+    this.stats.dom.style.cssText = 'width:80px;opacity:0.9;cursor:pointer'
     Dom.get(parentId).appendChild(this.stats.dom)
 
     const msg = document.createElement('div')
