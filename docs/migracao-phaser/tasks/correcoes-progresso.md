@@ -17,7 +17,7 @@
 | CORR-PHASER-011 | Game.renderPlayer() inverte cameraDepth/playerZ — escala do jogador ~1000x errada | Alta | [x] concluído |
 | CORR-PHASER-012 | Game.update() chama this.input.keyboard.addKeys(...) a cada frame em vez de uma única vez | Baixa | [x] concluído |
 | CORR-PHASER-013 | segment.clip nunca é resetado — segmentos fantasmas corrompem a pista progressivamente ao dirigir | Crítica | [x] concluído |
-| CORR-PHASER-014 | Checklist de Critério de conclusão da PHASER-TASK-10 não marcado | Baixa | [ ] pendente |
+| CORR-PHASER-014 | Checklist de Critério de conclusão da PHASER-TASK-10 não marcado | Baixa | [x] concluído |
 
 ## Checklist
 
@@ -34,7 +34,7 @@
 - [x] CORR-PHASER-011 — corrigir razão `cameraDepth/playerZ` (não invertida) em `renderPlayer()`
 - [x] CORR-PHASER-012 — mover `addKeys(...)` de `update()` para `create()`
 - [x] CORR-PHASER-013 — resetar `segment.clip` entre frames em `getRenderState()`
-- [ ] CORR-PHASER-014 — marcar checklist da PHASER-TASK-10 (após CORR-PHASER-013 resolvida)
+- [x] CORR-PHASER-014 — marcar checklist da PHASER-TASK-10 (após CORR-PHASER-013 resolvida)
 
 ## Detalhes por correção
 

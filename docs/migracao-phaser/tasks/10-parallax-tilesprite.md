@@ -49,11 +49,11 @@ Substituir o blit manual de `Renderer.background()` por três `Phaser.GameObject
 
 ## Critério de conclusão
 
-- [ ] Três `TileSprite` (céu/morros/árvores) com profundidade correta (atrás da pista)
-- [ ] `tilePositionX` atualizado a partir de `skyOffset`/`hillOffset`/`treeOffset`
-- [ ] Validação visual: parallax suave e proporcional em curvas, sem costuras
-- [ ] `mise exec -- npm run build` sem erros
-- [ ] Commit feito em `feature/phaser-port`
+- [x] Três `TileSprite` (céu/morros/árvores) com profundidade correta (atrás da pista)
+- [x] `tilePositionX` atualizado a partir de `skyOffset`/`hillOffset`/`treeOffset`
+- [x] Validação visual: parallax suave e proporcional em curvas, sem costuras
+- [x] `mise exec -- npm run build` sem erros
+- [x] Commit feito em `feature/phaser-port`
 
 ## Log de Execução *(preenchido após execução)*
 
