@@ -32,7 +32,6 @@ export interface RenderState {
 
 export class RacerEngine {
   // Configuration & state (mirroring RacerGame)
-  private fps           = 60
   private step          = 1 / 60
   width         = 1024
   height        = 768
@@ -75,9 +74,6 @@ export class RacerEngine {
 
   // Road instance
   road!: Road
-
-  // Internal state for parallax (captured in updateParallax for use in getRenderState)
-  private startPosition = 0
 
   reset(): void {
     this.cameraDepth  = 1 / Math.tan((this.fieldOfView / 2) * Math.PI / 180)
@@ -163,7 +159,6 @@ export class RacerEngine {
   }
 
   private updateParallax(_dt: number, playerSegment: Segment, startPosition: number): void {
-    this.startPosition = startPosition // captured for use in getRenderState
     const delta = (this.position - startPosition) / this.road.segmentLength
     this.skyOffset = Util.increase(this.skyOffset, this.skySpeed * playerSegment.curve * delta, 1)
     this.hillOffset = Util.increase(this.hillOffset, this.hillSpeed * playerSegment.curve * delta, 1)

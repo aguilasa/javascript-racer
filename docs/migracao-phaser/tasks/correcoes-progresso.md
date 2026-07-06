@@ -11,7 +11,7 @@
 | CORR-PHASER-005 | RoadRenderer.colorToNumber() não entende nomes CSS ('white'/'black') — linha de largada renderiza preta | Alta | [x] concluído |
 | CORR-PHASER-006 | RacerEngine.getPlayerScreenY()/getPlayerUpdown() ficaram no comportamento base (v1) em vez do final v3/v4 | Alta | [x] concluído |
 | CORR-PHASER-007 | RacerEngine duplica addBumps() em vez de reaproveitar Road.addBumps() | Alta | [x] concluído |
-| CORR-PHASER-008 | RacerEngine tem campos privados mortos (fps, startPosition) que quebram tsc --noEmit | Alta | [ ] pendente |
+| CORR-PHASER-008 | RacerEngine tem campos privados mortos (fps, startPosition) que quebram tsc --noEmit | Alta | [x] concluído |
 
 ## Checklist
 
@@ -22,7 +22,7 @@
 - [x] CORR-PHASER-005 — tratar `'white'`/`'black'` explicitamente em `colorToNumber()`
 - [x] CORR-PHASER-006 — fundir `getPlayerScreenY`/`getPlayerUpdown` com o comportamento final v3/v4
 - [x] CORR-PHASER-007 — remover `addBumps()` duplicado de `RacerEngine`, usar `road.addBumps()`
-- [ ] CORR-PHASER-008 — remover campos mortos `fps`/`startPosition` de `RacerEngine`
+- [x] CORR-PHASER-008 — remover campos mortos `fps`/`startPosition` de `RacerEngine`
 
 ## Detalhes por correção
 
