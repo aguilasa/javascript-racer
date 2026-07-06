@@ -1,6 +1,5 @@
 import { RacerGameV2 } from '../v2-curves/RacerGameV2'
 import { Road, ROAD } from '../../core/Road'
-import { BACKGROUND } from '../../core/background'
 import type { Segment } from '../../core/types'
 import * as Util from '../../core/util'
 
@@ -30,79 +29,16 @@ export class RacerGameV3 extends RacerGameV2 {
   }
 
   // updateLateralForces and updateExtras: no changes from v2 — don't override
-  // updateParallax: no changes from v2 — vertical parallax is calculated in render()
+  // updateParallax: no changes from v2 — vertical parallax via getBackgroundOffsetY
 
   protected getCameraY(playerY: number): number {
     // Camera floats at a fixed height above the terrain
     return playerY + this.cameraHeight
   }
 
-  render(): void {
-    const baseSegment   = this.road.findSegment(this.position)
-    const playerSegment = this.road.findSegment(this.position + this.playerZ)
-    const playerPercent = Util.percentRemaining(this.position + this.playerZ, this.segmentLength)
-    const playerY       = Util.interpolate(playerSegment.p1.world.y, playerSegment.p2.world.y, playerPercent)
-    const cameraY       = this.getCameraY(playerY)
-    const startPosition = this.position
-    const basePercent   = Util.percentRemaining(this.position, this.segmentLength)
-    let   maxy          = this.height
-
-    // Curve accumulator (v2+)
-    let x  = 0
-    let dx = -(baseSegment.curve * basePercent)
-
-    this.renderer.ctx.clearRect(0, 0, this.width, this.height)
-
-    // Vertical parallax offset (v3)
-    const skyOffsetY   = this.resolution * this.skySpeed * playerY
-    const hillOffsetY  = this.resolution * this.hillSpeed * playerY
-    const treeOffsetY  = this.resolution * this.treeSpeed * playerY
-
-    this.renderer.background(this.background, this.width, this.height, BACKGROUND.SKY!, this.skyOffset, skyOffsetY)
-    this.renderer.background(this.background, this.width, this.height, BACKGROUND.HILLS!, this.hillOffset, hillOffsetY)
-    this.renderer.background(this.background, this.width, this.height, BACKGROUND.TREES!, this.treeOffset, treeOffsetY)
-
-    const segments = this.road.segments
-
-    for (let n = 0; n < this.drawDistance; n++) {
-      const segment    = segments[(baseSegment.index + n) % segments.length]!
-      segment.looped   = segment.index < baseSegment.index
-      segment.fog      = Util.exponentialFog(n / this.drawDistance, this.fogDensity)
-
-      const cameraZ = this.position - (segment.looped ? this.road.trackLength : 0)
-
-      Util.project(segment.p1, (this.playerX * this.roadWidth) - x, cameraY, cameraZ, this.cameraDepth, this.width, this.height, this.roadWidth)
-      Util.project(segment.p2, (this.playerX * this.roadWidth) - x - dx, cameraY, cameraZ, this.cameraDepth, this.width, this.height, this.roadWidth)
-
-      x  = x + dx
-      dx = dx + segment.curve
-
-      if ((segment.p1.camera.z <= this.cameraDepth) || (segment.p2.screen.y >= segment.p1.screen.y) || (segment.p2.screen.y >= maxy))
-        continue
-
-      this.renderer.segment(
-        this.width, this.lanes,
-        segment.p1.screen.x, segment.p1.screen.y, segment.p1.screen.w,
-        segment.p2.screen.x, segment.p2.screen.y, segment.p2.screen.w,
-        segment.fog!, segment.color,
-      )
-
-      maxy = segment.p2.screen.y
-    }
-
-    this.renderExtraLayer(baseSegment, playerSegment, startPosition, this.playerX, this.playerX * this.roadWidth)
-
-    const steer  = this.speed * (this.keyLeft ? -1 : this.keyRight ? 1 : 0)
-    const updown = this.getPlayerUpdown(playerSegment)
-    const screenY = this.getPlayerScreenY(playerSegment)
-
-    this.renderer.player(
-      this.width, this.height, this.resolution, this.roadWidth,
-      this.sprites, this.speed / this.maxSpeed,
-      this.cameraDepth / this.playerZ,
-      this.width / 2, screenY,
-      steer, updown,
-    )
+  protected getBackgroundOffsetY(playerY: number): number {
+    // Vertical parallax offset (v3) — background layers slide vertically based on playerY
+    return this.resolution * playerY
   }
 
   protected getPlayerScreenY(playerSegment: Segment): number {

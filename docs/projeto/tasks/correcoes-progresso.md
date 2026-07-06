@@ -21,6 +21,8 @@
 | CORR-RACER-015 | `Road.addSCurves()` embute alturas de colina (v3/v4) — v2 exibe hills onde deveria ser só curva plana | Crítica | [x] concluída |
 | CORR-RACER-016 | `RacerGame.update()` calcula `playerSegment` após avançar `position`, um frame fora de fase com o original | Baixa | [x] concluída |
 | CORR-RACER-018 | `RacerGame.update()` chama `updateParallax()` após o bloco de aceleração, usando a velocidade já atualizada em vez da anterior ao frame | Baixa | [x] concluída |
+| CORR-RACER-019 | `RacerGameV3` duplica o `render()` inteiro em vez de usar pontos de extensão (ponto de extensão da arquitetura não seguido) | Alta | [x] concluída |
+| CORR-RACER-020 | RACER-TASK-12 marcada como concluída sem a comparação lado a lado exigida pelo critério de conclusão | Alta | [ ] pendente |
 
 ## Checklist
 
@@ -41,6 +43,8 @@
 - [x] CORR-RACER-015 — parametrizar altura em `addSCurves` (default v3/v4, `false` para v2)
 - [x] CORR-RACER-016 — calcular `playerSegment` antes de avançar `position` em `update()`
 - [x] CORR-RACER-018 — mover `updateParallax()` para antes do bloco de aceleração em `update()`
+- [x] CORR-RACER-019 — remover `render()` de `RacerGameV3`, adicionar `getBackgroundOffsetY` ao `render()` compartilhado e corrigir a fração de `playerY`
+- [ ] CORR-RACER-020 — executar a validação lado a lado real da RACER-TASK-12 antes de mantê-la como concluída
 
 ## Detalhes por correção
 
@@ -259,3 +263,29 @@
   mutado por um passo posterior do próprio `update()`).
 - **Fix:** Mover a chamada `this.updateParallax(dt, playerSegment, startPosition)` para logo após
   `this.updateLateralForces(...)`, antes do bloco de aceleração/frenagem/fora-de-pista.
+
+### CORR-RACER-019
+
+- **Alvo com problema:** `app/src/versions/v3-hills/RacerGameV3.ts` (método `render()`) e
+  `app/src/core/RacerGame.ts` (`render()` compartilhado)
+- **Sintoma:** `RacerGameV3` sobrescreve `render()` por completo, duplicando ~60 linhas do laço de
+  renderização já existente em `core/RacerGame.ts`, em vez de usar só os pontos de extensão
+  previstos pela tarefa (`buildRoad`, `getCameraY`, `updateParallax`, `getPlayerScreenY`,
+  `getPlayerUpdown`). Contradiz `01-arquitetura-alvo.md` ("`render()` ... não é reescrito pelas
+  subclasses") e o comentário `// Core render — final (not overridden)` no próprio código-base.
+  Mascara também um bug na base: `playerY` é calculado com fração fixa `0.5` em vez de
+  `percentRemaining`.
+- **Fix:** Adicionar `getBackgroundOffsetY(playerY)` como novo ponto de extensão no `render()`
+  compartilhado, corrigir a fração de `playerY` para usar `percentRemaining`, e remover o `render()`
+  duplicado de `RacerGameV3` (ver `CORR-RACER-019.md` para o detalhamento completo).
+
+### CORR-RACER-020
+
+- **Alvo com problema:** `docs/projeto/tasks/progresso.md` (status da RACER-TASK-12) e
+  `docs/projeto/tasks/12-portar-v3-colinas.md` (critério de conclusão / Log de Execução)
+- **Sintoma:** Todos os itens do critério de conclusão da tarefa seguem desmarcados e o próprio Log
+  de Execução admite que a validação visual lado a lado "requer execução manual de `npm run dev`" —
+  ou seja, não foi feita — mas `progresso.md` já marca a RACER-TASK-12 como `✅ Concluído`. Mesma
+  classe de violação já corrigida em `CORR-RACER-013` para a RACER-TASK-10.
+- **Fix:** Reverter o status da RACER-TASK-12 até a comparação lado a lado com `v3.hills.html` ser
+  de fato executada e documentada no Log, só então remarcar como concluída.

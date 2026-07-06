@@ -123,6 +123,10 @@ export abstract class RacerGame {
     return 0
   }
 
+  protected getBackgroundOffsetY(_playerY: number): number {
+    return 0
+  }
+
   // Core update — final (not overridden)
   update(dt: number): void {
     const startPosition  = this.position
@@ -152,7 +156,8 @@ export abstract class RacerGame {
   render(): void {
     const baseSegment   = this.road.findSegment(this.position)
     const playerSegment = this.road.findSegment(this.position + this.playerZ)
-    const playerY       = Util.interpolate(playerSegment.p1.world.y, playerSegment.p2.world.y, 0.5)
+    const playerPercent = Util.percentRemaining(this.position + this.playerZ, this.segmentLength)
+    const playerY       = Util.interpolate(playerSegment.p1.world.y, playerSegment.p2.world.y, playerPercent)
     const cameraY       = this.getCameraY(playerY)
     const startPosition = this.position
     const basePercent   = Util.percentRemaining(this.position, this.segmentLength)
@@ -164,9 +169,9 @@ export abstract class RacerGame {
 
     this.renderer.ctx.clearRect(0, 0, this.width, this.height)
 
-    this.renderer.background(this.background, this.width, this.height, BACKGROUND.SKY!, this.skyOffset)
-    this.renderer.background(this.background, this.width, this.height, BACKGROUND.HILLS!, this.hillOffset)
-    this.renderer.background(this.background, this.width, this.height, BACKGROUND.TREES!, this.treeOffset)
+    this.renderer.background(this.background, this.width, this.height, BACKGROUND.SKY!, this.skyOffset, this.skySpeed * this.getBackgroundOffsetY(playerY))
+    this.renderer.background(this.background, this.width, this.height, BACKGROUND.HILLS!, this.hillOffset, this.hillSpeed * this.getBackgroundOffsetY(playerY))
+    this.renderer.background(this.background, this.width, this.height, BACKGROUND.TREES!, this.treeOffset, this.treeSpeed * this.getBackgroundOffsetY(playerY))
 
     const segments = this.road.segments
 
