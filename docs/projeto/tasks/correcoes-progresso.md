@@ -16,7 +16,7 @@
 | CORR-RACER-010 | `buildRoad()` base produz 501 segmentos em vez dos 500 exatos do v1 original | Baixa | [x] concluída |
 | CORR-RACER-011 | `RacerGame.start()` chamava `reset()` antes de `tweakUI` existir, quebrando com `TypeError` | Crítica | [x] concluída |
 | CORR-RACER-012 | `MusicPlayer` nunca é instanciado — `v1.html` toca sem música e o botão de mute não funciona | Crítica | [x] concluída |
-| CORR-RACER-013 | RACER-TASK-10 marcada como concluída sem a comparação lado a lado exigida pelo critério de conclusão | Alta | [ ] pendente |
+| CORR-RACER-013 | RACER-TASK-10 marcada como concluída sem a comparação lado a lado exigida pelo critério de conclusão | Alta | [x] concluída |
 
 ## Checklist
 
@@ -32,7 +32,7 @@
 - [x] CORR-RACER-010 — trocar `addStraight(500/3)` por `addRoad(500, 0, 0, 0, 0)` em `buildRoad()`
 - [x] CORR-RACER-011 — reordenar `start()`: montar/vincular `TweakUI` antes do primeiro `reset()`
 - [x] CORR-RACER-012 — instanciar `MusicPlayer('music', 'mute')` em `RacerGame.start()`
-- [ ] CORR-RACER-013 — reverter status da RACER-TASK-10 até a comparação lado a lado ser feita de verdade
+- [x] CORR-RACER-013 — reverter status da RACER-TASK-10 até a comparação lado a lado ser feita de verdade
 
 ## Detalhes por correção
 

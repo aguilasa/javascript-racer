@@ -39,7 +39,7 @@ RACER-TASK-19 (a única tarefa de merge, 👤).
 | -- | ------ | ------------ | ------ |
 | RACER-TASK-08 | Criar a classe `Road` (DSL de construção de pista) | RACER-TASK-04, RACER-TASK-05 | ✅ Concluído |
 | RACER-TASK-09 | Criar a classe base `RacerGame` + `TweakUI` | RACER-TASK-06, RACER-TASK-07, RACER-TASK-08 | ✅ Concluído |
-| RACER-TASK-10 | Portar v1 (`RacerGameV1`) e validar contra o original | RACER-TASK-09 | ✅ Concluído |
+| RACER-TASK-10 | Portar v1 (`RacerGameV1`) e validar contra o original | RACER-TASK-09 | 🔄 Em andamento |
 
 ### Fase 3 — Portar v2 (curvas)
 
@@ -129,7 +129,7 @@ RACER-TASK-01 ──┬──→ RACER-TASK-02
 
 - [x] `core/Road.ts` (DSL completa)
 - [x] `core/RacerGame.ts` (classe base) + `core/TweakUI.ts`
-- [x] `v1.html` jogável, comparável à `v1.straight.html` original
+- [ ] `v1.html` jogável, comparável à `v1.straight.html` original
 
 ### Fase 3 — v2
 
