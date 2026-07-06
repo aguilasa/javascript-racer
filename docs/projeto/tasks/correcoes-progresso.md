@@ -37,6 +37,7 @@
 | CORR-RACER-032 | `RacerGameV4.buildRoad()` nunca instancia `this.road` — `v4.html` quebra ao carregar | Crítica | [x] concluída |
 | CORR-RACER-033 | `RacerGameV4.buildRoad()` nunca chama `markStartFinish()` — pista sem faixa de largada/chegada | Alta | [x] concluída |
 | CORR-RACER-034 | `TrafficManager` construído em `onReset()` com `this.road` ainda `undefined` — `v4.html` quebra ao carregar | Crítica | [x] concluída |
+| CORR-RACER-035 | Sprites de cenário usam âncora horizontal de carro (`-0.5`) em vez da âncora por lado do original — invadem a pista | Crítica | [x] concluída |
 
 ## Checklist
 
@@ -73,6 +74,7 @@
 - [x] CORR-RACER-032 — instanciar `this.road = new Road(...)` no início de `RacerGameV4.buildRoad()`
 - [x] CORR-RACER-033 — chamar `this.road.markStartFinish(this.playerZ)` em `RacerGameV4.buildRoad()`
 - [x] CORR-RACER-034 — mover a construção de `TrafficManager` de `onReset()` para `buildRoad()`
+- [x] CORR-RACER-035 — calcular `offsetX` por lado (`sprite.offset < 0 ? -1 : 0`) para sprites de cenário em vez de `-0.5`
 
 ## Detalhes por correção
 
@@ -466,3 +468,15 @@
   `this.road = new Road(...)` (onde `this.road` já é válido); removido o guard
   `if (!this.trafficManager)`, desnecessário já que `buildRoad()` só roda quando a pista
   realmente precisa ser (re)construída.
+
+### CORR-RACER-035
+
+- **Alvo com problema:** `app/src/versions/v4-final/RacerGameV4.ts` (`renderExtraLayer`)
+- **Sintoma:** Sprites de cenário (árvores, palmeiras, pilares, billboards) usavam
+  `offsetX = -0.5` (a mesma âncora usada para carros) em vez de `(sprite.offset < 0 ? -1 : 0)`
+  — a fórmula do original, que ancora o sprite pela borda mais próxima da pista e o estende para
+  fora. Com `-0.5` (centralizado), metade da largura de cada sprite passava a se estender para o
+  lado da pista, invadindo a área de rodagem.
+- **Fix:** No ramo de sprites de cenário de `renderExtraLayer`, calcular
+  `offsetX = obj.sprite.offset < 0 ? -1 : 0` em vez do literal `-0.5`; o ramo de carros manteve
+  `-0.5`.

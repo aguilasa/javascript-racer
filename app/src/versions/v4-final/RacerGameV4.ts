@@ -151,6 +151,7 @@ export class RacerGameV4 extends RacerGameV3 {
 
     for (const obj of allObjects) {
       if ('sprite' in obj) {
+        const offsetX = obj.sprite.offset < 0 ? -1 : 0;
         this.renderer.sprite(
           this.width,
           this.height,
@@ -161,7 +162,7 @@ export class RacerGameV4 extends RacerGameV3 {
           obj.scale,
           obj.x,
           obj.y,
-          -0.5,
+          offsetX,
           -1,
           obj.segment.clip ?? maxy
         );
