@@ -49,6 +49,7 @@ export abstract class RacerGame {
   protected decel         = 0        // computed in reset()
   protected offRoadDecel  = 0        // computed in reset()
   protected offRoadLimit  = 0        // computed in reset()
+  protected offRoadHardLimit = 2     // v1-v3 use 2, v4 uses 3
   protected resolution    = 1        // computed in reset()
 
   // Parallax state (v2+)
@@ -111,6 +112,7 @@ export abstract class RacerGame {
     _startPosition: number,
     _playerX: number,
     _cameraX: number,
+    _maxy: number,
   ): void {
     // no-op until v4; overridden in RacerGameV4
   }
@@ -147,7 +149,7 @@ export abstract class RacerGame {
     if (((this.playerX < -1) || (this.playerX > 1)) && (this.speed > this.offRoadLimit))
       this.speed = Util.accelerate(this.speed, this.offRoadDecel, dt)
 
-    this.playerX = Util.limit(this.playerX, -2, 2)
+    this.playerX = Util.limit(this.playerX, -this.offRoadHardLimit, this.offRoadHardLimit)
     this.speed   = Util.limit(this.speed,   0,  this.maxSpeed)
     this.updateExtras(dt)
   }
@@ -198,10 +200,11 @@ export abstract class RacerGame {
         segment.fog!, segment.color,
       )
 
+      segment.clip = maxy
       maxy = segment.p2.screen.y
     }
 
-    this.renderExtraLayer(baseSegment, playerSegment, startPosition, this.playerX, this.playerX * this.roadWidth)
+    this.renderExtraLayer(baseSegment, playerSegment, startPosition, this.playerX, this.playerX * this.roadWidth, maxy)
 
     const steer  = this.speed * (this.keyLeft ? -1 : this.keyRight ? 1 : 0)
     const updown = this.getPlayerUpdown(playerSegment)
