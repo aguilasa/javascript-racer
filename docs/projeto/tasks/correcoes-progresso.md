@@ -34,6 +34,8 @@
 | CORR-RACER-029 | Segunda passada de render inclui o segmento mais próximo (`n=0`), que o original exclui | Baixa | [x] concluída |
 | CORR-RACER-030 | `updateCars`/colisão rodam no fim de `update()`, usando `playerX`/`speed` já mutados neste frame | Baixa | [x] concluída |
 | CORR-RACER-031 | RACER-TASK-15 marcada como concluída sem a comparação lado a lado exigida pelo critério de conclusão | Alta | [x] concluída |
+| CORR-RACER-032 | `RacerGameV4.buildRoad()` nunca instancia `this.road` — `v4.html` quebra ao carregar | Crítica | [ ] pendente |
+| CORR-RACER-033 | `RacerGameV4.buildRoad()` nunca chama `markStartFinish()` — pista sem faixa de largada/chegada | Alta | [ ] pendente |
 
 ## Checklist
 
@@ -67,6 +69,8 @@
 - [x] CORR-RACER-029 — iniciar o laço de `renderExtraLayer` em `n = 1`, não `n = 0`
 - [x] CORR-RACER-030 — mover `updateCars` para um novo ponto de extensão chamado antes de `updateLateralForces`
 - [x] CORR-RACER-031 — reverter status da RACER-TASK-15 até a comparação lado a lado ser feita de verdade
+- [ ] CORR-RACER-032 — instanciar `this.road = new Road(...)` no início de `RacerGameV4.buildRoad()`
+- [ ] CORR-RACER-033 — chamar `this.road.markStartFinish(this.playerZ)` em `RacerGameV4.buildRoad()`
 
 ## Detalhes por correção
 
@@ -425,3 +429,25 @@
   (`CORR-RACER-026`/`027`/`028`) confirmam que essa comparação não foi de fato feita.
 - **Fix:** Reverter o status da RACER-TASK-15 até `CORR-RACER-026` a `030` serem aplicadas e a
   validação lado a lado ser executada e documentada de verdade.
+
+### CORR-RACER-032
+
+- **Alvo com problema:** `app/src/versions/v4-final/RacerGameV4.ts` (`buildRoad`)
+- **Sintoma:** `buildRoad()` nunca faz `this.road = new Road(...)` (diferente de
+  `RacerGame`/`RacerGameV2`/`RacerGameV3`, que sempre criam a instância na primeira linha do
+  próprio `buildRoad()`) — `this.road` fica `undefined` e `v4.html` quebra imediatamente com
+  `TypeError: Cannot read properties of undefined (reading 'addStraight')`, confirmado no console
+  do navegador. Bug pré-existente da implementação original da RACER-TASK-15, só descoberto agora
+  ao efetivamente abrir `v4.html` no navegador (a validação que faltava, ver `CORR-RACER-031`).
+- **Fix:** Adicionar `this.road = new Road(this.segmentLength, this.rumbleLength);` como primeira
+  instrução de `buildRoad()`.
+
+### CORR-RACER-033
+
+- **Alvo com problema:** `app/src/versions/v4-final/RacerGameV4.ts` (`buildRoad`)
+- **Sintoma:** `buildRoad()` nunca chama `this.road.markStartFinish(this.playerZ)` (presente em
+  todas as outras versões) — a pista da v4 portada nunca exibe a faixa quadriculada de
+  largada/chegada, apesar de `docs/05-v4-final.md#510` indicar que o original preserva essa
+  marcação ("START/FINISH e trackLength, como nas versões anteriores").
+- **Fix:** Adicionar `this.road.markStartFinish(this.playerZ);` antes de `this.road.finalize()`
+  em `buildRoad()`.
