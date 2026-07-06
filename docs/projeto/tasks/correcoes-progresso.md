@@ -15,6 +15,8 @@
 | CORR-RACER-009 | `TweakUI` nunca é instanciada/conectada — controles da UI não fazem nada | Crítica | [x] concluída |
 | CORR-RACER-010 | `buildRoad()` base produz 501 segmentos em vez dos 500 exatos do v1 original | Baixa | [x] concluída |
 | CORR-RACER-011 | `RacerGame.start()` chamava `reset()` antes de `tweakUI` existir, quebrando com `TypeError` | Crítica | [x] concluída |
+| CORR-RACER-012 | `MusicPlayer` nunca é instanciado — `v1.html` toca sem música e o botão de mute não funciona | Crítica | [x] concluída |
+| CORR-RACER-013 | RACER-TASK-10 marcada como concluída sem a comparação lado a lado exigida pelo critério de conclusão | Alta | [ ] pendente |
 
 ## Checklist
 
@@ -29,6 +31,8 @@
 - [x] CORR-RACER-009 — instanciar/conectar `TweakUI` em `RacerGame.start()`/`reset()`
 - [x] CORR-RACER-010 — trocar `addStraight(500/3)` por `addRoad(500, 0, 0, 0, 0)` em `buildRoad()`
 - [x] CORR-RACER-011 — reordenar `start()`: montar/vincular `TweakUI` antes do primeiro `reset()`
+- [x] CORR-RACER-012 — instanciar `MusicPlayer('music', 'mute')` em `RacerGame.start()`
+- [ ] CORR-RACER-013 — reverter status da RACER-TASK-10 até a comparação lado a lado ser feita de verdade
 
 ## Detalhes por correção
 
@@ -170,3 +174,29 @@
   de checagem manual no navegador tinha ficado sem marcar).
 - **Fix:** Reordenar `start()` — construir e vincular `TweakUI` antes da primeira chamada a
   `this.reset()`.
+
+### CORR-RACER-012
+
+- **Alvo com problema:** `app/src/core/RacerGame.ts` (`start()`)
+- **Sintoma:** `MusicPlayer` (criado corretamente na RACER-TASK-06) nunca é importado nem
+  instanciado em lugar nenhum do código (`grep -rn "MusicPlayer" app/src/` só retorna a própria
+  classe). O original (`common.js`, `Game.run`) chama `Game.playMusic()` incondicionalmente para
+  as 4 versões, inclusive `v1.straight.html` (que já tem `<audio id="music">`/`<span id="mute">`
+  no HTML, replicado em `app/v1.html`). Resultado: `v1.html` joga em silêncio e o botão de mute
+  não faz nada — divergência de comportamento perceptível encontrada ao validar a RACER-TASK-10.
+- **Fix:** Instanciar `new MusicPlayer('music', 'mute')` em `RacerGame.start()`, espelhando a
+  chamada incondicional de `Game.playMusic()` do original.
+
+### CORR-RACER-013
+
+- **Alvo com problema:** `docs/projeto/tasks/progresso.md` (status da RACER-TASK-10) e
+  `docs/projeto/tasks/10-portar-v1-estrada-reta.md` (critério de conclusão / Log de Execução)
+- **Sintoma:** O item "Comparação lado a lado com `v1.straight.html`..." está desmarcado no
+  critério de conclusão da própria tarefa, e o Log de Execução admite que a validação manual não
+  foi feita — mas `progresso.md` marca a RACER-TASK-10 como `✅ Concluído` mesmo assim, violando a
+  Exclusão Obrigatória 4 de `01-executar.md` ("não marcar como concluída só porque compilou"). O
+  bug real encontrado em `CORR-RACER-012` é evidência de que essa comparação, se tivesse sido
+  feita, teria pego o problema antes do fechamento da tarefa.
+- **Fix:** Reverter o status da RACER-TASK-10 em `progresso.md` (e o item correspondente no
+  checklist da Fase 2) até que a comparação lado a lado seja de fato executada e documentada no
+  Log, só então remarcar como concluída.

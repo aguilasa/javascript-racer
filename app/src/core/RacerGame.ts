@@ -4,6 +4,7 @@ import { KEY } from './constants'
 import { AssetLoader } from './AssetLoader'
 import { GameLoop } from './GameLoop'
 import { InputController } from './InputController'
+import { MusicPlayer } from './MusicPlayer'
 import { Renderer } from './Renderer'
 import { Road } from './Road'
 import { StatsPanel } from './StatsPanel'
@@ -255,6 +256,8 @@ export abstract class RacerGame {
 
     this.tweakUI = new TweakUI((options) => this.reset(options))
     this.tweakUI.bind()
+
+    new MusicPlayer('music', 'mute')
 
     this.reset()
 
