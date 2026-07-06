@@ -1,4 +1,5 @@
 import type { SegmentColorSet, SpriteRect } from './types'
+import { COLORS } from './constants'
 import { SPRITES } from './sprites'
 import { randomChoice } from './util'
 
@@ -142,7 +143,7 @@ export class Renderer {
     if (fog < 1) {
       const ctx = this.ctx
       ctx.globalAlpha = (1 - fog)
-      ctx.fillStyle   = '#005108'
+      ctx.fillStyle   = COLORS.FOG
       ctx.fillRect(x, y, width, height)
       ctx.globalAlpha = 1
     }

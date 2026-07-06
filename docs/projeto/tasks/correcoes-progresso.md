@@ -10,6 +10,7 @@
 | CORR-RACER-004 | `app/src/main.ts` órfão — não referenciado e fora da estrutura documentada | Baixa | [x] concluída |
 | CORR-RACER-005 | Desvios de comportamento não documentados em `dom.ts`/`util.ts` (`resolve()` e `overlap()`) | Baixa | [x] concluída |
 | CORR-RACER-006 | `StatsPanel.update()` conta frames em dobro e mede ~0ms (begin/end/update redundantes) | Alta | [x] concluída |
+| CORR-RACER-007 | `Renderer.fog()` duplica `COLORS.FOG` como literal em vez de importar de `core/constants.ts` | Baixa | [x] concluída |
 
 ## Checklist
 
@@ -19,6 +20,7 @@
 - [x] CORR-RACER-004 — remover `app/src/main.ts` (stub órfão do scaffold original)
 - [x] CORR-RACER-005 — corrigir `overlap()` (`??`→`||`) e `resolve()` (retornar `document`, não `documentElement`)
 - [x] CORR-RACER-006 — simplificar `StatsPanel.update()` para uma única chamada de medição por frame
+- [x] CORR-RACER-007 — `Renderer.fog()` usar `COLORS.FOG` importado em vez do literal `'#005108'`
 
 ## Detalhes por correção
 
@@ -92,3 +94,14 @@
   performance is good/ok/bad", ficam incorretos).
 - **Fix:** Chamar `this.stats.update()` uma única vez por frame; medir `lastMs` via timestamp
   próprio (`performance.now()`) independente do `stats.js`, para a mensagem de performance.
+
+### CORR-RACER-007
+
+- **Alvo com problema:** `app/src/core/Renderer.ts` (`fog()`)
+- **Sintoma:** `fog()` usa `ctx.fillStyle = '#005108'` como literal, em vez de importar e usar
+  `COLORS.FOG` de `core/constants.ts` (criado na RACER-TASK-04 exatamente para ser a fonte única
+  de verdade das cores de jogo). O valor está correto hoje (idêntico), mas duplica a constante —
+  se `COLORS.FOG` mudar no futuro, `Renderer.fog()` continuaria usando o valor antigo
+  silenciosamente.
+- **Fix:** Importar `COLORS` de `./constants` em `Renderer.ts` e usar `COLORS.FOG` no lugar do
+  literal.
