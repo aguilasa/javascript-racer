@@ -12,6 +12,10 @@
 | CORR-PHASER-006 | RacerEngine.getPlayerScreenY()/getPlayerUpdown() ficaram no comportamento base (v1) em vez do final v3/v4 | Alta | [x] concluído |
 | CORR-PHASER-007 | RacerEngine duplica addBumps() em vez de reaproveitar Road.addBumps() | Alta | [x] concluído |
 | CORR-PHASER-008 | RacerEngine tem campos privados mortos (fps, startPosition) que quebram tsc --noEmit | Alta | [x] concluído |
+| CORR-PHASER-009 | Game.renderRoad() reindexação errada + reuso de um maxy final estático — pista não desenha nada | Crítica | [x] concluído |
+| CORR-PHASER-010 | Game.renderPlayer() passa o objeto SpriteRect para setFrame() em vez do nome do frame | Alta | [ ] pendente |
+| CORR-PHASER-011 | Game.renderPlayer() inverte cameraDepth/playerZ — escala do jogador ~1000x errada | Alta | [ ] pendente |
+| CORR-PHASER-012 | Game.update() chama this.input.keyboard.addKeys(...) a cada frame em vez de uma única vez | Baixa | [ ] pendente |
 
 ## Checklist
 
@@ -23,6 +27,10 @@
 - [x] CORR-PHASER-006 — fundir `getPlayerScreenY`/`getPlayerUpdown` com o comportamento final v3/v4
 - [x] CORR-PHASER-007 — remover `addBumps()` duplicado de `RacerEngine`, usar `road.addBumps()`
 - [x] CORR-PHASER-008 — remover campos mortos `fps`/`startPosition` de `RacerEngine`
+- [x] CORR-PHASER-009 — corrigir reindexação e culling de `Game.renderRoad()`
+- [ ] CORR-PHASER-010 — usar o nome do frame (string) em `setFrame()`, não o objeto `SpriteRect`
+- [ ] CORR-PHASER-011 — corrigir razão `cameraDepth/playerZ` (não invertida) em `renderPlayer()`
+- [ ] CORR-PHASER-012 — mover `addKeys(...)` de `update()` para `create()`
 
 ## Detalhes por correção
 
@@ -85,3 +93,41 @@
 - **Sintoma:** `npx tsc --noEmit` falha com `TS6133` — campos `private fps`/`private
   startPosition` declarados mas nunca lidos (mascarado por `npm run build`, que não checa tipos)
 - **Fix:** remover os dois campos mortos (e a atribuição a `startPosition` em `updateParallax`)
+
+### CORR-PHASER-009
+
+- **Alvo com problema:** `racer-phaser/src/game/scenes/Game.ts`
+- **Sintoma:** `renderRoad()` itera `segments[n]` (índice cru) em vez de
+  `segments[(baseSegment.index+n)%length]`, e reusa um `state.maxy` **final/estático** (o valor
+  depois de `getRenderState()` terminar seu próprio laço interno) para testar o culling de
+  **todos** os segmentos — quase tudo é descartado. Confirmado visualmente: a `Game` scene mostra
+  só a cor de fundo (céu), nenhuma pista/grama, mesmo segurando a seta para cima por vários
+  segundos
+- **Fix:** reconstruir o culling incremental em `Game.ts` (usando o mesmo offset de índice e um
+  `maxy` que decresce por segmento, ou os dados já filtrados de `getRenderState()`/`segment.clip`)
+  — ver as duas opções detalhadas no arquivo da correção
+
+### CORR-PHASER-010
+
+- **Alvo com problema:** `racer-phaser/src/game/scenes/Game.ts`
+- **Sintoma:** `setFrame(spriteRect)` recebe o objeto `{x,y,w,h}` em vez do nome do frame
+  registrado no Preloader (ex.: `'PLAYER_STRAIGHT'`) — confirmado pelo warning de console
+  `Texture "sprites" has no frame "[object Object]"`; o sprite do jogador cai no frame base (a
+  folha de sprites inteira)
+- **Fix:** guardar o nome do frame (string) separadamente do objeto de coordenadas, passar a
+  string para `setFrame()`
+
+### CORR-PHASER-011
+
+- **Alvo com problema:** `racer-phaser/src/game/scenes/Game.ts`
+- **Sintoma:** `renderPlayer()` usa `playerZ/cameraDepth` em vez de `cameraDepth/playerZ` (a
+  razão do original em `app/src/core/RacerGame.ts`/`Renderer.ts`) — escala do sprite do jogador
+  ~1000x maior que o correto
+- **Fix:** inverter a razão para `cameraDepth / playerZ`
+
+### CORR-PHASER-012
+
+- **Alvo com problema:** `racer-phaser/src/game/scenes/Game.ts`
+- **Sintoma:** `this.input.keyboard.addKeys(...)` chamado dentro de `update()`, recriado a cada
+  frame (60x/s) em vez de uma única vez em `create()`; força `as any` para acessar as teclas
+- **Fix:** mover `addKeys(...)` para `create()`, guardar o resultado tipado como campo da classe

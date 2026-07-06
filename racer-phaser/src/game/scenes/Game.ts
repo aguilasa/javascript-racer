@@ -71,14 +71,14 @@ export class Game extends Scene
     {
         const state = this.racerEngine.getRenderState();
         const segments = state.segments;
+        const baseIndex = state.baseSegment.index;
 
         this.roadRenderer.clear();
 
         for (let n = 0; n < state.drawDistance; n++) {
-            const segment = segments[n]!;
+            const segment = segments[(baseIndex + n) % segments.length]!;
 
-            if ((segment.p1.camera.z <= state.cameraDepth) || (segment.p2.screen.y >= segment.p1.screen.y) || (segment.p2.screen.y >= state.maxy))
-                continue;
+            if (segment.clip === undefined) continue; // getRenderState() already culled this segment
 
             this.roadRenderer.segment(
                 state.width, this.racerEngine.lanes,

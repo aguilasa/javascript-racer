@@ -83,7 +83,7 @@ Implementado input de teclado, passo fixo e sprite do jogador na `Game` scene:
 - `renderRoad()` simplificado para usar `RacerEngine.getRenderState()` em vez de duplicar a lógica de projeção
 
 **Problemas encontrados:**
-Nenhum.
+Após a implementação, foi identificado que `renderRoad()` tinha bugs de reindexação e culling que impediam a pista de ser desenhada (tela ficava só com o céu). Isso foi corrigido pela CORR-PHASER-009.
 
 **Arquivos criados/modificados:**
 - Modificado: `racer-phaser/src/game/scenes/Game.ts` (adicionado RacerEngine, input, passo fixo, sprite do jogador, renderPlayer())
