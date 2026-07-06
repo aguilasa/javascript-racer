@@ -32,7 +32,7 @@
 | CORR-RACER-027 | `TrafficManager` instanciado com `segmentLength` no lugar de `maxSpeed` — velocidade do tráfego ~60x errada | Crítica | [x] concluída |
 | CORR-RACER-028 | `renderExtraLayer` descarta quase todos os sprites/carros por um filtro de `clip` inexistente no original | Crítica | [x] concluída |
 | CORR-RACER-029 | Segunda passada de render inclui o segmento mais próximo (`n=0`), que o original exclui | Baixa | [x] concluída |
-| CORR-RACER-030 | `updateCars`/colisão rodam no fim de `update()`, usando `playerX`/`speed` já mutados neste frame | Baixa | [ ] pendente |
+| CORR-RACER-030 | `updateCars`/colisão rodam no fim de `update()`, usando `playerX`/`speed` já mutados neste frame | Baixa | [x] concluída |
 | CORR-RACER-031 | RACER-TASK-15 marcada como concluída sem a comparação lado a lado exigida pelo critério de conclusão | Alta | [ ] pendente |
 
 ## Checklist
@@ -65,7 +65,7 @@
 - [x] CORR-RACER-027 — instanciar `TrafficManager` com `this.maxSpeed` em vez de `this.segmentLength`
 - [x] CORR-RACER-028 — remover o filtro `if ((segment.clip ?? maxy) >= maxy) continue;` de `renderExtraLayer`
 - [x] CORR-RACER-029 — iniciar o laço de `renderExtraLayer` em `n = 1`, não `n = 0`
-- [ ] CORR-RACER-030 — mover `updateCars` para um novo ponto de extensão chamado antes de `updateLateralForces`
+- [x] CORR-RACER-030 — mover `updateCars` para um novo ponto de extensão chamado antes de `updateLateralForces`
 - [ ] CORR-RACER-031 — reverter status da RACER-TASK-15 até a comparação lado a lado ser feita de verdade
 
 ## Detalhes por correção

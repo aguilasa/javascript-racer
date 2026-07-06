@@ -129,10 +129,18 @@ export abstract class RacerGame {
     return 0
   }
 
+  // Hook for subclasses to update traffic (v4) before playerX/speed are modified
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected updateTraffic(_dt: number, _playerSegment: any): void {
+    // no-op by default
+  }
+
   // Core update — final (not overridden)
   update(dt: number): void {
     const startPosition  = this.position
     const playerSegment  = this.road.findSegment(this.position + this.playerZ)
+
+    this.updateTraffic(dt, playerSegment)
 
     this.position        = Util.increase(this.position, dt * this.speed, this.road.trackLength)
 

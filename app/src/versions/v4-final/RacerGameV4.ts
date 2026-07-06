@@ -61,11 +61,14 @@ export class RacerGameV4 extends RacerGameV3 {
     this.road.addRoad(10, 10, 10, 0, -2);
   }
 
+  protected updateTraffic(dt: number, playerSegment: any): void {
+    const playerW = SPRITES.PLAYER_STRAIGHT.w * SPRITES.SCALE;
+    this.trafficManager.updateCars(dt, playerSegment, this.playerX, playerW, this.speed, this.drawDistance);
+  }
+
   protected updateExtras(dt: number): void {
     const playerSegment = this.road.findSegment(this.position + this.playerZ);
     const playerW = SPRITES.PLAYER_STRAIGHT.w * SPRITES.SCALE;
-
-    this.trafficManager.updateCars(dt, playerSegment, this.playerX, playerW, this.speed, this.drawDistance);
 
     if (this.playerX < -1 || this.playerX > 1) {
       for (const sprite of playerSegment.sprites) {
