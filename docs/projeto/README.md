@@ -32,6 +32,9 @@ mesmo repositório.
    pequeno o bastante para virar uma tarefa isolada depois.
 5. **[04 — Riscos e Decisões Abertas](04-riscos-decisoes-abertas.md)** — pontos que precisam de
    uma decisão do usuário antes ou durante a implementação.
+6. **[05 — Ideias de Expansão](05-ideias-expansao.md)** — levantamento (sem detalhamento técnico)
+   de features e melhorias futuras para o jogo, a partir das sugestões do autor original e de
+   novas ideias propostas para este projeto.
 
 ## Contexto usado para montar este plano
 
