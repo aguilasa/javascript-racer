@@ -56,20 +56,31 @@ status: pendente
 
 ## Critério de conclusão
 
-- [ ] `racer-phaser/src/game/racer/sprites.ts`/`background.ts` com as mesmas coordenadas de
+- [x] `racer-phaser/src/game/racer/sprites.ts`/`background.ts` com as mesmas coordenadas de
       `app/src/core/sprites.ts`/`background.ts`
-- [ ] `Preloader` carrega `sprites.png`/`background.png`/música e registra frames nomeados para
+- [x] `Preloader` carrega `sprites.png`/`background.png`/música e registra frames nomeados para
       todas as entradas de `SPRITES` e `BACKGROUND`
-- [ ] Validação visual: ao menos um frame nomeado renderiza a imagem correta
-- [ ] `mise exec -- npm run build` sem erros
-- [ ] Commit feito em `feature/phaser-port`
+- [x] Validação visual: ao menos um frame nomeado renderiza a imagem correta
+- [x] `mise exec -- npm run build` sem erros
+- [x] Commit feito em `feature/phaser-port`
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
 **Resumo do que foi feito:**
+- Copiou `sprites.ts` de `app/src/core/` para `racer-phaser/src/game/racer/` (SPRITES com ~35 entradas + SCALE/BILLBOARDS/PLANTS/CARS)
+- Copiou `background.ts` de `app/src/core/` para `racer-phaser/src/game/racer/` (BACKGROUND com SKY/HILLS/TREES)
+- Adaptou `Preloader.ts` para carregar `sprites.png`, `background.png` e faixas de música via `this.load.image()`/`this.load.audio()`
+- Implementou registro de frames nomeados no `create()` do Preloader para todas as entradas de SPRITES e BACKGROUND
+- Iterou sobre SPRITES pulando entradas não-rect (SCALE, BILLBOARDS, PLANTS, CARS) usando verificação `typeof rect === 'object' && 'x' in rect`
+- Validado `mise exec -- npm run build` - build concluído sem erros
+- Validado visualmente com teste temporário (`this.add.image(512, 384, 'sprites', 'PALM_TREE')`) - frame renderizou corretamente, teste removido
 
 **Problemas encontrados:**
+- Nenhum
 
 **Arquivos criados/modificados:**
+- `racer-phaser/src/game/racer/sprites.ts` (criado)
+- `racer-phaser/src/game/racer/background.ts` (criado)
+- `racer-phaser/src/game/scenes/Preloader.ts` (modificado - load de assets e registro de frames)
