@@ -4,6 +4,7 @@ import { Dom } from './dom'
 export class StatsPanel {
   private stats: Stats
   private lastMs = 0
+  private lastFrameAt = 0
 
   constructor(parentId: string, id?: string) {
     this.stats = new Stats()
@@ -30,8 +31,9 @@ export class StatsPanel {
   }
 
   update(): void {
-    this.stats.begin()
-    this.lastMs = this.stats.end()
+    const now = performance.now()
+    this.lastMs = this.lastFrameAt ? now - this.lastFrameAt : 0
+    this.lastFrameAt = now
     this.stats.update()
   }
 }

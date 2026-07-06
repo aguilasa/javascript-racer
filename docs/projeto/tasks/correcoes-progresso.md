@@ -9,6 +9,7 @@
 | CORR-RACER-003 | Ícone do botão de mute quebra no build de produção (`url()` relativo em CSS bundlado) | Alta | [x] concluída |
 | CORR-RACER-004 | `app/src/main.ts` órfão — não referenciado e fora da estrutura documentada | Baixa | [x] concluída |
 | CORR-RACER-005 | Desvios de comportamento não documentados em `dom.ts`/`util.ts` (`resolve()` e `overlap()`) | Baixa | [x] concluída |
+| CORR-RACER-006 | `StatsPanel.update()` conta frames em dobro e mede ~0ms (begin/end/update redundantes) | Alta | [x] concluída |
 
 ## Checklist
 
@@ -17,6 +18,7 @@
 - [x] CORR-RACER-003 — trocar `url(images/mute.png)` por `url(/images/mute.png)` em `app/src/style.css`
 - [x] CORR-RACER-004 — remover `app/src/main.ts` (stub órfão do scaffold original)
 - [x] CORR-RACER-005 — corrigir `overlap()` (`??`→`||`) e `resolve()` (retornar `document`, não `documentElement`)
+- [x] CORR-RACER-006 — simplificar `StatsPanel.update()` para uma única chamada de medição por frame
 
 ## Detalhes por correção
 
@@ -77,3 +79,16 @@
   mencionada no Log de Execução da RACER-TASK-05, que só disclosed a substituição em `project`.
 - **Fix:** Reverter `overlap` para `(percent || 1)/2`; fazer `resolve()` retornar o próprio
   `document` (não `documentElement`) para `id === document`.
+
+### CORR-RACER-006
+
+- **Alvo com problema:** `app/src/core/StatsPanel.ts` (`update()`)
+- **Sintoma:** `update()` chama `this.stats.begin()` → `this.stats.end()` → `this.stats.update()`
+  em sequência, uma vez por frame. Pelo código-fonte de `stats.js` instalado, `update()` já
+  equivale a `end()` seguido de um novo `begin()` — chamar os três juntos sem nenhum trabalho
+  real entre `begin()` e o primeiro `end()` conta `frames` duas vezes por frame visual (o widget
+  de FPS do `stats.js`, visível no `#fps` de todas as páginas, reporta o dobro do FPS real) e
+  mede `~0ms` de frame time (o painel de "ms" e `this.lastMs`, usado na mensagem "Your canvas
+  performance is good/ok/bad", ficam incorretos).
+- **Fix:** Chamar `this.stats.update()` uma única vez por frame; medir `lastMs` via timestamp
+  próprio (`performance.now()`) independente do `stats.js`, para a mensagem de performance.
