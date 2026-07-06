@@ -36,6 +36,7 @@
 | CORR-RACER-031 | RACER-TASK-15 marcada como concluída sem a comparação lado a lado exigida pelo critério de conclusão | Alta | [x] concluída |
 | CORR-RACER-032 | `RacerGameV4.buildRoad()` nunca instancia `this.road` — `v4.html` quebra ao carregar | Crítica | [x] concluída |
 | CORR-RACER-033 | `RacerGameV4.buildRoad()` nunca chama `markStartFinish()` — pista sem faixa de largada/chegada | Alta | [x] concluída |
+| CORR-RACER-034 | `TrafficManager` construído em `onReset()` com `this.road` ainda `undefined` — `v4.html` quebra ao carregar | Crítica | [x] concluída |
 
 ## Checklist
 
@@ -71,6 +72,7 @@
 - [x] CORR-RACER-031 — reverter status da RACER-TASK-15 até a comparação lado a lado ser feita de verdade
 - [x] CORR-RACER-032 — instanciar `this.road = new Road(...)` no início de `RacerGameV4.buildRoad()`
 - [x] CORR-RACER-033 — chamar `this.road.markStartFinish(this.playerZ)` em `RacerGameV4.buildRoad()`
+- [x] CORR-RACER-034 — mover a construção de `TrafficManager` de `onReset()` para `buildRoad()`
 
 ## Detalhes por correção
 
@@ -451,3 +453,16 @@
   marcação ("START/FINISH e trackLength, como nas versões anteriores").
 - **Fix:** Adicionar `this.road.markStartFinish(this.playerZ);` antes de `this.road.finalize()`
   em `buildRoad()`.
+
+### CORR-RACER-034
+
+- **Alvo com problema:** `app/src/versions/v4-final/RacerGameV4.ts` (`onReset`/`buildRoad`)
+- **Sintoma:** `onReset()` construía `TrafficManager` referenciando `this.road` — mas `onReset()`
+  roda antes de `buildRoad()` em `RacerGame.reset()`, então na primeira chamada `this.road` ainda
+  era `undefined` nesse ponto. O `TrafficManager` guardava essa referência (`undefined`) de forma
+  permanente; ao `buildRoad()` rodar depois e chamar `this.trafficManager.resetCars()`, quebrava
+  com `TypeError: Cannot read properties of undefined (reading 'segments')`.
+- **Fix:** Mover a criação de `TrafficManager` para dentro de `buildRoad()`, logo após
+  `this.road = new Road(...)` (onde `this.road` já é válido); removido o guard
+  `if (!this.trafficManager)`, desnecessário já que `buildRoad()` só roda quando a pista
+  realmente precisa ser (re)construída.

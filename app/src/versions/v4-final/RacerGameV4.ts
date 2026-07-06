@@ -15,9 +15,6 @@ export class RacerGameV4 extends RacerGameV3 {
   protected startPosition = 0;
 
   protected onReset(_options: any): void {
-    if (!this.trafficManager) {
-      this.trafficManager = new TrafficManager(this.road, 200, this.maxSpeed);
-    }
     if (!this.hud) {
       this.hud = new Hud();
     }
@@ -26,6 +23,7 @@ export class RacerGameV4 extends RacerGameV3 {
 
   protected buildRoad(): void {
     this.road = new Road(this.segmentLength, this.rumbleLength);
+    this.trafficManager = new TrafficManager(this.road, 200, this.maxSpeed);
 
     this.road.addStraight(ROAD.LENGTH.SHORT);
     this.road.addLowRollingHills();
