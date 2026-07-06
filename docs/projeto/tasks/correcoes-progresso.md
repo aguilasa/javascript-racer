@@ -23,6 +23,7 @@
 | CORR-RACER-018 | `RacerGame.update()` chama `updateParallax()` após o bloco de aceleração, usando a velocidade já atualizada em vez da anterior ao frame | Baixa | [x] concluída |
 | CORR-RACER-019 | `RacerGameV3` duplica o `render()` inteiro em vez de usar pontos de extensão (ponto de extensão da arquitetura não seguido) | Alta | [x] concluída |
 | CORR-RACER-020 | RACER-TASK-12 marcada como concluída sem a comparação lado a lado exigida pelo critério de conclusão | Alta | [x] concluída |
+| CORR-RACER-021 | `TrafficManager` duplica `findSegment`/`segmentLength` de `Road` e depende de `trackLength` já calculado | Alta | [x] concluída |
 
 ## Checklist
 
@@ -45,6 +46,7 @@
 - [x] CORR-RACER-018 — mover `updateParallax()` para antes do bloco de aceleração em `update()`
 - [x] CORR-RACER-019 — remover `render()` de `RacerGameV3`, adicionar `getBackgroundOffsetY` ao `render()` compartilhado e corrigir a fração de `playerY`
 - [x] CORR-RACER-020 — executar a validação lado a lado real da RACER-TASK-12 antes de mantê-la como concluída
+- [x] CORR-RACER-021 — `TrafficManager` usar `road.findSegment()`/`road.segmentLength` em vez de derivar de `trackLength`
 
 ## Detalhes por correção
 
@@ -289,3 +291,18 @@
   classe de violação já corrigida em `CORR-RACER-013` para a RACER-TASK-10.
 - **Fix:** Reverter o status da RACER-TASK-12 até a comparação lado a lado com `v3.hills.html` ser
   de fato executada e documentada no Log, só então remarcar como concluída.
+
+### CORR-RACER-021
+
+- **Alvo com problema:** `app/src/versions/v4-final/TrafficManager.ts`
+- **Sintoma:** `TrafficManager` reimplementa `findSegment` de forma privada e duplicada em vez de
+  usar `Road.findSegment()` (já público), derivando `segmentLength` de
+  `road.trackLength / road.segments.length`. Isso só é correto depois de `Road.finalize()` já ter
+  rodado — mas `docs/05-v4-final.md` §5.10 mostra que, no original, `resetCars()` sempre roda
+  **antes** de `trackLength` ser calculado. Se a RACER-TASK-15 seguir essa mesma ordem (natural,
+  já usada por `RacerGame`/`V2`/`V3` ao chamar `finalize()` só ao fim de `buildRoad()`),
+  `resetCars()` sorteia `z = 0` para todos os carros e `findSegment` privado quebra em runtime
+  (`Math.floor(z/0)` → índice inválido).
+- **Fix:** Remover o `findSegment` privado de `TrafficManager` e usar `road.findSegment(z)`;
+  expor `segmentLength` publicamente em `Road` (getter) para os dois cálculos restantes que
+  precisam do valor numérico (`resetCars()`, `car.percent`).

@@ -12,20 +12,24 @@ export class Road {
   segments: Segment[] = []
   trackLength = 0
 
-  private segmentLength: number
+  private _segmentLength: number
   private rumbleLength: number
 
   constructor(segmentLength: number, rumbleLength: number) {
-    this.segmentLength = segmentLength
-    this.rumbleLength  = rumbleLength
+    this._segmentLength = segmentLength
+    this.rumbleLength   = rumbleLength
+  }
+
+  get segmentLength(): number {
+    return this._segmentLength
   }
 
   addSegment(curve = 0, y = 0): void {
     const n = this.segments.length
     this.segments.push({
       index:  n,
-      p1: { world: { y: this.lastY(), z:  n      * this.segmentLength }, camera: { x: 0, y: 0, z: 0 }, screen: { x: 0, y: 0, w: 0, scale: 0 } },
-      p2: { world: { y,              z: (n + 1) * this.segmentLength }, camera: { x: 0, y: 0, z: 0 }, screen: { x: 0, y: 0, w: 0, scale: 0 } },
+      p1: { world: { y: this.lastY(), z:  n      * this._segmentLength }, camera: { x: 0, y: 0, z: 0 }, screen: { x: 0, y: 0, w: 0, scale: 0 } },
+      p2: { world: { y,              z: (n + 1) * this._segmentLength }, camera: { x: 0, y: 0, z: 0 }, screen: { x: 0, y: 0, w: 0, scale: 0 } },
       curve,
       color: Math.floor(n / this.rumbleLength) % 2 ? COLORS.DARK : COLORS.LIGHT,
       sprites: [],
@@ -35,7 +39,7 @@ export class Road {
 
   addRoad(enter: number, hold: number, leave: number, curve = 0, y = 0): void {
     const startY = this.lastY()
-    const endY   = startY + (toInt(y, 0) * this.segmentLength)
+    const endY   = startY + (toInt(y, 0) * this._segmentLength)
     const total  = enter + hold + leave
     for (let n = 0; n < enter; n++)
       this.addSegment(easeIn(0, curve, n / enter),          easeInOut(startY, endY, n / total))
@@ -96,11 +100,11 @@ export class Road {
 
   addDownhillToEnd(num?: number): void {
     const n = num || 200
-    this.addRoad(n, n, n, -ROAD.CURVE.EASY, -this.lastY() / this.segmentLength)
+    this.addRoad(n, n, n, -ROAD.CURVE.EASY, -this.lastY() / this._segmentLength)
   }
 
   findSegment(z: number): Segment {
-    return this.segments[Math.floor(z / this.segmentLength) % this.segments.length]!
+    return this.segments[Math.floor(z / this._segmentLength) % this.segments.length]!
   }
 
   markStartFinish(playerZ: number): void {
@@ -112,7 +116,7 @@ export class Road {
   }
 
   finalize(): void {
-    this.trackLength = this.segments.length * this.segmentLength
+    this.trackLength = this.segments.length * this._segmentLength
   }
 
   private lastY(): number {

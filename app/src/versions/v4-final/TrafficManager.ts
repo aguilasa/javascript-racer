@@ -24,11 +24,11 @@ export class TrafficManager {
     this.cars = [];
     for (let n = 0; n < this.totalCars; n++) {
       const offset = Math.random() * randomChoice([-0.8, 0.8]);
-      const z = Math.floor(Math.random() * this.road.segments.length) * (this.road.trackLength / this.road.segments.length);
+      const z = Math.floor(Math.random() * this.road.segments.length) * this.road.segmentLength;
       const sprite = randomChoice(SPRITES.CARS);
       const speed = this.maxSpeed / 4 + Math.random() * this.maxSpeed / (sprite === SPRITES.SEMI ? 4 : 2);
       const car = new Car(offset, z, sprite, speed);
-      const segment = this.findSegment(car.z);
+      const segment = this.road.findSegment(car.z);
       segment.cars.push(car);
       this.cars.push(car);
     }
@@ -37,11 +37,11 @@ export class TrafficManager {
   updateCars(dt: number, playerSegment: Segment, playerX: number, playerW: number, speed: number, drawDistance: number): void {
     for (let n = 0; n < this.cars.length; n++) {
       const car = this.cars[n]!;
-      const oldSegment = this.findSegment(car.z);
+      const oldSegment = this.road.findSegment(car.z);
       car.offset = car.offset + this.updateCarOffset(car, oldSegment, playerSegment, playerX, playerW, speed, drawDistance);
       car.z = increase(car.z, dt * car.speed, this.road.trackLength);
-      car.percent = percentRemaining(car.z, this.road.trackLength / this.road.segments.length);
-      const newSegment = this.findSegment(car.z);
+      car.percent = percentRemaining(car.z, this.road.segmentLength);
+      const newSegment = this.road.findSegment(car.z);
       if (oldSegment !== newSegment) {
         const index = oldSegment.cars.indexOf(car);
         oldSegment.cars.splice(index, 1);
@@ -97,8 +97,4 @@ export class TrafficManager {
     else return 0;
   }
 
-  private findSegment(z: number): Segment {
-    const segmentLength = this.road.trackLength / this.road.segments.length;
-    return this.road.segments[Math.floor(z / segmentLength) % this.road.segments.length]!;
-  }
 }
