@@ -12,6 +12,9 @@ export class Hud {
     this.currentLapTimeDom = Dom.get('current_lap_time_value');
     this.lastLapTimeDom = Dom.get('last_lap_time_value');
     this.fastLapTimeDom = Dom.get('fast_lap_time_value');
+
+    Dom.storage.fast_lap_time = Dom.storage.fast_lap_time || '180';
+    this.setIfChanged('fast_lap_time', this.fastLapTimeDom, this.formatTime(parseFloat(Dom.storage.fast_lap_time)));
   }
 
   updateSpeed(speed: number): void {
