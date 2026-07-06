@@ -39,7 +39,7 @@
 | CORR-RACER-034 | `TrafficManager` construído em `onReset()` com `this.road` ainda `undefined` — `v4.html` quebra ao carregar | Crítica | [x] concluída |
 | CORR-RACER-035 | Sprites de cenário usam âncora horizontal de carro (`-0.5`) em vez da âncora por lado do original — invadem a pista | Crítica | [x] concluída |
 | CORR-RACER-036 | RACER-TASK-16 concluída sem atualizar frontmatter/checklist do próprio arquivo da tarefa | Baixa | [x] concluída |
-| CORR-RACER-037 | Checklist geral (Fase 6) de `progresso.md` não reflete conclusão real das RACER-TASK-16/17 | Baixa | [ ] pendente |
+| CORR-RACER-037 | Checklist geral (Fase 6) de `progresso.md` não reflete conclusão real das RACER-TASK-16/17 | Baixa | [x] concluída |
 
 ## Checklist
 
@@ -78,7 +78,7 @@
 - [x] CORR-RACER-034 — mover a construção de `TrafficManager` de `onReset()` para `buildRoad()`
 - [x] CORR-RACER-035 — calcular `offsetX` por lado (`sprite.offset < 0 ? -1 : 0`) para sprites de cenário em vez de `-0.5`
 - [x] CORR-RACER-036 — atualizar `status`/checklist de `16-revisar-duplicacao-e-tipos.md` para refletir a conclusão real
-- [ ] CORR-RACER-037 — marcar `[x]` os três primeiros itens de "Checklist geral" → "Fase 6" em `progresso.md`
+- [x] CORR-RACER-037 — marcar `[x]` os três primeiros itens de "Checklist geral" → "Fase 6" em `progresso.md`
 
 ## Detalhes por correção
 

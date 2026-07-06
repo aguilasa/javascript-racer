@@ -147,9 +147,9 @@ RACER-TASK-01 ──┬──→ RACER-TASK-02
 
 ### Fase 6 — Polimento, documentação e merge
 
-- [ ] Sem duplicação evitável entre `RacerGameV1`…`V4`
-- [ ] Zero `any` não-justificado
-- [ ] `CLAUDE.md`/`docs/` atualizados apontando para `app/`
+- [x] Sem duplicação evitável entre `RacerGameV1`…`V4`
+- [x] Zero `any` não-justificado
+- [x] `CLAUDE.md`/`docs/` atualizados apontando para `app/`
 - [ ] Decisão registrada sobre link no `index.html`/`README.md` raiz (feito ou conscientemente adiado)
 - [ ] `feature/ts-vite-port` revisada e mergeada em `master` (ou decisão explícita de não mergear ainda)
 

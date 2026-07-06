@@ -64,17 +64,18 @@ Marcar `[x]` os três primeiros itens da seção "Checklist geral" → "Fase 6":
 
 ## Verificação
 
-- [ ] Os três primeiros itens da seção "Checklist geral" → "Fase 6" em `progresso.md` marcados
+- [x] Os três primeiros itens da seção "Checklist geral" → "Fase 6" em `progresso.md` marcados
       como `[x]`
-- [ ] Os dois últimos itens (RACER-TASK-18/19) permanecem `[ ]` até essas tarefas serem
+- [x] Os dois últimos itens (RACER-TASK-18/19) permanecem `[ ]` até essas tarefas serem
       concluídas
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Marcados `[x]` os três primeiros itens da seção "Checklist geral" → "Fase 6" em `progresso.md` ("Sem duplicação evitável...", "Zero `any` não-justificado", "`CLAUDE.md`/`docs/` atualizados..."). Os dois últimos itens (dependentes de RACER-TASK-18/19) permaneceram `[ ]`.
 
-**Problemas encontrados:**
+**Problemas encontrados:** Nenhum. Correção puramente documental.
 
 **Arquivos criados/modificados:**
+- `docs/projeto/tasks/progresso.md` (checklist Fase 6 atualizado)
