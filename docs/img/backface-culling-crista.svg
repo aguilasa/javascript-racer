@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 600 300"
+   style="max-width:100%;height:auto;background:#fafafa;border:1px solid #ddd;border-radius:6px"
+   version="1.1"
+   id="svg9"
+   sodipodi:docname="backface-culling-crista.svg"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs9" />
+  <sodipodi:namedview
+     id="namedview9"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.4916667"
+     inkscape:cx="300"
+     inkscape:cy="203.46369"
+     inkscape:window-width="1600"
+     inkscape:window-height="832"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg9" />
+  <text
+     x="300"
+     y="18"
+     font-size="13"
+     fill="#222"
+     text-anchor="middle"
+     font-weight="bold"
+     id="text1">back-face culling: um segmento pode &quot;virar de costas&quot; logo após uma crista</text>
+  <!-- terreno com crista acentuada -->
+  <path
+     d="M40,220 Q200,40 300,90 Q400,140 560,220"
+     fill="none"
+     stroke="#696969"
+     stroke-width="10"
+     id="path1" />
+  <!-- camera -->
+  <circle
+     cx="60"
+     cy="195"
+     r="5"
+     fill="#222"
+     id="circle1" />
+  <text
+     x="60"
+     y="180"
+     font-size="11"
+     fill="#222"
+     text-anchor="middle"
+     id="text2">câmera</text>
+  <!-- linha de visada rasante sobre a crista -->
+  <line
+     x1="60"
+     y1="195"
+     x2="330"
+     y2="85"
+     stroke="#888"
+     stroke-width="1"
+     stroke-dasharray="4 3"
+     id="line2" />
+  <text
+     x="335"
+     y="80"
+     font-size="10"
+     fill="#888"
+     text-anchor="start"
+     id="text3">visada rasante sobre a crista</text>
+  <!-- segmento A: antes da crista, normal -->
+  <circle
+     cx="160"
+     cy="150"
+     r="4"
+     fill="#27ae60"
+     id="circle3" />
+  <circle
+     cx="210"
+     cy="95"
+     r="4"
+     fill="#27ae60"
+     id="circle4" />
+  <line
+     x1="160"
+     y1="150"
+     x2="210"
+     y2="95"
+     stroke="#27ae60"
+     stroke-width="3"
+     id="line4" />
+  <text
+     x="38.435753"
+     y="50.64246"
+     font-size="11px"
+     fill="#27ae60"
+     text-anchor="start"
+     id="text4">segmento A</text>
+  <text
+     x="38.435753"
+     y="64.642456"
+     font-size="10px"
+     fill="#27ae60"
+     text-anchor="start"
+     id="text5">p2.screen.y &lt; p1.screen.y → desenha</text>
+  <!-- segmento B: logo apos a crista -->
+  <circle
+     cx="320"
+     cy="95"
+     r="4"
+     fill="#c0392b"
+     id="circle5" />
+  <circle
+     cx="360"
+     cy="130"
+     r="4"
+     fill="#c0392b"
+     id="circle6" />
+  <line
+     x1="320"
+     y1="95"
+     x2="360"
+     y2="130"
+     stroke="#c0392b"
+     stroke-width="3"
+     id="line6" />
+  <text
+     x="259.77655"
+     y="181.39665"
+     font-size="11px"
+     fill="#c0392b"
+     text-anchor="start"
+     id="text6">segmento B (após a crista)</text>
+  <text
+     x="259.77655"
+     y="195.39665"
+     font-size="10px"
+     fill="#c0392b"
+     text-anchor="start"
+     id="text7">p2.screen.y ≥ p1.screen.y → descartado</text>
+  <rect
+     x="40"
+     y="250"
+     width="520"
+     height="40"
+     fill="#fdf6e3"
+     stroke="#d69e2e"
+     id="rect7" />
+  <text
+     x="300"
+     y="266"
+     font-size="12"
+     fill="#7a5c00"
+     text-anchor="middle"
+     id="text8">descartado se: segment.p2.screen.y ≥ segment.p1.screen.y</text>
+  <text
+     x="300"
+     y="283"
+     font-size="11"
+     fill="#7a5c00"
+     text-anchor="middle"
+     id="text9">(polígono degenerado/invertido — comum logo após uma crista acentuada)</text>
+</svg>

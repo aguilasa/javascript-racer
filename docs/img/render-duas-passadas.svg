@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;background:#fafafa;border:1px solid #ddd;border-radius:6px">
+  <text x="300" y="18" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">duas passadas de render(): pista primeiro, sprites/carros depois (ordem invertida)</text>
+
+  <!-- passada 1: pista, do mais proximo ao mais distante -->
+  <text x="300" y="42" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">Passada 1 — pista: do mais próximo (n=0) ao mais distante (n=drawDistance)</text>
+  <line x1="60" y1="55" x2="540" y2="55" stroke="#333" stroke-width="1.5" marker-end="url(#arrRight)"/>
+
+  <rect x="60"  y="65" width="50" height="34" fill="#6B6B6B"/>
+  <rect x="140" y="65" width="50" height="34" fill="#696969"/>
+  <rect x="220" y="65" width="50" height="34" fill="#6B6B6B"/>
+  <rect x="300" y="65" width="50" height="34" fill="#696969"/>
+  <rect x="380" y="65" width="50" height="34" fill="#6B6B6B"/>
+  <rect x="460" y="65" width="50" height="34" fill="#696969"/>
+
+  <text x="85"  y="112" font-size="9" fill="#555" text-anchor="middle">clip=260</text>
+  <text x="165" y="112" font-size="9" fill="#555" text-anchor="middle">clip=220</text>
+  <text x="245" y="112" font-size="9" fill="#555" text-anchor="middle">clip=185</text>
+  <text x="325" y="112" font-size="9" fill="#555" text-anchor="middle">clip=155</text>
+  <text x="405" y="112" font-size="9" fill="#555" text-anchor="middle">clip=130</text>
+  <text x="485" y="112" font-size="9" fill="#555" text-anchor="middle">clip=110</text>
+
+  <!-- conectores verticais -->
+  <line x1="85"  y1="118" x2="85"  y2="180" stroke="#bbb" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="165" y1="118" x2="165" y2="180" stroke="#bbb" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="245" y1="118" x2="245" y2="180" stroke="#bbb" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="325" y1="118" x2="325" y2="180" stroke="#bbb" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="405" y1="118" x2="405" y2="180" stroke="#bbb" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="485" y1="118" x2="485" y2="180" stroke="#bbb" stroke-width="1" stroke-dasharray="3 2"/>
+
+  <text x="300" y="150" font-size="10" fill="#888" text-anchor="middle">segment.clip guardado na passada 1 é usado para recortar sprites na passada 2</text>
+
+  <!-- passada 2: sprites/carros, do mais distante ao mais proximo -->
+  <rect x="60"  y="180" width="50" height="34" fill="#f4f4f4" stroke="#ccc"/>
+  <rect x="140" y="180" width="50" height="34" fill="#f4f4f4" stroke="#ccc"/>
+  <rect x="220" y="180" width="50" height="34" fill="#f4f4f4" stroke="#ccc"/>
+  <rect x="300" y="180" width="50" height="34" fill="#f4f4f4" stroke="#ccc"/>
+  <rect x="380" y="180" width="50" height="34" fill="#f4f4f4" stroke="#ccc"/>
+  <rect x="460" y="180" width="50" height="34" fill="#f4f4f4" stroke="#ccc"/>
+
+  <circle cx="85"  cy="197" r="6" fill="#27ae60"/>
+  <circle cx="245" cy="197" r="6" fill="#c0392b"/>
+  <circle cx="405" cy="197" r="6" fill="#2a6fd6"/>
+  <path d="M480,190 L490,204 L470,204 Z" fill="#8a5a2b"/>
+
+  <line x1="540" y1="232" x2="60" y2="232" stroke="#333" stroke-width="1.5" marker-end="url(#arrLeft)"/>
+  <text x="300" y="250" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">Passada 2 — sprites/carros: do mais distante (n=drawDistance-1) ao mais próximo (n=0)</text>
+
+  <defs>
+    <marker id="arrRight" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#333"/>
+    </marker>
+    <marker id="arrLeft" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M8,0 L0,4 L8,8 Z" fill="#333"/>
+    </marker>
+  </defs>
+
+  <text x="300" y="270" font-size="10" fill="#666" text-anchor="middle" font-style="italic">Render.sprite(..., segment.clip) corta a parte do sprite que ultrapassaria o horizonte já desenhado na passada 1</text>
+</svg>

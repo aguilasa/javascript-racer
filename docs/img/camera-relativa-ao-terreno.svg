@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 600 260"
+   style="max-width:100%;height:auto;background:#fafafa;border:1px solid #ddd;border-radius:6px"
+   version="1.1"
+   id="svg11"
+   sodipodi:docname="camera-relativa-ao-terreno.svg"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs11" />
+  <sodipodi:namedview
+     id="namedview11"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="2.7215507"
+     inkscape:cx="370.19336"
+     inkscape:cy="124.01018"
+     inkscape:window-width="2560"
+     inkscape:window-height="1044"
+     inkscape:window-x="1600"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg11" />
+  <text
+     x="300"
+     y="18"
+     font-size="13"
+     fill="#222"
+     text-anchor="middle"
+     font-weight="bold"
+     id="text1">altura da câmera é relativa ao terreno, não absoluta</text>
+  <!-- referencia de altura absoluta (fixa, como em v1/v2) -->
+  <line
+     x1="30"
+     y1="150"
+     x2="570"
+     y2="150"
+     stroke="#999"
+     stroke-width="1.2"
+     stroke-dasharray="6 4"
+     id="line1" />
+  <text
+     x="464.03384"
+     y="135.62813"
+     font-size="10px"
+     fill="#888888"
+     text-anchor="start"
+     id="text2">altura absoluta fixa (v1/v2)</text>
+  <!-- perfil do terreno (morro) -->
+  <path
+     d="M40,200 Q300,20 560,200"
+     fill="none"
+     stroke="#696969"
+     stroke-width="10"
+     id="path2" />
+  <text
+     x="300"
+     y="238"
+     font-size="11"
+     fill="#555"
+     text-anchor="middle"
+     id="text3">perfil do terreno (segmentos com y crescente)</text>
+  <line
+     x1="40"
+     y1="200"
+     x2="40"
+     y2="150"
+     stroke="#2a6fd6"
+     stroke-width="1.2"
+     stroke-dasharray="3 2"
+     id="line5" />
+  <!-- pontos no terreno e cameras correspondentes -->
+  <circle
+     cx="40"
+     cy="200"
+     r="4"
+     fill="#333"
+     id="circle3" />
+  <line
+     x1="170"
+     y1="133"
+     x2="170"
+     y2="83"
+     stroke="#2a6fd6"
+     stroke-width="1.2"
+     stroke-dasharray="3 2"
+     id="line6" />
+  <circle
+     cx="170"
+     cy="133"
+     r="4"
+     fill="#333"
+     id="circle4" />
+  <line
+     x1="300"
+     y1="110"
+     x2="300"
+     y2="60"
+     stroke="#2a6fd6"
+     stroke-width="1.2"
+     stroke-dasharray="3 2"
+     id="line7" />
+  <circle
+     cx="300"
+     cy="110"
+     r="4"
+     fill="#333"
+     id="circle5" />
+  <circle
+     cx="40"
+     cy="150"
+     r="5"
+     fill="#2a6fd6"
+     id="circle7" />
+  <circle
+     cx="170"
+     cy="83"
+     r="5"
+     fill="#2a6fd6"
+     id="circle8" />
+  <circle
+     cx="300"
+     cy="60"
+     r="5"
+     fill="#2a6fd6"
+     id="circle9" />
+  <!-- trajetoria real da camera -->
+  <polyline
+     points="40,150 170,83 300,60"
+     fill="none"
+     stroke="#2a6fd6"
+     stroke-width="2"
+     stroke-dasharray="2 3"
+     id="polyline9" />
+  <text
+     x="300"
+     y="45"
+     font-size="11"
+     fill="#2a6fd6"
+     text-anchor="middle"
+     id="text9">trajetória real da câmera: cameraY = playerY + cameraHeight</text>
+  <text
+     x="215"
+     y="100"
+     font-size="9"
+     fill="#2a6fd6"
+     text-anchor="middle"
+     id="text10">cameraHeight</text>
+  <text
+     x="104.53913"
+     y="128.47955"
+     font-size="9px"
+     fill="#2a6fd6"
+     text-anchor="start"
+     id="text11">(constante)</text>
+</svg>

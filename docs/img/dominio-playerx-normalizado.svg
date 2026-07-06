@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 600 230" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;background:#fafafa;border:1px solid #ddd;border-radius:6px">
+  <text x="300" y="18" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">domínio lateral de playerX (adimensional)</text>
+
+  <!-- zonas -->
+  <rect x="50"  y="85" width="50"  height="50" fill="#f0f0f0" stroke="#bbb" stroke-width="1" stroke-dasharray="3 2"/>
+  <rect x="100" y="85" width="100" height="50" fill="#fbe1e1" stroke="#c0392b" stroke-width="1"/>
+  <rect x="200" y="85" width="200" height="50" fill="#e2e2e2" stroke="#999"    stroke-width="1"/>
+  <rect x="400" y="85" width="100" height="50" fill="#fbe1e1" stroke="#c0392b" stroke-width="1"/>
+  <rect x="500" y="85" width="50"  height="50" fill="#f0f0f0" stroke="#bbb"    stroke-width="1" stroke-dasharray="3 2"/>
+
+  <!-- carro / playerX = 0 -->
+  <circle cx="300" cy="110" r="6" fill="#2a6fd6"/>
+  <text x="300" y="129" font-size="10" fill="#2a6fd6" text-anchor="middle">playerX = 0</text>
+  <text x="300" y="98"  font-size="11" fill="#333" text-anchor="middle">pista (playerX ∈ [-1,1])</text>
+
+  <!-- leader lines para fora-da-pista -->
+  <line x1="150" y1="85" x2="150" y2="66" stroke="#c0392b" stroke-width="1"/>
+  <text x="150" y="58" font-size="10" fill="#c0392b" text-anchor="middle">fora da pista</text>
+  <line x1="450" y1="85" x2="450" y2="66" stroke="#c0392b" stroke-width="1"/>
+  <text x="450" y="58" font-size="10" fill="#c0392b" text-anchor="middle">fora da pista</text>
+
+  <!-- leader lines para inatingivel -->
+  <line x1="75" y1="85" x2="75" y2="40" stroke="#999" stroke-width="1"/>
+  <text x="75" y="24" font-size="9" fill="#777" text-anchor="middle">além do limite</text>
+  <text x="75" y="35" font-size="9" fill="#777" text-anchor="middle">(Util.limit ±2)</text>
+  <line x1="525" y1="85" x2="525" y2="40" stroke="#999" stroke-width="1"/>
+  <text x="525" y="24" font-size="9" fill="#777" text-anchor="middle">além do limite</text>
+  <text x="525" y="35" font-size="9" fill="#777" text-anchor="middle">(Util.limit ±2)</text>
+
+  <!-- linha numerica e ticks -->
+  <line x1="50" y1="150" x2="550" y2="150" stroke="#888" stroke-width="1.5"/>
+  <line x1="100" y1="145" x2="100" y2="155" stroke="#555" stroke-width="1"/>
+  <line x1="200" y1="145" x2="200" y2="155" stroke="#555" stroke-width="1"/>
+  <line x1="300" y1="145" x2="300" y2="155" stroke="#555" stroke-width="1"/>
+  <line x1="400" y1="145" x2="400" y2="155" stroke="#555" stroke-width="1"/>
+  <line x1="500" y1="145" x2="500" y2="155" stroke="#555" stroke-width="1"/>
+  <text x="100" y="168" font-size="11" fill="#444" text-anchor="middle">-2</text>
+  <text x="200" y="168" font-size="11" fill="#444" text-anchor="middle">-1</text>
+  <text x="300" y="168" font-size="11" fill="#444" text-anchor="middle">0</text>
+  <text x="400" y="168" font-size="11" fill="#444" text-anchor="middle">1</text>
+  <text x="500" y="168" font-size="11" fill="#444" text-anchor="middle">2</text>
+
+  <text x="300" y="196" font-size="11" fill="#555" text-anchor="middle" font-style="italic">roadWidth (mundo) = 2000 → metade física da pista</text>
+  <text x="300" y="212" font-size="11" fill="#555" text-anchor="middle" font-style="italic">playerX é a fração normalizada [-1,1] dessa largura, independente do valor de roadWidth</text>
+</svg>

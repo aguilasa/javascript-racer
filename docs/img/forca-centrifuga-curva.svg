@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 500 340"
+   style="max-width:100%;height:auto;background:#fafafa;border:1px solid #ddd;border-radius:6px"
+   version="1.1"
+   id="svg11"
+   sodipodi:docname="forca-centrifuga-curva.svg"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview11"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.79"
+     inkscape:cx="250"
+     inkscape:cy="214.80447"
+     inkscape:window-width="1600"
+     inkscape:window-height="832"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg11" />
+  <text
+     x="250"
+     y="20"
+     font-size="13"
+     fill="#222"
+     text-anchor="middle"
+     font-weight="bold"
+     id="text1">força centrífuga numa curva (vista de cima, esquemática)</text>
+  <!-- pista curvando para a direita -->
+  <path
+     d="M 70,290 Q 300,290 380,50"
+     fill="none"
+     stroke="#9a9a9a"
+     stroke-width="46"
+     opacity="0.5"
+     id="path1" />
+  <path
+     d="M 70,290 Q 300,290 380,50"
+     fill="none"
+     stroke="#ffffff"
+     stroke-width="2"
+     stroke-dasharray="10 8"
+     id="path2" />
+  <text
+     x="360"
+     y="40"
+     font-size="11"
+     fill="#555"
+     text-anchor="end"
+     id="text3">à frente (curva à direita, curve &gt; 0)</text>
+  <!-- carro -->
+  <text
+     x="247"
+     y="222"
+     font-size="11"
+     fill="#222"
+     text-anchor="middle"
+     id="text4">carro</text>
+  <!-- direcao do movimento -->
+  <line
+     x1="247"
+     y1="241"
+     x2="297"
+     y2="208"
+     stroke="#333"
+     stroke-width="2"
+     marker-end="url(#arrowFwd)"
+     id="line4" />
+  <text
+     x="305"
+     y="200"
+     font-size="10"
+     fill="#333"
+     id="text5">direção do movimento</text>
+  <!-- forca centrifuga -->
+  <line
+     x1="247"
+     y1="241"
+     x2="177"
+     y2="261"
+     stroke="#c0392b"
+     stroke-width="3"
+     marker-end="url(#arrowCf)"
+     id="line5" />
+  <text
+     x="60"
+     y="278"
+     font-size="11"
+     fill="#c0392b"
+     text-anchor="start"
+     id="text6">força centrífuga</text>
+  <!-- contra-esterco do jogador -->
+  <line
+     x1="247"
+     y1="241"
+     x2="287"
+     y2="231"
+     stroke="#2a6fd6"
+     stroke-width="2.5"
+     marker-end="url(#arrowSt)"
+     id="line7" />
+  <circle
+     cx="247"
+     cy="241"
+     r="8"
+     fill="#222"
+     id="circle3" />
+  <text
+     x="299"
+     y="255"
+     font-size="10px"
+     fill="#2a6fd6"
+     text-anchor="start"
+     id="text8">contra-esterço do jogador</text>
+  <text
+     x="299"
+     y="268"
+     font-size="10px"
+     fill="#2a6fd6"
+     text-anchor="start"
+     id="text9">(playerX ajustado por keyLeft/keyRight)</text>
+  <defs
+     id="defs11">
+    <marker
+       id="arrowFwd"
+       markerWidth="8"
+       markerHeight="8"
+       refX="4"
+       refY="4"
+       orient="auto">
+      <path
+         d="M0,0 L8,4 L0,8 Z"
+         fill="#333"
+         id="path9" />
+    </marker>
+    <marker
+       id="arrowCf"
+       markerWidth="8"
+       markerHeight="8"
+       refX="4"
+       refY="4"
+       orient="auto">
+      <path
+         d="M0,0 L8,4 L0,8 Z"
+         fill="#c0392b"
+         id="path10" />
+    </marker>
+    <marker
+       id="arrowSt"
+       markerWidth="8"
+       markerHeight="8"
+       refX="4"
+       refY="4"
+       orient="auto">
+      <path
+         d="M0,0 L8,4 L0,8 Z"
+         fill="#2a6fd6"
+         id="path11" />
+    </marker>
+  </defs>
+  <rect
+     x="40"
+     y="313"
+     width="420"
+     height="26"
+     fill="#fdf6e3"
+     stroke="#d69e2e"
+     id="rect11" />
+  <text
+     x="60"
+     y="310"
+     font-size="11"
+     fill="#555"
+     id="text2">início (mais perto)</text>
+  <text
+     x="60"
+     y="292"
+     font-size="10"
+     fill="#c0392b"
+     text-anchor="start"
+     id="text7">(empurra para fora da curva)</text>
+  <text
+     x="250"
+     y="330"
+     font-size="11px"
+     fill="#7a5c00"
+     text-anchor="middle"
+     id="text11">playerX -= dx · speedPercent · playerSegment.curve · centrifugal</text>
+</svg>

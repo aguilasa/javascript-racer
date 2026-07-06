@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 600 260"
+   style="max-width:100%;height:auto;background:#fafafa;border:1px solid #ddd;border-radius:6px"
+   version="1.1"
+   id="svg9"
+   sodipodi:docname="campo-de-visao-fov.svg"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="3.5077898"
+     inkscape:cx="304.89284"
+     inkscape:cy="126.43289"
+     inkscape:window-width="2560"
+     inkscape:window-height="1044"
+     inkscape:window-x="1600"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg9" />
+  <!-- eixo central -->
+  <line
+     x1="70"
+     y1="130"
+     x2="560"
+     y2="130"
+     stroke="#aaa"
+     stroke-width="1"
+     stroke-dasharray="4 3"
+     id="line1" />
+  <!-- camera -->
+  <text
+     x="70"
+     y="152"
+     font-size="12"
+     fill="#222"
+     text-anchor="middle"
+     id="text1">câmera</text>
+  <!-- raios do campo de visão -->
+  <line
+     x1="70"
+     y1="130"
+     x2="320"
+     y2="40"
+     stroke="#c0392b"
+     stroke-width="1.5"
+     id="line2" />
+  <line
+     x1="70"
+     y1="130"
+     x2="320"
+     y2="220"
+     stroke="#c0392b"
+     stroke-width="1.5"
+     id="line3" />
+  <circle
+     cx="70"
+     cy="130"
+     r="5"
+     fill="#222"
+     id="circle1" />
+  <!-- arco do angulo fov/2 (metade superior) -->
+  <path
+     d="m 135.90338,153.88055 a 60,60 0 0 0 -1.87611,-47.09013"
+     fill="none"
+     stroke="#c0392b"
+     stroke-width="1.2"
+     id="path3" />
+  <text
+     x="150"
+     y="116"
+     font-size="12px"
+     fill="#c0392b"
+     id="text3">fov/2</text>
+  <!-- plano de projecao -->
+  <line
+     x1="320"
+     y1="30"
+     x2="320"
+     y2="230"
+     stroke="#2a6fd6"
+     stroke-width="1.5"
+     id="line4" />
+  <text
+     x="320"
+     y="20"
+     font-size="12"
+     fill="#2a6fd6"
+     text-anchor="middle"
+     id="text4">plano de projeção (largura normalizada = 2, metade = 1)</text>
+  <!-- marcacao da metade "1" do plano -->
+  <line
+     x1="335"
+     y1="130"
+     x2="335"
+     y2="40"
+     stroke="#2a6fd6"
+     stroke-width="1"
+     stroke-dasharray="3 3"
+     id="line5" />
+  <text
+     x="345"
+     y="85"
+     font-size="12"
+     fill="#2a6fd6"
+     id="text5">1</text>
+  <!-- distancia d -->
+  <line
+     x1="70"
+     y1="245"
+     x2="320"
+     y2="245"
+     stroke="#555"
+     stroke-width="1.5"
+     marker-end="url(#dArrow)"
+     marker-start="url(#dArrow)"
+     id="line6" />
+  <text
+     x="195"
+     y="240"
+     font-size="12"
+     fill="#555"
+     text-anchor="middle"
+     id="text6">d</text>
+  <defs
+     id="defs6">
+    <marker
+       id="dArrow"
+       markerWidth="8"
+       markerHeight="8"
+       refX="4"
+       refY="4"
+       orient="auto">
+      <path
+         d="M0,0 L8,4 L0,8 Z"
+         fill="#555"
+         id="path6" />
+    </marker>
+  </defs>
+  <text
+     x="450"
+     y="122"
+     font-size="13px"
+     fill="#222222"
+     text-anchor="middle"
+     font-weight="bold"
+     id="text7">d = 1 / tan(fov/2)</text>
+  <text
+     x="450"
+     y="150"
+     font-size="11"
+     fill="#666"
+     text-anchor="middle"
+     id="text8">fov maior → d menor (grande angular)</text>
+  <text
+     x="450"
+     y="166"
+     font-size="11"
+     fill="#666"
+     text-anchor="middle"
+     id="text9">fov menor → d maior (zoom/teleobjetiva)</text>
+</svg>
