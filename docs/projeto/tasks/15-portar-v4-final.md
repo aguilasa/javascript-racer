@@ -1,0 +1,98 @@
+---
+id: RACER-TASK-15
+title: "Portar v4 (RacerGameV4 + tweak UI de lanes) e validar contra o original"
+type: implementação
+category: frontend
+phase: 5
+depends_on: ["RACER-TASK-13", "RACER-TASK-14"]
+status: pendente
+---
+
+# RACER-TASK-15: Portar v4 (`RacerGameV4`) e validar contra o original
+
+## Contexto
+
+- **Fonte original:** `v4.final.html` — ver `docs/05-v4-final.md` (capítulo inteiro).
+- `RacerGameV4 extends RacerGameV3` — a maior tarefa de todo o plano: integra
+  `TrafficManager`/`Car` (RACER-TASK-13) e `scenery`/`Hud` (RACER-TASK-14) numa versão
+  jogável completa.
+- Esta é a última versão a portar — depois dela, só resta polimento (Fase 6).
+
+## Objetivo
+
+1. Criar `app/src/versions/v4-final/RacerGameV4.ts` (`extends RacerGameV3`).
+2. Criar `app/src/versions/v4-final/main.ts`.
+3. Estender `core/TweakUI.ts` com o controle de `lanes`.
+4. Validar `v4.html` contra `v4.final.html` original.
+
+## Requisitos da implementação
+
+### `RacerGameV4.ts` — pontos de extensão sobrescritos
+
+- `buildRoad()`: receita completa (`addBumps`, mais retas/S-curves/morros que v3, ver
+  `docs/05-v4-final.md#510-o-traçado-do-circuito-final`), seguida de `resetSprites(this.road)`
+  (RACER-TASK-14) e `this.trafficManager.resetCars()` (RACER-TASK-13).
+- `updateExtras(dt)`: chama `this.trafficManager.updateCars(...)`, depois a colisão contra
+  sprites de cenário e contra carros (ver `docs/05-v4-final.md#55`, itens 2 e 3), depois
+  `this.hud.updateSpeed(...)`/`updateCurrentLapTime(...)`/`onLapComplete(...)` conforme a
+  lógica de cruzamento de linha de chegada (ver `docs/05-v4-final.md#55`, item 6).
+- `renderExtraLayer(...)`: a segunda passada de renderização (sprites/carros, do mais distante
+  ao mais próximo, usando `segment.clip` — ver
+  `docs/05-v4-final.md#56-renderização-em-duas-passadas-segmentos-depois-spritescarros` e a
+  ilustração `docs/img/render-duas-passadas.svg`). A primeira passada (pista) precisa passar a
+  registrar `segment.clip = maxy` em cada segmento — se `core/RacerGame.ts` ainda não faz isso
+  (não precisava até agora), ajustar o laço comum para sempre gravar `clip`, já que isso é
+  inofensivo para v1–v3 (só não é lido por elas).
+- `playerX` limitado a `[-3, 3]` em vez de `[-2, 2]` (ver `docs/05-v4-final.md#55`, item 4) —
+  provavelmente um campo de configuração (`offRoadHardLimit` ou similar) em vez de constante
+  fixa em `RacerGame`, para a v4 poder sobrescrever sem duplicar o método inteiro de física.
+- Offsets de parallax usando `(position - startPosition) / segmentLength` em vez de
+  `speedPercent` (ver `docs/05-v4-final.md#55`, item 5) — conferir se isso exige ajustar a
+  assinatura de `updateParallax` definida na RACER-TASK-09/11 para receber `startPosition`
+  (o plano já previu esse parâmetro, ver RACER-TASK-09).
+
+### Tweak UI: `lanes`
+
+Estender `core/TweakUI.ts` (criado na RACER-TASK-09) com o handler de `lanes` (ver
+`docs/05-v4-final.md#58-tweak-ui-faixas-lanes-e-reinicialização-condicional-da-pista`) — não
+duplicar a classe, só adicionar o controle que faltava.
+
+## Passos
+
+1. Reler `docs/05-v4-final.md` inteiro (é a maior fonte original de todas as tarefas de
+   port).
+2. Implementar `RacerGameV4.ts`, integrando `TrafficManager`, `Car`, `scenery`, `Hud`.
+3. Ajustar `core/RacerGame.ts`/`core/TweakUI.ts` conforme necessário (registrar todos os
+   ajustes no Log de Execução).
+4. Criar `main.ts`.
+5. `npm run dev`, abrir `v4.html`.
+6. **Validação lado a lado** com `v4.final.html` original:
+   - tráfego se movendo, desviando de forma equivalente do jogador e entre si
+   - colisão contra sprites de cenário (para o carro) e contra tráfego (reduz velocidade)
+   - HUD atualizando velocidade e tempo da volta atual
+   - volta completa registra tempo, recorde persiste entre reloads (`localStorage`)
+   - controle de `lanes` na tweak UI funciona
+   - música toca, botão de mute funciona e persiste
+7. Reconferir rapidamente `v1.html`/`v2.html`/`v3.html` (ajustes em `core/RacerGame.ts`).
+8. `npm run build` sem erros.
+
+## Critério de conclusão
+
+- [ ] `RacerGameV4.ts` e `main.ts` criados
+- [ ] Tráfego, colisão, sprites de cenário e HUD funcionando
+- [ ] `lanes` configurável via tweak UI
+- [ ] `v1.html`/`v2.html`/`v3.html` continuam funcionando idênticos depois dos ajustes em
+      `core/`
+- [ ] `v4.html` jogável, comparável a `v4.final.html` lado a lado
+- [ ] `npm run build` e `npm run typecheck` sem erros
+- [ ] Nenhum arquivo fora de `app/` foi alterado
+
+## Log de Execução *(preenchido após execução)*
+
+**Executado em:**
+
+**Resumo do que foi feito:**
+
+**Problemas encontrados:**
+
+**Arquivos criados/modificados:**
