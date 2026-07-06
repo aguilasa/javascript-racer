@@ -45,7 +45,7 @@ RACER-TASK-19 (a única tarefa de merge, 👤).
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| RACER-TASK-11 | Portar v2 (`RacerGameV2`) e validar contra o original | RACER-TASK-10 | ⬜ Pendente |
+| RACER-TASK-11 | Portar v2 (`RacerGameV2`) e validar contra o original | RACER-TASK-10 | 🔄 Em andamento |
 
 ### Fase 4 — Portar v3 (colinas)
 

@@ -51,6 +51,15 @@ export abstract class RacerGame {
   protected offRoadLimit  = 0        // computed in reset()
   protected resolution    = 1        // computed in reset()
 
+  // Parallax state (v2+)
+  protected skyOffset  = 0
+  protected hillOffset = 0
+  protected treeOffset = 0
+  protected skySpeed   = 0.001
+  protected hillSpeed  = 0.002
+  protected treeSpeed  = 0.003
+  protected centrifugal = 0.3
+
   // Key flags
   protected keyLeft   = false
   protected keyRight  = false
@@ -147,13 +156,18 @@ export abstract class RacerGame {
     const playerY       = Util.interpolate(playerSegment.p1.world.y, playerSegment.p2.world.y, 0.5)
     const cameraY       = this.getCameraY(playerY)
     const startPosition = this.position
+    const basePercent   = Util.percentRemaining(this.position, this.segmentLength)
     let   maxy          = this.height
+
+    // Curve accumulator (v2+): safe for v1 as curve is always 0
+    let x  = 0
+    let dx = -(baseSegment.curve * basePercent)
 
     this.renderer.ctx.clearRect(0, 0, this.width, this.height)
 
-    this.renderer.background(this.background, this.width, this.height, BACKGROUND.SKY!)
-    this.renderer.background(this.background, this.width, this.height, BACKGROUND.HILLS!)
-    this.renderer.background(this.background, this.width, this.height, BACKGROUND.TREES!)
+    this.renderer.background(this.background, this.width, this.height, BACKGROUND.SKY!, this.skyOffset)
+    this.renderer.background(this.background, this.width, this.height, BACKGROUND.HILLS!, this.hillOffset)
+    this.renderer.background(this.background, this.width, this.height, BACKGROUND.TREES!, this.treeOffset)
 
     const segments = this.road.segments
 
@@ -164,8 +178,11 @@ export abstract class RacerGame {
 
       const cameraZ = this.position - (segment.looped ? this.road.trackLength : 0)
 
-      Util.project(segment.p1, this.playerX * this.roadWidth, cameraY, cameraZ, this.cameraDepth, this.width, this.height, this.roadWidth)
-      Util.project(segment.p2, this.playerX * this.roadWidth, cameraY, cameraZ, this.cameraDepth, this.width, this.height, this.roadWidth)
+      Util.project(segment.p1, (this.playerX * this.roadWidth) - x, cameraY, cameraZ, this.cameraDepth, this.width, this.height, this.roadWidth)
+      Util.project(segment.p2, (this.playerX * this.roadWidth) - x - dx, cameraY, cameraZ, this.cameraDepth, this.width, this.height, this.roadWidth)
+
+      x  = x + dx
+      dx = dx + segment.curve
 
       if ((segment.p1.camera.z <= this.cameraDepth) || (segment.p2.screen.y >= maxy))
         continue

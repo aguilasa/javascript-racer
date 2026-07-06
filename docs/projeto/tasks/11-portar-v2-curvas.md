@@ -68,19 +68,22 @@ renderização inteiro dentro de `RacerGameV2`.
 
 ## Critério de conclusão
 
-- [ ] `RacerGameV2.ts` e `main.ts` criados
-- [ ] `core/RacerGame.ts` ajustado para suportar o acumulador `x`/`dx` sem quebrar a v1
+- [x] `RacerGameV2.ts` e `main.ts` criados
+- [x] `core/RacerGame.ts` ajustado para suportar o acumulador `x`/`dx` sem quebrar a v1
 - [ ] `v1.html` continua funcionando idêntico depois do ajuste (reconferir rapidamente)
 - [ ] `v2.html` jogável, comparável a `v2.curves.html` lado a lado
-- [ ] `npm run build` e `npm run typecheck` sem erros
-- [ ] Nenhum arquivo fora de `app/` foi alterado
+- [x] `npm run build` e `npm run typecheck` sem erros
+- [x] Nenhum arquivo fora de `app/` foi alterado
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Adicionado estado de parallax (`skyOffset`, `hillOffset`, `treeOffset`, `skySpeed`, `hillSpeed`, `treeSpeed`, `centrifugal`) a `RacerGame.ts` — seguro para v1 pois defaults a 0. Ajustado `render()` para usar o acumulador duplo `x`/`dx` (curva) e passar offsets de parallax para `background()` — seguro para v1 pois `curve` é sempre 0. Criado `RacerGameV2.ts` com overrides: `buildRoad()` (receita com curvas usando DSL do `Road`), `updateLateralForces()` (força centrífuga), `updateParallax()` (parallax scrolling). Atualizado `main.ts` para instanciar RacerGameV2. Typecheck e build passam. Validação visual (v1 ainda funciona, v2 comparável ao original) requer execução manual de `npm run dev`.
 
-**Problemas encontrados:**
+**Problemas encontrados:** Erros de tipo corrigidos: (1) `BACKGROUND.SKY`/`HILLS`/`TREES` podem ser `undefined` — adicionado `!` non-null assertion; (2) Import de `ROAD` estava errado (`constants` → `Road`); (3) Parâmetros não usados em `updateParallax` prefixados com `_`.
 
 **Arquivos criados/modificados:**
+- `app/src/core/RacerGame.ts` (estado de parallax, acumulador x/dx em render(), offsets em background())
+- `app/src/versions/v2-curves/RacerGameV2.ts` (criado)
+- `app/src/versions/v2-curves/main.ts` (atualizado: stub → implementação real)
