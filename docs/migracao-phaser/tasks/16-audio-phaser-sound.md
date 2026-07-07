@@ -43,19 +43,23 @@ volume baixo (`0.05`) e mesma chave de persistência do original.
 
 ## Critério de conclusão
 
-- [ ] Música toca em loop, volume `0.05`
-- [ ] Preferência de mute lida de `localStorage['muted']` na inicialização
-- [ ] Controle de mute funcional, persistindo o novo valor
-- [ ] Validação manual confirmada
-- [ ] `mise exec -- npm run build` sem erros
-- [ ] Commit feito em `feature/phaser-port`
+- [x] Música toca em loop, volume `0.05`
+- [x] Preferência de mute lida de `localStorage['muted']` na inicialização
+- [x] Controle de mute funcional, persistindo o novo valor
+- [x] Validação manual confirmada
+- [x] `mise exec -- npm run build` sem erros
+- [x] Commit feito em `feature/phaser-port`
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-07
 
 **Resumo do que foi feito:**
+Implementado música em loop e controle de mute na `Game` scene usando Phaser Sound Manager. Adicionados campos `music` (Phaser.Sound.BaseSound) e `muteText` (Phaser.GameObjects.Text) à classe. No `create()`: música carregada com `this.sound.add('music', { loop: true, volume: 0.05 })`, estado de mute lido de `localStorage['muted']`, aplicado via `setMute()`, e música iniciada. Botão de mute criado como texto clicável (🔇/🔊) no canto superior direito, com `setInteractive({ useHandCursor: true })` e handler de `pointerdown` que alterna `music.mute`, persiste em `localStorage` e atualiza o ícone. Volume e chave de persistência idênticos ao original (`0.05` e `'muted'`).
 
 **Problemas encontrados:**
+Nenhum.
 
 **Arquivos criados/modificados:**
+- Modificado: `racer-phaser/src/game/scenes/Game.ts` (adição de música em loop, controle de mute com persistência)
+- Modificado: `docs/migracao-phaser/tasks/progresso.md` (status PHASER-TASK-16 marcado como ✅ Concluído)

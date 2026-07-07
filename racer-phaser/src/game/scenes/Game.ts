@@ -21,6 +21,8 @@ export class Game extends Scene
     private skyTileSprite!: Phaser.GameObjects.TileSprite;
     private hillsTileSprite!: Phaser.GameObjects.TileSprite;
     private treesTileSprite!: Phaser.GameObjects.TileSprite;
+    private music!: Phaser.Sound.BaseSound;
+    private muteText!: Phaser.GameObjects.Text;
 
     private gdt = 0; // accumulated time for fixed timestep
     private step = 1 / 60; // fixed timestep (60 FPS)
@@ -74,6 +76,27 @@ export class Game extends Scene
         this.treesTileSprite = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, 'racer_background', 'TREES');
         this.treesTileSprite.setOrigin(0, 0);
         this.treesTileSprite.setDepth(-1);
+
+        // Music setup (PHASER-TASK-16)
+        this.music = this.sound.add('music', { loop: true, volume: 0.05 });
+        const isMuted = localStorage.getItem('muted') === 'true';
+        this.music.setMute(isMuted);
+        this.music.play();
+
+        // Mute button (text-based, clickable)
+        this.muteText = this.add.text(this.scale.width - 80, 10, isMuted ? '🔇' : '🔊', {
+            fontSize: '24px',
+            color: '#fff',
+            backgroundColor: '#000',
+            padding: { x: 8, y: 4 }
+        });
+        this.muteText.setInteractive({ useHandCursor: true });
+        this.muteText.on('pointerdown', () => {
+            const newMuted = !this.music.mute;
+            this.music.setMute(newMuted);
+            localStorage.setItem('muted', String(newMuted));
+            this.muteText.setText(newMuted ? '🔇' : '🔊');
+        });
     }
 
     update (_time: number, delta: number)

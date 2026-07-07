@@ -77,7 +77,7 @@ PHASER-TASK-20 (a única tarefa de merge, 👤).
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| PHASER-TASK-16 | Música em loop + mute persistido via Phaser Sound Manager | PHASER-TASK-15 | ⬜ Pendente |
+| PHASER-TASK-16 | Música em loop + mute persistido via Phaser Sound Manager | PHASER-TASK-15 | ✅ Concluído |
 | PHASER-TASK-17 | Adaptar `MainMenu`/`GameOver` ao tema do racer e validar fluxo completo de cenas | PHASER-TASK-16 | ⬜ Pendente |
 
 ### Fase 9 — Polimento, paridade e merge
