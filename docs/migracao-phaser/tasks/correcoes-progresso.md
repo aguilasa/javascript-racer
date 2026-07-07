@@ -18,6 +18,7 @@
 | CORR-PHASER-012 | Game.update() chama this.input.keyboard.addKeys(...) a cada frame em vez de uma única vez | Baixa | [x] concluído |
 | CORR-PHASER-013 | segment.clip nunca é resetado — segmentos fantasmas corrompem a pista progressivamente ao dirigir | Crítica | [x] concluído |
 | CORR-PHASER-014 | Checklist de Critério de conclusão da PHASER-TASK-10 não marcado | Baixa | [x] concluído |
+| CORR-PHASER-015 | Game.update() chama racerEngine.getRenderState() 4 vezes por frame, recomputando o mesmo resultado | Alta | [x] concluído |
 
 ## Checklist
 
@@ -35,6 +36,7 @@
 - [x] CORR-PHASER-012 — mover `addKeys(...)` de `update()` para `create()`
 - [x] CORR-PHASER-013 — resetar `segment.clip` entre frames em `getRenderState()`
 - [x] CORR-PHASER-014 — marcar checklist da PHASER-TASK-10 (após CORR-PHASER-013 resolvida)
+- [x] CORR-PHASER-015 — chamar `getRenderState()` uma única vez por frame em `Game.update()`
 
 ## Detalhes por correção
 
@@ -158,3 +160,13 @@
   todos `[ ]` (mesmo padrão da `CORR-PHASER-001`)
 - **Fix:** marcar os itens — mas só depois de `CORR-PHASER-013` resolvida e revalidada
   visualmente, já que o item de validação visual não pode ser marcado como verdadeiro hoje
+
+### CORR-PHASER-015
+
+- **Alvo com problema:** `racer-phaser/src/game/scenes/Game.ts`
+- **Sintoma:** `renderParallax()`, `renderRoad()`, `renderScenery()` e `renderPlayer()` cada um
+  chama `this.racerEngine.getRenderState()` de forma independente — 4 chamadas por frame que
+  recomputam o mesmo resultado (o estado do jogo não muda entre elas), incluindo o reset de
+  `clip` de toda a pista (milhares de segmentos) 4x
+- **Fix:** chamar `getRenderState()` uma vez em `update()`, passar o resultado como parâmetro
+  para os quatro métodos

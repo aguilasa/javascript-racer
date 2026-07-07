@@ -5,7 +5,7 @@ import { SceneryRenderer } from '../racer/SceneryRenderer';
 import { COLORS } from '../racer/constants';
 import { SPRITES } from '../racer/sprites';
 import { BACKGROUND } from '../racer/background';
-import { RacerEngine } from '../racer/RacerEngine';
+import { RacerEngine, RenderState } from '../racer/RacerEngine';
 
 export class Game extends Scene
 {
@@ -86,16 +86,16 @@ export class Game extends Scene
             this.racerEngine.update(this.step);
         }
 
-        this.renderParallax();
-        this.renderRoad();
-        this.renderScenery();
-        this.renderPlayer();
+        const state = this.racerEngine.getRenderState();
+        this.renderParallax(state);
+        this.renderRoad(state);
+        this.renderScenery(state);
+        this.renderPlayer(state);
     }
 
 
-    private renderParallax(): void
+    private renderParallax(state: RenderState): void
     {
-        const state = this.racerEngine.getRenderState();
 
         // Update tilePositionX based on parallax offsets
         // Same relationship as Renderer.background() uses for sourceX calculation
@@ -105,9 +105,8 @@ export class Game extends Scene
         this.treesTileSprite.tilePositionX = state.treeOffset * BACKGROUND.TREES.w;
     }
 
-    private renderRoad(): void
+    private renderRoad(state: RenderState): void
     {
-        const state = this.racerEngine.getRenderState();
         const segments = state.segments;
         const baseIndex = state.baseSegment.index;
 
@@ -127,9 +126,8 @@ export class Game extends Scene
         }
     }
 
-    private renderScenery(): void
+    private renderScenery(state: RenderState): void
     {
-        const state = this.racerEngine.getRenderState();
 
         this.sceneryRenderer.clear();
         this.sceneryRenderer.draw(
@@ -142,9 +140,8 @@ export class Game extends Scene
         );
     }
 
-    private renderPlayer(): void
+    private renderPlayer(state: RenderState): void
     {
-        const state = this.racerEngine.getRenderState();
         const speedPercent = state.speed / state.maxSpeed;
         const steer = state.steer;
         const updown = state.updown;
