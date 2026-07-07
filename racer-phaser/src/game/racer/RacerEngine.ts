@@ -142,23 +142,26 @@ export class RacerEngine {
     if (((this.playerX < -1) || (this.playerX > 1)) && (this.speed > this.offRoadLimit))
       this.speed = Util.accelerate(this.speed, this.offRoadDecel, dt)
 
-    // Collision against scenery sprites (PHASER-TASK-12)
-    // Only check when off-road, as all scenery sprites are outside the track
+    this.playerX = Util.limit(this.playerX, -this.offRoadHardLimit, this.offRoadHardLimit)
+    this.speed   = Util.limit(this.speed,   0,  this.maxSpeed)
+
+    // Collision against scenery sprites (PHASER-TASK-12) — roda depois do clamp final e recalcula
+    // playerSegment com a posição já atualizada neste frame, igual à ordem de RacerGame.update()
+    // → RacerGameV4.updateExtras() no original (que recomputa playerSegment, não reaproveita o
+    // calculado no topo de update()).
+    const collisionSegment = this.road.findSegment(this.position + this.playerZ)
     if ((this.playerX < -1) || (this.playerX > 1)) {
       const playerW = SPRITES.PLAYER_STRAIGHT.w * SPRITES.SCALE
-      for (const sprite of playerSegment.sprites) {
+      for (const sprite of collisionSegment.sprites) {
         const spriteW = sprite.source.w * SPRITES.SCALE
         const spriteOffset = sprite.offset + spriteW / 2 * (sprite.offset > 0 ? 1 : -1)
         if (Util.overlap(this.playerX, playerW, spriteOffset, spriteW)) {
           this.speed = this.maxSpeed / 5
-          this.position = Util.increase(playerSegment.p1.world.z, -this.playerZ, this.road.trackLength)
+          this.position = Util.increase(collisionSegment.p1.world.z, -this.playerZ, this.road.trackLength)
           break
         }
       }
     }
-
-    this.playerX = Util.limit(this.playerX, -this.offRoadHardLimit, this.offRoadHardLimit)
-    this.speed   = Util.limit(this.speed,   0,  this.maxSpeed)
 
     // Extras (collision, HUD timing) will be added in PHASER-TASK-11/15
     // this.updateExtras(dt)

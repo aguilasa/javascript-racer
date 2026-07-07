@@ -19,6 +19,7 @@
 | CORR-PHASER-013 | segment.clip nunca é resetado — segmentos fantasmas corrompem a pista progressivamente ao dirigir | Crítica | [x] concluído |
 | CORR-PHASER-014 | Checklist de Critério de conclusão da PHASER-TASK-10 não marcado | Baixa | [x] concluído |
 | CORR-PHASER-015 | Game.update() chama racerEngine.getRenderState() 4 vezes por frame, recomputando o mesmo resultado | Alta | [x] concluído |
+| CORR-PHASER-016 | Colisão jogador↔sprite de cenário usa playerSegment desatualizado e roda antes do clamp final de playerX/speed | Alta | [x] concluído |
 
 ## Checklist
 
@@ -37,6 +38,7 @@
 - [x] CORR-PHASER-013 — resetar `segment.clip` entre frames em `getRenderState()`
 - [x] CORR-PHASER-014 — marcar checklist da PHASER-TASK-10 (após CORR-PHASER-013 resolvida)
 - [x] CORR-PHASER-015 — chamar `getRenderState()` uma única vez por frame em `Game.update()`
+- [x] CORR-PHASER-016 — recalcular `playerSegment` pós-movimento e mover colisão de cenário para depois do clamp final
 
 ## Detalhes por correção
 
@@ -170,3 +172,13 @@
   `clip` de toda a pista (milhares de segmentos) 4x
 - **Fix:** chamar `getRenderState()` uma vez em `update()`, passar o resultado como parâmetro
   para os quatro métodos
+
+### CORR-PHASER-016
+
+- **Alvo com problema:** `racer-phaser/src/game/racer/RacerEngine.ts` (`update()`)
+- **Sintoma:** dois problemas no bloco de colisão jogador↔sprite de cenário (PHASER-TASK-12):
+  (1) reaproveita o `playerSegment` calculado no topo de `update()` (posição **antes** de
+  avançar), em vez de recalculá-lo com a posição já atualizada, como o `updateExtras()` original
+  faz; (2) roda **antes** do clamp final de `playerX`/`speed`, não depois, como no original
+- **Fix:** recalcular `playerSegment` a partir de `this.position` já atualizado, e mover o bloco
+  de colisão para depois de `Util.limit(playerX, ...)`/`Util.limit(speed, ...)`
