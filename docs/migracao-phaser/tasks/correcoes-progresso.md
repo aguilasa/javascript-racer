@@ -22,6 +22,7 @@
 | CORR-PHASER-016 | Colisão jogador↔sprite de cenário usa playerSegment desatualizado e roda antes do clamp final de playerX/speed | Alta | [x] concluído |
 | CORR-PHASER-017 | currentLapTime incrementado num ramo `else` externo que não existe no original — cronometragem de volta diverge | Crítica | [x] concluído |
 | CORR-PHASER-018 | tsc --noEmit falha (car de Segment.cars tratado como unknown) em RacerEngine.ts/TrafficRenderer.ts — npm run build não detecta | Alta | [x] concluído |
+| CORR-PHASER-019 | tsc --noEmit falha — Game.music tipado como Phaser.Sound.BaseSound, que não declara mute/setMute | Alta | [x] concluído |
 
 ## Checklist
 
@@ -43,6 +44,7 @@
 - [x] CORR-PHASER-016 — recalcular `playerSegment` pós-movimento e mover colisão de cenário para depois do clamp final
 - [x] CORR-PHASER-017 — remover o `else` externo do bloco de cronometragem de volta em `RacerEngine.update()`
 - [x] CORR-PHASER-018 — tipar explicitamente `car` (cast para `Car`) em `RacerEngine.ts`/`TrafficRenderer.ts`
+- [x] CORR-PHASER-019 — trocar tipo de `Game.music` de `Phaser.Sound.BaseSound` para a união de subtipos concretos
 
 ## Detalhes por correção
 
@@ -213,3 +215,14 @@
   mesma lacuna já registrada em `CORR-PHASER-003`
 - **Fix:** aplicar `const car = (elemento) as Car` nos dois pontos; revisar o parâmetro `offsetX`
   não lido em `TrafficRenderer.drawOne`
+
+### CORR-PHASER-019
+
+- **Alvo com problema:** `racer-phaser/src/game/scenes/Game.ts` (PHASER-TASK-16)
+- **Sintoma:** `npx tsc --noEmit` falha com `TS2339` (3 ocorrências) — campo `private music!:
+  Phaser.Sound.BaseSound` é anotado com a classe abstrata, que não declara `mute`/`setMute`
+  (só as subclasses concretas `HTML5AudioSound`/`WebAudioSound`/`NoAudioSound` declaram esses
+  membros, e é exatamente o que `this.sound.add(...)` retorna). `npm run build` não pega o erro
+  por usar esbuild (sem type-check) — mesma lacuna de `CORR-PHASER-003`/`CORR-PHASER-018`
+- **Fix:** trocar a anotação do campo para `Phaser.Sound.NoAudioSound | Phaser.Sound.HTML5AudioSound
+  | Phaser.Sound.WebAudioSound` (ou remover a anotação e deixar inferir da atribuição)

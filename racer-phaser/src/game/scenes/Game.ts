@@ -21,7 +21,7 @@ export class Game extends Scene
     private skyTileSprite!: Phaser.GameObjects.TileSprite;
     private hillsTileSprite!: Phaser.GameObjects.TileSprite;
     private treesTileSprite!: Phaser.GameObjects.TileSprite;
-    private music!: Phaser.Sound.BaseSound;
+    private music!: Phaser.Sound.NoAudioSound | Phaser.Sound.HTML5AudioSound | Phaser.Sound.WebAudioSound;
     private muteText!: Phaser.GameObjects.Text;
 
     private gdt = 0; // accumulated time for fixed timestep
