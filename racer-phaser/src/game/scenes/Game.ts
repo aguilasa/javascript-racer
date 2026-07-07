@@ -78,7 +78,7 @@ export class Game extends Scene
         this.treesTileSprite.setDepth(-1);
 
         // Music setup (PHASER-TASK-16)
-        this.music = this.sound.add('music', { loop: true, volume: 0.05 });
+        this.music = this.sound.add('racer_music', { loop: true, volume: 0.05 });
         const isMuted = localStorage.getItem('muted') === 'true';
         this.music.setMute(isMuted);
         this.music.play();

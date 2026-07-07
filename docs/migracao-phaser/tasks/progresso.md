@@ -78,7 +78,7 @@ PHASER-TASK-20 (a única tarefa de merge, 👤).
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
 | PHASER-TASK-16 | Música em loop + mute persistido via Phaser Sound Manager | PHASER-TASK-15 | ✅ Concluído |
-| PHASER-TASK-17 | Adaptar `MainMenu`/`GameOver` ao tema do racer e validar fluxo completo de cenas | PHASER-TASK-16 | ⬜ Pendente |
+| PHASER-TASK-17 | Adaptar `MainMenu`/`GameOver` ao tema do racer e validar fluxo completo de cenas | PHASER-TASK-16 | ✅ Concluído |
 
 ### Fase 9 — Polimento, paridade e merge
 
@@ -183,8 +183,8 @@ PHASER-TASK-01 ──┬──→ PHASER-TASK-02 ──┐
 
 ### Fase 8 — Áudio e fluxo
 
-- [ ] Música em loop + mute persistido (`localStorage.muted`)
-- [ ] `MainMenu` → `Game` (e, se aplicável, `Game` → `GameOver`) funcionando
+- [x] Música em loop + mute persistido (`localStorage.muted`)
+- [x] `MainMenu` → `Game` (e, se aplicável, `Game` → `GameOver`) funcionando
 
 ### Fase 9 — Polimento, paridade e merge
 
@@ -238,3 +238,10 @@ resumo e arquivos afetados, espelhando o Log de Execução de cada arquivo `PHAS
   trecho de `addLowRollingHills()` que o cenário do jogo original sempre cobriu). Ver Log de
   Execução completo em `docs/migracao-phaser/tasks/11-portar-scenery-pool.md`. Nenhuma tarefa
   entre 09 e 11 precisou ser refeita — PHASER-TASK-11 dependia só da PHASER-TASK-09.
+- **PHASER-TASK-17 (2026-07-07):** Durante a validação manual do fluxo completo (`Boot`→
+  `Preloader`→`MainMenu`→`Game`), a checagem de console (`chromium`/Playwright headless) acusou
+  `pageerror: Audio key "music" not found in cache` ao entrar em `Game`. Causa: `Game.ts` chamava
+  `this.sound.add('music', ...)`, mas o `Preloader` registra a música com a chave `racer_music`
+  (`this.load.audio('racer_music', ...)`, da PHASER-TASK-16). Corrigido trocando a chave em
+  `Game.ts`. Ver Log de Execução completo em
+  `docs/migracao-phaser/tasks/17-menu-gameover-fluxo.md`.

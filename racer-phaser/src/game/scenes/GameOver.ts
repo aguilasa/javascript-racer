@@ -27,9 +27,14 @@ export class GameOver extends Scene
         this.gameover_text.setOrigin(0.5);
 
         this.input.once('pointerdown', () => {
-
             this.scene.start('MainMenu');
+        });
 
+        this.input.keyboard!.once('keydown', () => {
+            this.scene.start('MainMenu');
         });
     }
 }
+
+// Not reachable from the main flow: the original v4-final game is an endless racer with
+// no "game over" state. Kept registered for future use (e.g. timed challenges, crash states).
