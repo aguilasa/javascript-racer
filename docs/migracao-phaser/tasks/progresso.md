@@ -58,7 +58,7 @@ PHASER-TASK-20 (a única tarefa de merge, 👤).
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
 | PHASER-TASK-11 | Portar `scenery.ts` (verbatim) e pool de sprites de cenário com recorte de horizonte | PHASER-TASK-09 | ✅ Concluído |
-| PHASER-TASK-12 | Colisão jogador↔sprite de cenário fora da pista | PHASER-TASK-11 | ⬜ Pendente |
+| PHASER-TASK-12 | Colisão jogador↔sprite de cenário fora da pista | PHASER-TASK-11 | ✅ Concluído |
 
 ### Fase 6 — Tráfego
 
@@ -168,7 +168,7 @@ PHASER-TASK-01 ──┬──→ PHASER-TASK-02 ──┐
 
 - [x] `src/game/racer/scenery.ts` portado
 - [x] Pool de sprites de cenário com recorte de horizonte (`setCrop`)
-- [ ] Colisão jogador↔sprite de cenário fora da pista
+- [x] Colisão jogador↔sprite de cenário fora da pista
 
 ### Fase 6 — Tráfego
 

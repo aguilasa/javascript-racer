@@ -1,6 +1,7 @@
 import type { Segment } from './types'
 import { Road, ROAD } from './Road'
 import { resetSprites } from './scenery'
+import { SPRITES } from './sprites'
 import * as Util from './util'
 
 export interface RenderState {
@@ -140,6 +141,21 @@ export class RacerEngine {
 
     if (((this.playerX < -1) || (this.playerX > 1)) && (this.speed > this.offRoadLimit))
       this.speed = Util.accelerate(this.speed, this.offRoadDecel, dt)
+
+    // Collision against scenery sprites (PHASER-TASK-12)
+    // Only check when off-road, as all scenery sprites are outside the track
+    if ((this.playerX < -1) || (this.playerX > 1)) {
+      const playerW = SPRITES.PLAYER_STRAIGHT.w * SPRITES.SCALE
+      for (const sprite of playerSegment.sprites) {
+        const spriteW = sprite.source.w * SPRITES.SCALE
+        const spriteOffset = sprite.offset + spriteW / 2 * (sprite.offset > 0 ? 1 : -1)
+        if (Util.overlap(this.playerX, playerW, spriteOffset, spriteW)) {
+          this.speed = this.maxSpeed / 5
+          this.position = Util.increase(playerSegment.p1.world.z, -this.playerZ, this.road.trackLength)
+          break
+        }
+      }
+    }
 
     this.playerX = Util.limit(this.playerX, -this.offRoadHardLimit, this.offRoadHardLimit)
     this.speed   = Util.limit(this.speed,   0,  this.maxSpeed)
