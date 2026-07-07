@@ -65,7 +65,7 @@ PHASER-TASK-20 (a única tarefa de merge, 👤).
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
 | PHASER-TASK-13 | Portar `Car.ts`/`TrafficManager.ts` (verbatim) | PHASER-TASK-09 | ✅ Concluído |
-| PHASER-TASK-14 | Pool de carros + ordenação por profundidade (`setDepth`) + colisão jogador↔carro | PHASER-TASK-11, PHASER-TASK-13 | ⬜ Pendente |
+| PHASER-TASK-14 | Pool de carros + ordenação por profundidade (`setDepth`) + colisão jogador↔carro | PHASER-TASK-11, PHASER-TASK-13 | ✅ Concluído |
 
 ### Fase 7 — HUD e tempos de volta
 
@@ -173,8 +173,8 @@ PHASER-TASK-01 ──┬──→ PHASER-TASK-02 ──┐
 ### Fase 6 — Tráfego
 
 - [x] `src/game/racer/Car.ts`, `TrafficManager.ts` portados
-- [ ] Pool de carros + `setDepth` (algoritmo do pintor)
-- [ ] Colisão jogador↔carro
+- [x] Pool de carros + `setDepth` (algoritmo do pintor)
+- [x] Colisão jogador↔carro
 
 ### Fase 7 — HUD
 

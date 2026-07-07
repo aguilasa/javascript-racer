@@ -157,14 +157,28 @@ export class RacerEngine {
     // → RacerGameV4.updateExtras() no original (que recomputa playerSegment, não reaproveita o
     // calculado no topo de update()).
     const collisionSegment = this.road.findSegment(this.position + this.playerZ)
+
     if ((this.playerX < -1) || (this.playerX > 1)) {
-      const playerW = SPRITES.PLAYER_STRAIGHT.w * SPRITES.SCALE
       for (const sprite of collisionSegment.sprites) {
         const spriteW = sprite.source.w * SPRITES.SCALE
         const spriteOffset = sprite.offset + spriteW / 2 * (sprite.offset > 0 ? 1 : -1)
         if (Util.overlap(this.playerX, playerW, spriteOffset, spriteW)) {
           this.speed = this.maxSpeed / 5
           this.position = Util.increase(collisionSegment.p1.world.z, -this.playerZ, this.road.trackLength)
+          break
+        }
+      }
+    }
+
+    // Collision against traffic cars (PHASER-TASK-14) — checada sempre (dentro ou fora da pista),
+    // mas só quando speed > car.speed. Ao colidir, speed = car.speed * (car.speed/speed) e
+    // position volta para logo atrás do carro atingido.
+    for (const car of collisionSegment.cars) {
+      const carW = car.sprite.w * SPRITES.SCALE
+      if (this.speed > car.speed) {
+        if (Util.overlap(this.playerX, playerW, car.offset, carW, 0.8)) {
+          this.speed = car.speed * (car.speed / this.speed)
+          this.position = Util.increase(car.z, -this.playerZ, this.road.trackLength)
           break
         }
       }

@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 import { Scene } from 'phaser';
 import { RoadRenderer } from '../racer/RoadRenderer';
 import { SceneryRenderer } from '../racer/SceneryRenderer';
+import { TrafficRenderer } from '../racer/TrafficRenderer';
 import { COLORS } from '../racer/constants';
 import { SPRITES } from '../racer/sprites';
 import { BACKGROUND } from '../racer/background';
@@ -12,6 +13,7 @@ export class Game extends Scene
     private racerEngine!: RacerEngine;
     private roadRenderer!: RoadRenderer;
     private sceneryRenderer!: SceneryRenderer;
+    private trafficRenderer!: TrafficRenderer;
     private playerSprite!: Phaser.GameObjects.Image;
     private keys!: { left: Phaser.Input.Keyboard.Key; right: Phaser.Input.Keyboard.Key; up: Phaser.Input.Keyboard.Key; down: Phaser.Input.Keyboard.Key; a: Phaser.Input.Keyboard.Key; d: Phaser.Input.Keyboard.Key; w: Phaser.Input.Keyboard.Key; s: Phaser.Input.Keyboard.Key };
     private skyTileSprite!: Phaser.GameObjects.TileSprite;
@@ -35,13 +37,14 @@ export class Game extends Scene
 
         this.roadRenderer = new RoadRenderer(this);
         this.sceneryRenderer = new SceneryRenderer(this);
+        this.trafficRenderer = new TrafficRenderer(this);
 
         // Create player sprite pool (single image reused)
         this.playerSprite = this.add.image(0, 0, 'sprites');
         this.playerSprite.setOrigin(0.5, 1);
-        // Sempre à frente do cenário (pool de sprites, depth até ~100000) — ver SceneryRenderer.
-        // Interleaving correto com carros de tráfego fica para a PHASER-TASK-14.
-        this.playerSprite.setDepth(100001);
+        // Participa da ordenação por profundidade unificada com sprites/carros
+        // (PHASER-TASK-14) — depth calculado dinamicamente em renderPlayer()
+        this.playerSprite.setDepth(0);
 
         // Setup keyboard input (called once, not every frame)
         this.keys = this.input.keyboard!.addKeys({
@@ -90,6 +93,7 @@ export class Game extends Scene
         this.renderParallax(state);
         this.renderRoad(state);
         this.renderScenery(state);
+        this.renderTraffic(state);
         this.renderPlayer(state);
     }
 
@@ -140,6 +144,19 @@ export class Game extends Scene
         );
     }
 
+    private renderTraffic(state: RenderState): void
+    {
+        this.trafficRenderer.clear();
+        this.trafficRenderer.draw(
+            state.width,
+            state.roadWidth,
+            state.baseSegment,
+            state.segments,
+            state.drawDistance,
+            state.maxy,
+        );
+    }
+
     private renderPlayer(state: RenderState): void
     {
         const speedPercent = state.speed / state.maxSpeed;
@@ -170,5 +187,9 @@ export class Game extends Scene
         const scale = (spriteRect.w * state.cameraDepth / state.playerZ * state.width / 2) * (SPRITES.SCALE * roadWidth);
         const destH = (spriteRect.h * state.cameraDepth / state.playerZ * state.width / 2) * (SPRITES.SCALE * roadWidth);
         this.playerSprite.setScale(scale / spriteRect.w, destH / spriteRect.h);
+
+        // Participa da ordenação por profundidade unificada (PHASER-TASK-14)
+        // Usa cameraZ do playerSegment — mais distante fica atrás
+        this.playerSprite.setDepth(100000 - state.playerSegment.p1.camera.z);
     }
 }
