@@ -31,6 +31,8 @@ export interface RenderState {
   resolution: number
   roadWidth: number
   drawDistance: number
+  currentLapTime: number
+  lastLapTime: number | null
 }
 
 export class RacerEngine {
@@ -68,6 +70,10 @@ export class RacerEngine {
   private hillSpeed  = 0.002
   private treeSpeed  = 0.003
   private centrifugal = 0.3
+
+  // Lap timing state (v4)
+  currentLapTime = 0
+  lastLapTime: number | null = null
 
   // Key flags (set from outside)
   keyLeft   = false
@@ -184,8 +190,17 @@ export class RacerEngine {
       }
     }
 
-    // Extras (collision, HUD timing) will be added in PHASER-TASK-11/15
-    // this.updateExtras(dt)
+    // Lap timing (PHASER-TASK-15) — quando position cruza playerZ, fecha a volta atual
+    if (this.position > this.playerZ) {
+      if (this.currentLapTime && (startPosition < this.playerZ)) {
+        this.lastLapTime = this.currentLapTime
+        this.currentLapTime = 0
+      } else {
+        this.currentLapTime += dt
+      }
+    } else {
+      this.currentLapTime += dt
+    }
   }
 
   private updateLateralForces(dt: number, playerSegment: Segment): void {
@@ -220,6 +235,10 @@ export class RacerEngine {
 
   private getPlayerUpdown(playerSegment: Segment): number {
     return playerSegment.p2.world.y - playerSegment.p1.world.y
+  }
+
+  resetLastLapTime(): void {
+    this.lastLapTime = null
   }
 
   getRenderState(): RenderState {
@@ -293,6 +312,8 @@ export class RacerEngine {
       resolution: this.resolution,
       roadWidth: this.roadWidth,
       drawDistance: this.drawDistance,
+      currentLapTime: this.currentLapTime,
+      lastLapTime: this.lastLapTime,
     }
   }
 }

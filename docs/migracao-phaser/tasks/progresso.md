@@ -71,7 +71,7 @@ PHASER-TASK-20 (a única tarefa de merge, 👤).
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| PHASER-TASK-15 | Criar `Hud.ts` (`Phaser.GameObjects.Text`) + cronometragem de volta + recorde persistido | PHASER-TASK-14 | ⬜ Pendente |
+| PHASER-TASK-15 | Criar `Hud.ts` (`Phaser.GameObjects.Text`) + cronometragem de volta + recorde persistido | PHASER-TASK-14 | ✅ Concluído |
 
 ### Fase 8 — Áudio e fluxo de cenas
 
@@ -178,8 +178,8 @@ PHASER-TASK-01 ──┬──→ PHASER-TASK-02 ──┐
 
 ### Fase 7 — HUD
 
-- [ ] `src/game/racer/Hud.ts` com velocímetro/tempo atual/última volta/recorde
-- [ ] Recorde persistido em `localStorage` (`fast_lap_time`)
+- [x] `src/game/racer/Hud.ts` com velocímetro/tempo atual/última volta/recorde
+- [x] Recorde persistido em `localStorage` (`fast_lap_time`)
 
 ### Fase 8 — Áudio e fluxo
 

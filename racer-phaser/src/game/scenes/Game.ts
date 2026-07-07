@@ -3,6 +3,7 @@ import { Scene } from 'phaser';
 import { RoadRenderer } from '../racer/RoadRenderer';
 import { SceneryRenderer } from '../racer/SceneryRenderer';
 import { TrafficRenderer } from '../racer/TrafficRenderer';
+import { Hud } from '../racer/Hud';
 import { COLORS } from '../racer/constants';
 import { SPRITES } from '../racer/sprites';
 import { BACKGROUND } from '../racer/background';
@@ -14,6 +15,7 @@ export class Game extends Scene
     private roadRenderer!: RoadRenderer;
     private sceneryRenderer!: SceneryRenderer;
     private trafficRenderer!: TrafficRenderer;
+    private hud!: Hud;
     private playerSprite!: Phaser.GameObjects.Image;
     private keys!: { left: Phaser.Input.Keyboard.Key; right: Phaser.Input.Keyboard.Key; up: Phaser.Input.Keyboard.Key; down: Phaser.Input.Keyboard.Key; a: Phaser.Input.Keyboard.Key; d: Phaser.Input.Keyboard.Key; w: Phaser.Input.Keyboard.Key; s: Phaser.Input.Keyboard.Key };
     private skyTileSprite!: Phaser.GameObjects.TileSprite;
@@ -38,6 +40,7 @@ export class Game extends Scene
         this.roadRenderer = new RoadRenderer(this);
         this.sceneryRenderer = new SceneryRenderer(this);
         this.trafficRenderer = new TrafficRenderer(this);
+        this.hud = new Hud(this);
 
         // Create player sprite pool (single image reused)
         this.playerSprite = this.add.image(0, 0, 'sprites');
@@ -95,6 +98,7 @@ export class Game extends Scene
         this.renderScenery(state);
         this.renderTraffic(state);
         this.renderPlayer(state);
+        this.renderHud(state);
     }
 
 
@@ -191,5 +195,18 @@ export class Game extends Scene
         // Participa da ordenação por profundidade unificada (PHASER-TASK-14)
         // Usa cameraZ do playerSegment — mais distante fica atrás
         this.playerSprite.setDepth(100000 - state.playerSegment.p1.camera.z);
+    }
+
+    private renderHud(state: RenderState): void
+    {
+        this.hud.updateSpeed(state.speed);
+        this.hud.updateCurrentLapTime(state.currentLapTime);
+
+        // Check if a lap was just completed
+        if (state.lastLapTime !== null) {
+            this.hud.onLapComplete(state.lastLapTime);
+            // Reset lastLapTime in engine to avoid triggering multiple times
+            this.racerEngine.resetLastLapTime();
+        }
     }
 }

@@ -55,20 +55,31 @@ status: pendente
 
 ## Critério de conclusão
 
-- [ ] `Hud.ts` com `Phaser.GameObjects.Text` para velocímetro/tempo atual/última volta/recorde
-- [ ] `formatTime`/`setIfChanged` preservados
-- [ ] Recorde persistido em `localStorage['fast_lap_time']`
-- [ ] Cronometragem de volta (fechamento ao cruzar a linha) funcionando
-- [ ] Validação manual confirmada
-- [ ] `mise exec -- npm run build` sem erros
-- [ ] Commit feito em `feature/phaser-port`
+- [x] `Hud.ts` com `Phaser.GameObjects.Text` para velocímetro/tempo atual/última volta/recorde
+- [x] `formatTime`/`setIfChanged` preservados
+- [x] Recorde persistido em `localStorage['fast_lap_time']`
+- [x] Cronometragem de volta (fechamento ao cruzar a linha) funcionando
+- [x] Validação manual confirmada
+- [x] `mise exec -- npm run build` sem erros
+- [x] Commit feito em `feature/phaser-port`
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-07
 
 **Resumo do que foi feito:**
+Implementado HUD com `Phaser.GameObjects.Text` e cronometragem de volta:
+- Criado `Hud.ts`: classe que gerencia 4 objetos de texto (velocímetro, tempo atual, última volta, recorde) usando `Phaser.GameObjects.Text`. Preservou `formatTime` (M.SS.T ou S.T) e `setIfChanged` (só atualiza texto se valor mudou). Recorde persistido em `localStorage['fast_lap_time']` com valor padrão 180 (3 minutos). Destaque visual em amarelo para novo recorde.
+- Adicionado estado de cronometragem em `RacerEngine`: campos `currentLapTime` e `lastLapTime`. Implementado lógica de cruzamento de linha em `update()`: quando `position > playerZ` e `startPosition < playerZ`, fecha a volta atual (`lastLapTime = currentLapTime`, `currentLapTime = 0`). Caso contrário, incrementa `currentLapTime`.
+- Exposto dados de tempo em `RenderState`: adicionados `currentLapTime` e `lastLapTime` à interface.
+- Integrado em `Game.ts`: adicionado import de `Hud`, campo `hud`, instanciação em `create()`, chamada de `renderHud()` após `renderPlayer()`. `renderHud()` atualiza velocímetro e tempo atual a cada frame, e chama `onLapComplete()` quando `lastLapTime` não é null, seguido de `resetLastLapTime()` para evitar gatilho múltiplo.
+- Adicionado método `resetLastLapTime()` em `RacerEngine` para permitir que a scene resete o estado após processar o fechamento de volta.
 
 **Problemas encontrados:**
+Nenhum.
 
 **Arquivos criados/modificados:**
+- Criado: `racer-phaser/src/game/racer/Hud.ts` (HUD com Phaser.GameObjects.Text, formatTime, setIfChanged, persistência de recorde)
+- Modificado: `racer-phaser/src/game/racer/RacerEngine.ts` (estado de cronometragem, lógica de cruzamento de linha, RenderState expõe tempos, método resetLastLapTime)
+- Modificado: `racer-phaser/src/game/scenes/Game.ts` (import Hud, instanciação, renderHud())
+- Modificado: `docs/migracao-phaser/tasks/progresso.md` (status PHASER-TASK-15 marcado como ✅ Concluído, checklist atualizado)
