@@ -198,8 +198,6 @@ export class RacerEngine {
       } else {
         this.currentLapTime += dt
       }
-    } else {
-      this.currentLapTime += dt
     }
   }
 

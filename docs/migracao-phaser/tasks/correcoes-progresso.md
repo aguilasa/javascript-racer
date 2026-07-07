@@ -20,6 +20,8 @@
 | CORR-PHASER-014 | Checklist de Critério de conclusão da PHASER-TASK-10 não marcado | Baixa | [x] concluído |
 | CORR-PHASER-015 | Game.update() chama racerEngine.getRenderState() 4 vezes por frame, recomputando o mesmo resultado | Alta | [x] concluído |
 | CORR-PHASER-016 | Colisão jogador↔sprite de cenário usa playerSegment desatualizado e roda antes do clamp final de playerX/speed | Alta | [x] concluído |
+| CORR-PHASER-017 | currentLapTime incrementado num ramo `else` externo que não existe no original — cronometragem de volta diverge | Crítica | [x] concluído |
+| CORR-PHASER-018 | tsc --noEmit falha (car de Segment.cars tratado como unknown) em RacerEngine.ts/TrafficRenderer.ts — npm run build não detecta | Alta | [ ] pendente |
 
 ## Checklist
 
@@ -39,6 +41,8 @@
 - [x] CORR-PHASER-014 — marcar checklist da PHASER-TASK-10 (após CORR-PHASER-013 resolvida)
 - [x] CORR-PHASER-015 — chamar `getRenderState()` uma única vez por frame em `Game.update()`
 - [x] CORR-PHASER-016 — recalcular `playerSegment` pós-movimento e mover colisão de cenário para depois do clamp final
+- [x] CORR-PHASER-017 — remover o `else` externo do bloco de cronometragem de volta em `RacerEngine.update()`
+- [ ] CORR-PHASER-018 — tipar explicitamente `car` (cast para `Car`) em `RacerEngine.ts`/`TrafficRenderer.ts`
 
 ## Detalhes por correção
 
@@ -182,3 +186,30 @@
   faz; (2) roda **antes** do clamp final de `playerX`/`speed`, não depois, como no original
 - **Fix:** recalcular `playerSegment` a partir de `this.position` já atualizado, e mover o bloco
   de colisão para depois de `Util.limit(playerX, ...)`/`Util.limit(speed, ...)`
+
+### CORR-PHASER-017
+
+- **Alvo com problema:** `racer-phaser/src/game/racer/RacerEngine.ts` (`update()`, bloco de
+  cronometragem de volta, PHASER-TASK-15)
+- **Sintoma:** o bloco de lap-timing adicionou um `else { this.currentLapTime += dt }` no nível
+  externo do `if (this.position > this.playerZ)` que não existe em
+  `RacerGameV4.updateExtras()` — o original deixa `currentLapTime` congelado enquanto
+  `position <= playerZ` (a janela logo após cruzar a linha de largada/chegada, ~4 frames em
+  velocidade máxima). O `racer-phaser` soma `dt` nessa janela também, inflando o `lastLapTime`
+  registrado (e o recorde salvo) a cada volta
+- **Fix:** remover o `else` externo, mantendo só a estrutura `if (position > playerZ) { if
+  (currentLapTime && startPosition < playerZ) {...} else { currentLapTime += dt } }` idêntica
+  ao original
+
+### CORR-PHASER-018
+
+- **Alvo com problema:** `racer-phaser/src/game/racer/RacerEngine.ts` (bloco de colisão
+  jogador↔carro, PHASER-TASK-14), `racer-phaser/src/game/racer/TrafficRenderer.ts` (`draw()`,
+  PHASER-TASK-14)
+- **Sintoma:** `npx tsc --noEmit` falha com `TS18046`/`TS2322`/`TS6133` — `segment.cars`/
+  `collisionSegment.cars` é `unknown[]`, e o código itera `for (const car of ...)` sem o cast
+  `as Car` (padrão já usado em `TrafficManager.ts`), acessando `.sprite`/`.speed`/`.offset`/`.z`
+  em um valor `unknown`. `npm run build` não pega o erro por usar esbuild (sem type-check) —
+  mesma lacuna já registrada em `CORR-PHASER-003`
+- **Fix:** aplicar `const car = (elemento) as Car` nos dois pontos; revisar o parâmetro `offsetX`
+  não lido em `TrafficRenderer.drawOne`
