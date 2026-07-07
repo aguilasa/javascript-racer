@@ -21,7 +21,7 @@
 | CORR-PHASER-015 | Game.update() chama racerEngine.getRenderState() 4 vezes por frame, recomputando o mesmo resultado | Alta | [x] concluído |
 | CORR-PHASER-016 | Colisão jogador↔sprite de cenário usa playerSegment desatualizado e roda antes do clamp final de playerX/speed | Alta | [x] concluído |
 | CORR-PHASER-017 | currentLapTime incrementado num ramo `else` externo que não existe no original — cronometragem de volta diverge | Crítica | [x] concluído |
-| CORR-PHASER-018 | tsc --noEmit falha (car de Segment.cars tratado como unknown) em RacerEngine.ts/TrafficRenderer.ts — npm run build não detecta | Alta | [ ] pendente |
+| CORR-PHASER-018 | tsc --noEmit falha (car de Segment.cars tratado como unknown) em RacerEngine.ts/TrafficRenderer.ts — npm run build não detecta | Alta | [x] concluído |
 
 ## Checklist
 
@@ -42,7 +42,7 @@
 - [x] CORR-PHASER-015 — chamar `getRenderState()` uma única vez por frame em `Game.update()`
 - [x] CORR-PHASER-016 — recalcular `playerSegment` pós-movimento e mover colisão de cenário para depois do clamp final
 - [x] CORR-PHASER-017 — remover o `else` externo do bloco de cronometragem de volta em `RacerEngine.update()`
-- [ ] CORR-PHASER-018 — tipar explicitamente `car` (cast para `Car`) em `RacerEngine.ts`/`TrafficRenderer.ts`
+- [x] CORR-PHASER-018 — tipar explicitamente `car` (cast para `Car`) em `RacerEngine.ts`/`TrafficRenderer.ts`
 
 ## Detalhes por correção
 

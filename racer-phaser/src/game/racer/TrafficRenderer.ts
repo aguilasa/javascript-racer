@@ -40,7 +40,8 @@ export class TrafficRenderer {
 
     for (let n = 1; n < drawDistance; n++) {
       const segment = segments[(baseSegment.index + n) % segments.length]!
-      for (const car of segment.cars) {
+      for (const carUnknown of segment.cars) {
+        const car = carUnknown as Car
         // Carros são interpolados dentro do segmento pela fração car.percent
         const spriteScale = interpolate(segment.p1.screen.scale, segment.p2.screen.scale, car.percent)
         const spriteX = interpolate(segment.p1.screen.x, segment.p2.screen.x, car.percent) + spriteScale * car.offset * roadWidth * width / 2
@@ -54,8 +55,9 @@ export class TrafficRenderer {
 
     for (const item of items) {
       const clipY = item.segment.clip ?? maxy
-      // offsetX é sempre -0.5 para carros (centro horizontal, ver RacerGameV4.renderExtraLayer)
-      this.drawOne(item.car.sprite, item.scale, item.x, item.y, -0.5, roadWidth, width, clipY, item.segment.p1.camera.z)
+      // offsetX é sempre -0.5 para carros (centro horizontal), mas em Phaser isso é
+      // coberto por setOrigin(0.5, 1) — parâmetro removido por redundância (CORR-PHASER-018)
+      this.drawOne(item.car.sprite, item.scale, item.x, item.y, roadWidth, width, clipY, item.segment.p1.camera.z)
     }
   }
 
@@ -64,7 +66,6 @@ export class TrafficRenderer {
     scale: number,
     x: number,
     y: number,
-    offsetX: number,
     roadWidth: number,
     width: number,
     clipY: number,

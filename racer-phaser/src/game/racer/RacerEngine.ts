@@ -4,6 +4,7 @@ import { resetSprites } from './scenery'
 import { SPRITES } from './sprites'
 import * as Util from './util'
 import { TrafficManager } from './TrafficManager'
+import { Car } from './Car'
 
 export interface RenderState {
   baseSegment: Segment
@@ -179,7 +180,8 @@ export class RacerEngine {
     // Collision against traffic cars (PHASER-TASK-14) — checada sempre (dentro ou fora da pista),
     // mas só quando speed > car.speed. Ao colidir, speed = car.speed * (car.speed/speed) e
     // position volta para logo atrás do carro atingido.
-    for (const car of collisionSegment.cars) {
+    for (const carUnknown of collisionSegment.cars) {
+      const car = carUnknown as Car
       const carW = car.sprite.w * SPRITES.SCALE
       if (this.speed > car.speed) {
         if (Util.overlap(this.playerX, playerW, car.offset, carW, 0.8)) {
