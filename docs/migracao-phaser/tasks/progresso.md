@@ -84,7 +84,7 @@ PHASER-TASK-20 (a única tarefa de merge, 👤).
 
 | ID | Tarefa | Dependências | 👤 | Status |
 | -- | ------ | ------------ | -- | ------ |
-| PHASER-TASK-18 | Medir e otimizar performance do pool (200 carros + cenário denso) | PHASER-TASK-17 | | ⬜ Pendente |
+| PHASER-TASK-18 | Medir e otimizar performance do pool (200 carros + cenário denso) | PHASER-TASK-17 | | ✅ Concluído |
 | PHASER-TASK-19 | Validar paridade visual/funcional com `v4.final.html`/`RacerGameV4` e atualizar `docs/migracao-phaser` | PHASER-TASK-18 | | ⬜ Pendente |
 | PHASER-TASK-20 | Revisar e mergear `feature/phaser-port` em `master` | PHASER-TASK-19 | 👤 | ⬜ Pendente |
 
@@ -188,7 +188,7 @@ PHASER-TASK-01 ──┬──→ PHASER-TASK-02 ──┐
 
 ### Fase 9 — Polimento, paridade e merge
 
-- [ ] Performance validada com 200 carros + cenário denso simultâneos
+- [x] Performance validada com 200 carros + cenário denso simultâneos
 - [ ] Paridade visual/funcional confirmada contra `v4.final.html`/`RacerGameV4`
 - [ ] `docs/migracao-phaser` atualizado refletindo o estado final
 - [ ] `feature/phaser-port` revisada e mergeada em `master` (ou decisão explícita de não mergear
