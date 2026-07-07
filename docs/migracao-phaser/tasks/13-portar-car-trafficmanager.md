@@ -47,20 +47,29 @@ Portar `Car.ts` e `TrafficManager.ts` verbatim para `racer-phaser/src/game/racer
 
 ## Critério de conclusão
 
-- [ ] `Car.ts` portado verbatim
-- [ ] `TrafficManager.ts` portado verbatim (`resetCars`/`updateCars`/`updateCarOffset`)
-- [ ] Índice espacial duplo mantido em sincronia ao trocar de segmento
-- [ ] Fórmula de esterço idêntica à original (lookahead 20, `1/i`, diferença de velocidade)
-- [ ] `trafficManager.resetCars()` chamado na construção da pista
-- [ ] `mise exec -- npm run build` sem erros
-- [ ] Commit feito em `feature/phaser-port`
+- [x] `Car.ts` portado verbatim
+- [x] `TrafficManager.ts` portado verbatim (`resetCars`/`updateCars`/`updateCarOffset`)
+- [x] Índice espacial duplo mantido em sincronia ao trocar de segmento
+- [x] Fórmula de esterço idêntica à original (lookahead 20, `1/i`, diferença de velocidade)
+- [x] `trafficManager.resetCars()` chamado na construção da pista
+- [x] `mise exec -- npm run build` sem erros
+- [x] Commit feito em `feature/phaser-port`
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-07
 
 **Resumo do que foi feito:**
+Portado `Car.ts` e `TrafficManager.ts` verbatim para `racer-phaser/src/game/racer/`:
+- `Car.ts`: classe de dados com `offset`, `z`, `sprite`, `speed`, `percent` — idêntica ao original
+- `TrafficManager.ts`: `resetCars()`, `updateCars()`, `updateCarOffset()` (privado) — preservando otimização de distância (`drawDistance`), lookahead fixo de 20 segmentos, checagem contra jogador e outros carros, fórmula de magnitude `dir * (1/i) * (car.speed - obstáculo.speed) / maxSpeed`, fallback de autocorreção fora da pista (`±0.1`), índice espacial duplo (`cars[]` + `segment.cars`) mantido em sincronia ao cruzar de segmento
+- Integrado em `RacerEngine`: adicionado import de `TrafficManager`, campo `trafficManager`, instanciação com `totalCars = 200` em `buildRoad()`, chamada de `resetCars()` após construção da pista, chamada de `updateCars()` em `update()` com parâmetros corretos (playerSegment, playerX, playerW, speed, drawDistance)
 
 **Problemas encontrados:**
+Nenhum.
 
 **Arquivos criados/modificados:**
+- Criado: `racer-phaser/src/game/racer/Car.ts` (classe de dados de carro, verbatim)
+- Criado: `racer-phaser/src/game/racer/TrafficManager.ts` (gerenciador de tráfego com IA reativa, verbatim)
+- Modificado: `racer-phaser/src/game/racer/RacerEngine.ts` (import TrafficManager, campo trafficManager, instanciação e chamada de resetCars/updateCars)
+- Modificado: `docs/migracao-phaser/tasks/progresso.md` (status PHASER-TASK-13 marcado como ✅ Concluído, checklist atualizado)

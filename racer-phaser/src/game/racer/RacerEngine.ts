@@ -3,6 +3,7 @@ import { Road, ROAD } from './Road'
 import { resetSprites } from './scenery'
 import { SPRITES } from './sprites'
 import * as Util from './util'
+import { TrafficManager } from './TrafficManager'
 
 export interface RenderState {
   baseSegment: Segment
@@ -77,6 +78,9 @@ export class RacerEngine {
   // Road instance
   road!: Road
 
+  // Traffic manager
+  trafficManager!: TrafficManager
+
   reset(): void {
     this.cameraDepth  = 1 / Math.tan((this.fieldOfView / 2) * Math.PI / 180)
     this.playerZ      = this.cameraHeight * this.cameraDepth
@@ -116,6 +120,9 @@ export class RacerEngine {
 
     resetSprites(this.road)
 
+    this.trafficManager = new TrafficManager(this.road, 200, this.maxSpeed)
+    this.trafficManager.resetCars()
+
     this.road.markStartFinish(this.playerZ)
     this.road.finalize()
   }
@@ -124,8 +131,8 @@ export class RacerEngine {
     const startPosition  = this.position
     const playerSegment  = this.road.findSegment(this.position + this.playerZ)
 
-    // Traffic update will be added in PHASER-TASK-13
-    // this.updateTraffic(dt, playerSegment)
+    const playerW = SPRITES.PLAYER_STRAIGHT.w * SPRITES.SCALE
+    this.trafficManager.updateCars(dt, playerSegment, this.playerX, playerW, this.speed, this.drawDistance)
 
     this.position        = Util.increase(this.position, dt * this.speed, this.road.trackLength)
 
