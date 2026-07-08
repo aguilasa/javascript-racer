@@ -85,8 +85,8 @@ PHASER-TASK-20 (a única tarefa de merge, 👤).
 | ID | Tarefa | Dependências | 👤 | Status |
 | -- | ------ | ------------ | -- | ------ |
 | PHASER-TASK-18 | Medir e otimizar performance do pool (200 carros + cenário denso) | PHASER-TASK-17 | | ✅ Concluído |
-| PHASER-TASK-19 | Validar paridade visual/funcional com `v4.final.html`/`RacerGameV4` e atualizar `docs/migracao-phaser` | PHASER-TASK-18 | | ⬜ Pendente |
-| PHASER-TASK-20 | Revisar e mergear `feature/phaser-port` em `master` | PHASER-TASK-19 | 👤 | ⬜ Pendente |
+| PHASER-TASK-19 | Validar paridade visual/funcional com `v4.final.html`/`RacerGameV4` e atualizar `docs/migracao-phaser` | PHASER-TASK-18 | | ✅ Concluído |
+| PHASER-TASK-20 | Revisar e mergear `feature/phaser-port` em `master` | PHASER-TASK-19 | 👤 | ✅ Concluído |
 
 **Legenda:** ⬜ Pendente · 🔄 Em andamento · ✅ Concluído · ❌ Bloqueado · 👤 Requer interação/aprovação humana
 
@@ -189,12 +189,16 @@ PHASER-TASK-01 ──┬──→ PHASER-TASK-02 ──┐
 ### Fase 9 — Polimento, paridade e merge
 
 - [x] Performance validada com 200 carros + cenário denso simultâneos
-- [ ] Paridade visual/funcional confirmada contra `v4.final.html`/`RacerGameV4`
-- [ ] `docs/migracao-phaser` atualizado refletindo o estado final
-- [ ] `feature/phaser-port` revisada e mergeada em `master` (ou decisão explícita de não mergear
-      ainda)
+- [x] Paridade visual/funcional confirmada contra `v4.final.html`/`RacerGameV4` (validação manual
+      do usuário, confirmada explicitamente antes do merge — ver Log de Execução da
+      PHASER-TASK-19)
+- [x] `feature/phaser-port` revisada e mergeada em `master` (merge duplo `--no-ff`:
+      `feature/ts-vite-port` primeiro, depois `feature/phaser-port`; push feito para
+      `origin/master`)
 
-**Quando todos os itens acima estiverem marcados: a migração está completa.**
+**A migração está completa.** (O item "`docs/migracao-phaser` atualizado refletindo o estado
+final" não se aplicou como pendência separada — nenhuma divergência deliberada foi reportada que
+exigisse atualizar `00-visao-geral.md`/`README.md`; ver PHASER-TASK-19.)
 
 ---
 
@@ -245,3 +249,10 @@ resumo e arquivos afetados, espelhando o Log de Execução de cada arquivo `PHAS
   (`this.load.audio('racer_music', ...)`, da PHASER-TASK-16). Corrigido trocando a chave em
   `Game.ts`. Ver Log de Execução completo em
   `docs/migracao-phaser/tasks/17-menu-gameover-fluxo.md`.
+- **PHASER-TASK-19/20 (2026-07-08):** Usuário pediu diretamente o merge das branches `feature/*`
+  em `master`. Paridade visual/funcional confirmada pelo usuário (validação feita ao longo do
+  desenvolvimento, fora do fluxo formal dos prompts). Merge duplo `--no-ff`:
+  `feature/ts-vite-port` (commit `cfb5b0c`) seguido de `feature/phaser-port` (commit `1d155b2`),
+  ambos sem conflitos, `typecheck`/`build` limpos em `app/` e `racer-phaser/` pós-merge, push
+  feito para `origin/master`. Migração para Phaser completa e mergeada. Detalhes completos nos
+  Logs de Execução de `19-paridade-e-docs.md` e `20-mergear-branch-phaser-em-master.md`.

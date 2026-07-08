@@ -84,20 +84,36 @@ mise exec -- npm run build
 
 ## Critério de conclusão
 
-- [ ] Checklist pré-merge conferido
-- [ ] Relação com `feature/ts-vite-port` esclarecida com o humano
-- [ ] Aprovação humana obtida e registrada no Log de Execução
-- [ ] Merge feito em `master` (`--no-ff`, preservando o histórico da branch)
-- [ ] `mise exec -- npm run build` sem erros em `racer-phaser/` pós-merge
-- [ ] `feature/phaser-port` mantida (não deletar a branch nesta tarefa, a menos que aprovado
+- [x] Checklist pré-merge conferido
+- [x] Relação com `feature/ts-vite-port` esclarecida com o humano
+- [x] Aprovação humana obtida e registrada no Log de Execução
+- [x] Merge feito em `master` (`--no-ff`, preservando o histórico da branch)
+- [x] `mise exec -- npm run build` sem erros em `racer-phaser/` pós-merge
+- [x] `feature/phaser-port` mantida (não deletar a branch nesta tarefa, a menos que aprovado
       explicitamente também)
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-08
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Usuário pediu explicitamente o merge das branches `feature/*` em
+`master`. Antes de agir, apresentei o checklist pré-merge (PHASER-TASK-01 a 18 ✅, PHASER-TASK-19
+pendente no `progresso.md`, `mise exec -- npm run build` limpo em `racer-phaser/`, nenhum arquivo
+de `app/` tocado desde o branch-off de `feature/ts-vite-port`) e usei uma pergunta estruturada
+para obter, do usuário, as três decisões que esta tarefa exige explicitamente que sejam humanas:
+(1) relação entre as duas branches pendentes — decidiu por merge duplo, `feature/ts-vite-port`
+primeiro (RACER-TASK-19) e `feature/phaser-port` em seguida, cada um com seu próprio commit
+`--no-ff`; (2) confirmação de que a paridade visual/funcional já havia sido validada
+manualmente (ver PHASER-TASK-19, cujo checklist técnico eu marquei em seguida com base nessa
+confirmação); (3) aprovação para dar push do resultado para `origin/master`. Executei, nessa
+ordem: `git checkout master`, `git merge --no-ff feature/ts-vite-port -m "feat(app): adiciona
+port TypeScript/Vite do jogo (v1-v4)"` (commit `cfb5b0c`), validei `app/` (`typecheck`+`build`
+limpos), depois `git merge --no-ff feature/phaser-port -m "feat(racer-phaser): adiciona port
+Phaser do jogo (v4-final)"` (commit `1d155b2`), validei `mise exec -- npm run build` em
+`racer-phaser/` (limpo) e `git push origin master`.
 
-**Problemas encontrados:**
+**Problemas encontrados:** Nenhum. Ambos os merges foram feitos sem conflitos (`ort` strategy).
 
-**Arquivos criados/modificados:**
+**Arquivos criados/modificados:** Nenhum arquivo de código nesta tarefa além dos próprios merges
+— commits `cfb5b0c` e `1d155b2` em `master`, mais este arquivo e `progresso.md` (status/
+checklist/log final).

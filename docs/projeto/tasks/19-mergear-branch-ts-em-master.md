@@ -74,19 +74,37 @@ npm run typecheck
 
 ## Critério de conclusão
 
-- [ ] Checklist pré-merge conferido
-- [ ] Aprovação humana obtida e registrada no Log de Execução
-- [ ] Merge feito em `master` (`--no-ff`, preservando o histórico da branch)
-- [ ] `npm run build`/`typecheck` sem erros em `master` pós-merge
-- [ ] `feature/ts-vite-port` mantida (não deletar a branch nesta tarefa, a menos que aprovado
+- [x] Checklist pré-merge conferido
+- [x] Aprovação humana obtida e registrada no Log de Execução
+- [x] Merge feito em `master` (`--no-ff`, preservando o histórico da branch)
+- [x] `npm run build`/`typecheck` sem erros em `master` pós-merge
+- [x] `feature/ts-vite-port` mantida (não deletar a branch nesta tarefa, a menos que aprovado
       explicitamente também)
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-08
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Usuário pediu explicitamente para mergear as branches `feature/*`
+em `master` ("Agora faça o merge dos branchs feature/* para dentro do master"). Antes de
+executar, apresentei o estado das duas branches pendentes (`feature/ts-vite-port` e
+`feature/phaser-port`, esta última contendo 100% dos commits daquela) e obtive aprovação humana
+explícita via pergunta estruturada sobre: (1) estratégia de merge — escolhido merge duplo,
+`ts-vite-port` primeiro e depois `phaser-port`, preservando o histórico de cada migração
+separadamente; (2) confirmação de que a paridade visual/funcional já havia sido validada
+manualmente pelo usuário; (3) push para `origin/master` — aprovado. Confirmei previamente que
+nenhum arquivo original (`v1.straight.html`…`v4.final.html`, `common.js`, etc.) foi alterado em
+nenhuma das branches, e que `app/` não foi tocado por `feature/phaser-port` após o branch-off.
+Executei `git checkout master && git merge --no-ff feature/ts-vite-port -m "feat(app): adiciona
+port TypeScript/Vite do jogo (v1-v4)"`, validei `mise exec -- npm run typecheck`/`build` em
+`app/` (sem erros), e na sequência mergeei `feature/phaser-port` (ver Log de Execução da
+RACER-TASK correspondente em `docs/migracao-phaser/tasks/20-mergear-branch-phaser-em-master.md`).
+Dei push de `master` para `origin/master`.
 
-**Problemas encontrados:**
+**Problemas encontrados:** Nenhum. Merge sem conflitos (`ort` strategy), build/typecheck limpos
+em `master` pós-merge.
 
-**Arquivos criados/modificados:**
+**Arquivos criados/modificados:** Merge commit `cfb5b0c` traz todo `app/` (RACER-TASK-01 a 17) +
+docs do plano (`docs/projeto/`) para `master`. Nenhum arquivo fora de `app/`/`docs/projeto/` foi
+alterado por este merge além do que já estava documentado como exceção (`CLAUDE.md`, `Makefile`,
+`mise.toml`, `docs/README.md`).
