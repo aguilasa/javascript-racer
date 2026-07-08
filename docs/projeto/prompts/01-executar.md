@@ -1,3 +1,5 @@
+# Prompt de Execução - javascript-racer
+
 Você vai trabalhar no projeto **javascript-racer**, localizado em:
 
 - **Raiz do projeto:** `/home/ingmar/WebstormProjects/javascript-racer/`
@@ -121,6 +123,13 @@ Quero que você:
 - **Linguagem:** TypeScript, `strict: true` + `noUncheckedIndexedAccess: true`
 - **Build:** Vite, template `vanilla-ts`, aplicação multi-página (`index.html`, `v1.html`…`v4.html`)
 - **Projeto novo:** `app/`, na raiz do repositório, ao lado dos arquivos originais (intocados)
+- **Gerenciamento de versão do Node:** [`mise`](https://mise.jdx.dev/) — todo comando
+  `node`/`npm` roda através de `mise exec --`, nunca invocado direto. A versão do Node fica
+  fixada em `mise.toml` (raiz do repo ou dentro de `app/`, a definir na RACER-TASK-01). Se
+  esse arquivo ainda não existir quando uma tarefa for executada, criá-lo primeiro
+  (`mise use node@20` a partir da raiz do projeto, ou a versão vigente retornada por
+  `mise current node`) antes de rodar qualquer comando — não assumir que o Node do `PATH` do
+  sistema é o correto.
 
 ### Onde as coisas ficam
 
@@ -161,20 +170,26 @@ v1.straight.html … v4.final.html, common.js, stats.js, images/, music/   ← o
 
 ### Comandos
 
+Todos via `mise exec --` (garante a versão do Node fixada em `mise.toml`, em vez de depender
+do que estiver ativo no shell):
+
 ```bash
 cd app
 
+# Instalar dependências
+mise exec -- npm install
+
 # Dev server
-npm run dev
+mise exec -- npm run dev
 
 # Build
-npm run build
+mise exec -- npm run build
 
 # Typecheck isolado
-npm run typecheck
+mise exec -- npm run typecheck
 
 # Preview do build
-npm run preview
+mise exec -- npm run preview
 ```
 
 ---
@@ -203,8 +218,9 @@ Antes de marcar como concluída, verificar os **critérios de conclusão** lista
 markdown da tarefa.
 
 Checklist geral:
-- `npm run typecheck` sem erros
-- `npm run build` sem erros
+
+- `mise exec -- npm run typecheck` sem erros
+- `mise exec -- npm run build` sem erros
 - Para tarefas de porte de versão (10, 11, 12, 15): validação lado a lado com o HTML original
   correspondente
 

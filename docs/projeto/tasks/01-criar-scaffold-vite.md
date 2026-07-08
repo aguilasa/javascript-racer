@@ -126,10 +126,22 @@ git commit -m "chore(app): cria scaffold do projeto Vite (vanilla-ts)"
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-05
 
 **Resumo do que foi feito:**
+- Branch `feature/ts-vite-port` já existia no repositório; permanecida como ativa.
+- Scaffold criado com `npm create vite@latest app -- --template vanilla-ts` (Vite 8.1.1, TypeScript ~6.0.2).
+- `tsconfig.json` ajustado: adicionadas flags `strict: true` e `noUncheckedIndexedAccess: true` (as flags `noUnusedLocals`, `noUnusedParameters` já vinham no template).
+- `package.json`: script `build` simplificado para apenas `vite build` (typecheck separado via `noEmit`); adicionado script `typecheck: tsc --noEmit`.
+- Boilerplate removido: `src/counter.ts`, `src/style.css`, `src/main.ts` (substituído por stub mínimo), `public/favicon.svg`, `public/icons.svg`.
+- `index.html` limpo (sem referência ao boilerplate de exemplo).
+- `npm run typecheck` e `npm run build` executados sem erros.
 
-**Problemas encontrados:**
+**Problemas encontrados:** Nenhum.
 
 **Arquivos criados/modificados:**
+- `app/` (diretório novo — scaffold completo)
+- `app/tsconfig.json` — ajustado
+- `app/package.json` — ajustado
+- `app/index.html` — limpo
+- `app/src/main.ts` — stub mínimo (boilerplate removido)

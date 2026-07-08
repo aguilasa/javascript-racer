@@ -5,7 +5,7 @@ type: documentação
 category: documentação
 phase: 6
 depends_on: ["RACER-TASK-16"]
-status: pendente
+status: concluído
 ---
 
 # RACER-TASK-17: Atualizar `CLAUDE.md`/`docs/` apontando para `app/`
@@ -40,18 +40,26 @@ status: pendente
 
 ## Critério de conclusão
 
-- [ ] `CLAUDE.md` com uma seção sobre o projeto `app/`
-- [ ] `docs/README.md` linkando para `docs/projeto/README.md`
-- [ ] Nenhum conteúdo duplicado entre `CLAUDE.md` e `docs/projeto/`
-- [ ] Nenhuma alteração em `index.html`/`README.md` da raiz nesta tarefa (isso é a
+- [x] `CLAUDE.md` com uma seção sobre o projeto `app/`
+- [x] `docs/README.md` linkando para `docs/projeto/README.md`
+- [x] Nenhum conteúdo duplicado entre `CLAUDE.md` e `docs/projeto/`
+- [x] Nenhuma alteração em `index.html`/`README.md` da raiz nesta tarefa (isso é a
       RACER-TASK-18)
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
 **Resumo do que foi feito:**
+1. Adicionada seção "TypeScript Version (`app/`)" em `CLAUDE.md` com:
+   - Instruções de como rodar a versão TypeScript (`npm install`, `npm run dev`, `npm run build`, `npm run typecheck`)
+   - Descrição das versões HTML (`v1.html`…`v4.html`) como ports fiéis dos originais
+   - Descrição da arquitetura (herança RacerGame → V1 → V2 → V3 → V4, Template Method)
+   - Link para documentação detalhada em `docs/projeto/01-arquitetura-alvo.md`
+2. Adicionada nota no topo de `docs/README.md` linkando para `docs/projeto/README.md` como a versão TypeScript equivalente
 
-**Problemas encontrados:**
+**Problemas encontrados:** Nenhum.
 
 **Arquivos criados/modificados:**
+- `CLAUDE.md` (adicionada seção sobre `app/`)
+- `docs/README.md` (adicionada nota sobre versão TypeScript)

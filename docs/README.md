@@ -4,6 +4,10 @@ Esta pasta documenta, em português, a teoria e a prática por trás deste proje
 corrida em pseudo-3D estilo Outrun, escrito em HTML5 Canvas + JavaScript puro, por Jake Gordon
 ([jakesgordon.com](https://jakesgordon.com)).
 
+> **Versão TypeScript:** Este repositório também contém um port fiel do jogo para TypeScript
+> usando Vite. Para a documentação da arquitetura da versão TypeScript, veja
+> [`docs/projeto/README.md`](projeto/README.md).
+
 A documentação foi produzida lendo os artigos originais do autor e cruzando cada explicação com o
 código-fonte real presente neste repositório (`v1.straight.html`, `v2.curves.html`,
 `v3.hills.html`, `v4.final.html`, `common.js`), para garantir que os trechos mostrados aqui sejam

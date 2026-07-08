@@ -89,20 +89,32 @@ Notas de implementação:
 
 ## Critério de conclusão
 
-- [ ] `core/Road.ts` com toda a DSL (`addSegment`, `addRoad`, `addStraight`, `addHill`,
+- [x] `core/Road.ts` com toda a DSL (`addSegment`, `addRoad`, `addStraight`, `addHill`,
       `addCurve`, `addLowRollingHills`, `addSCurves`, `addBumps`, `addDownhillToEnd`,
       `findSegment`, `markStartFinish`, `finalize`)
-- [ ] `ROAD` (constantes `LENGTH`/`HILL`/`CURVE`) portado
-- [ ] Continuidade de altura (`lastY()`) preservada mesmo quando `y` é sempre 0
-- [ ] `npm run typecheck` sem erros
-- [ ] Nenhum arquivo fora de `app/` foi alterado
+- [x] `ROAD` (constantes `LENGTH`/`HILL`/`CURVE`) portado
+- [x] Continuidade de altura (`lastY()`) preservada mesmo quando `y` é sempre 0
+- [x] `npm run typecheck` sem erros
+- [x] Nenhum arquivo fora de `app/` foi alterado
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-05
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Criado `app/src/core/Road.ts` com:
+- `export const ROAD` (`LENGTH`/`HILL`/`CURVE` as const) no mesmo arquivo.
+- Classe `Road` com campos explícitos `segmentLength`/`rumbleLength` (sem parameter properties
+  — proibido por `erasableSyntaxOnly`).
+- `addSegment` inicializa `p1.world.y = lastY()`, `p2.world.y = y`, `sprites: []`, `cars: []`,
+  cor alternada `COLORS.DARK`/`COLORS.LIGHT` a cada `rumbleLength` segmentos.
+- `addRoad` com easing na curva (3 fases) e na altura (easeInOut único sobre `total`).
+- `addStraight`, `addHill`, `addCurve`, `addLowRollingHills`, `addSCurves`, `addBumps`,
+  `addDownhillToEnd` — todos idênticos ao `v4.final.html` (superconjunto das versões anteriores).
+- `findSegment`, `markStartFinish` (START nos seg. +2/+3 após playerZ, FINISH nos últimos
+  `rumbleLength`), `finalize` (`trackLength = segments.length * segmentLength`).
+- `lastY()` privado garante continuidade de altura entre segmentos. Typecheck passa.
 
-**Problemas encontrados:**
+**Problemas encontrados:** Nenhum.
 
 **Arquivos criados/modificados:**
+- `app/src/core/Road.ts` (criado)

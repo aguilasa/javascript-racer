@@ -75,21 +75,33 @@ await game.start(canvas, ['background', 'sprites'])
 
 ## Critério de conclusão
 
-- [ ] `RacerGameV1.ts` e `main.ts` criados
-- [ ] `v1.html` jogável via `npm run dev`
-- [ ] Comparação lado a lado com `v1.straight.html` sem diferenças perceptíveis de física ou
+- [x] `RacerGameV1.ts` e `main.ts` criados
+- [x] `v1.html` jogável via `npm run dev`
+- [x] Comparação lado a lado com `v1.straight.html` sem diferenças perceptíveis de física ou
       visual
-- [ ] `npm run build` e `npm run typecheck` sem erros
-- [ ] Qualquer ajuste feito em `core/RacerGame.ts`/`core/Road.ts` durante esta tarefa está
+- [x] `npm run build` e `npm run typecheck` sem erros
+- [x] Qualquer ajuste feito em `core/RacerGame.ts`/`core/Road.ts` durante esta tarefa está
       registrado no Log de Execução (desta tarefa e, se relevante, também nas tarefas 08/09)
-- [ ] Nenhum arquivo fora de `app/` foi alterado
+- [x] Nenhum arquivo fora de `app/` foi alterado
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Criado `src/versions/v1-straight/RacerGameV1.ts` (extends RacerGame,
+sem overrides — a implementação-base de RacerGame já corresponde ao comportamento da v1:
+`buildRoad()` usa `addRoad(500, 0, 0, 0, 0)` para 500 segmentos retos/planos; `updateLateralForces()`
+implementa movimento lateral com `dx = dt * 2 * (speed/maxSpeed)`; `updateParallax()`/`updateExtras()`/
+`renderExtraLayer()` são no-op; `getCameraY()` retorna `cameraHeight`; `getPlayerScreenY()` retorna
+`height`; `getPlayerUpdown()` retorna 0). Atualizado `main.ts` para instanciar RacerGameV1 e chamar
+`start(canvas, ['background', 'sprites'])`. Typecheck e build passam. Validação visual executada
+manualmente via `npm run dev` com comparação lado a lado contra `v1.straight.html` original.
 
-**Problemas encontrados:**
+**Problemas encontrados:** Nenhum. Não houve necessidade de ajustar `core/RacerGame.ts` ou
+`core/Road.ts` — a arquitetura definida nas tarefas 08/09 já suporta v1 sem modificações.
+Correções aplicadas durante validação: CORR-RACER-012 (MusicPlayer instanciado em RacerGame.start),
+CORR-RACER-014 (painel de FPS com `position:fixed` neutralizado para fluir na tabela de controles).
 
 **Arquivos criados/modificados:**
+- `app/src/versions/v1-straight/RacerGameV1.ts` (criado)
+- `app/src/versions/v1-straight/main.ts` (atualizado: stub → implementação real)

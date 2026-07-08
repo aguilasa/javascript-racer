@@ -1,0 +1,21 @@
+{
+  "name": "app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.0",
+    "@types/stats.js": "^0.17.4",
+    "typescript": "~6.0.2",
+    "vite": "^8.1.1"
+  },
+  "dependencies": {
+    "stats.js": "^0.17.0"
+  }
+}

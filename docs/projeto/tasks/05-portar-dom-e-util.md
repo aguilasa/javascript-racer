@@ -66,19 +66,31 @@ Portar todas as funções: `timestamp`, `toInt`, `toFloat`, `limit`, `randomInt`
 
 ## Critério de conclusão
 
-- [ ] `core/dom.ts` com toda a API de `Dom` portada e tipada
-- [ ] `core/util.ts` com toda a API de `Util` portada e tipada
-- [ ] `project` usa os tipos de `core/types.ts`
-- [ ] Nenhuma fórmula/constante numérica alterada em relação ao original
-- [ ] `npm run typecheck` sem erros
-- [ ] Nenhum arquivo fora de `app/` foi alterado
+- [x] `core/dom.ts` com toda a API de `Dom` portada e tipada
+- [x] `core/util.ts` com toda a API de `Util` portada e tipada
+- [x] `project` usa os tipos de `core/types.ts`
+- [x] Nenhuma fórmula/constante numérica alterada em relação ao original
+- [x] `npm run typecheck` sem erros
+- [x] Nenhum arquivo fora de `app/` foi alterado
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-05
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Criados `app/src/core/dom.ts` e `app/src/core/util.ts`.
+- `dom.ts`: exporta `Dom` como objeto com `get` (aceita `string | HTMLElement`, lança `Error` se não
+  encontrar o elemento), `set`, `on`, `un` (aceitam `ElementRef` = `string | HTMLElement | Document`),
+  `show`, `blur`, `addClassName`, `removeClassName`, `toggleClassName`, `storage`. Lógica idêntica ao
+  `common.js` original.
+- `util.ts`: exporta 16 funções individuais — `timestamp`, `toInt`, `toFloat`, `limit`, `interpolate`,
+  `randomInt`, `randomChoice<T>` (genérico), `percentRemaining`, `accelerate`, `easeIn`, `easeOut`,
+  `easeInOut`, `exponentialFog`, `increase`, `project` (usa `SegmentPoint` de `core/types.ts`),
+  `overlap`. Todas as fórmulas preservadas byte-a-byte em relação ao original (exceto uso de `??` em
+  vez de `|| 0` em `project`, que é semanticamente equivalente para números).
+Typecheck passa sem erros.
 
-**Problemas encontrados:**
+**Problemas encontrados:** Nenhum.
 
 **Arquivos criados/modificados:**
+- `app/src/core/dom.ts` (criado)
+- `app/src/core/util.ts` (criado)

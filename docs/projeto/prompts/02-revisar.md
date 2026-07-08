@@ -1,3 +1,5 @@
+# Prompt de Revisão - javascript-racer
+
 Você vai trabalhar no projeto **javascript-racer**, localizado em:
 
 - **Projeto:** `/home/ingmar/WebstormProjects/javascript-racer/`
@@ -16,9 +18,9 @@ Quero que você:
 2. Use a tabela de mapeamento (em `prompts/01-executar.md`) para encontrar o arquivo markdown
    da tarefa e leia-o para entender o que ela requeria
 3. **Inspecione o estado real** correspondente à tarefa — arquivos TypeScript criados/
-   modificados em `app/src/`, resultado de `npm run typecheck`/`npm run build`, e (para
-   tarefas de porte de versão) o comportamento da página `vN.html` comparado à documentação do
-   original em `docs/0N-*.md`
+   modificados em `app/src/`, resultado de `mise exec -- npm run typecheck`/
+   `mise exec -- npm run build`, e (para tarefas de porte de versão) o comportamento da página
+   `vN.html` comparado à documentação do original em `docs/0N-*.md`
 4. Compare o que foi pedido na tarefa com o que existe de fato
 5. Para cada discrepância encontrada, crie um arquivo `CORR-RACER-XXX.md` e adicione ao
    `correcoes-progresso.md`
@@ -71,7 +73,10 @@ Dependendo do tipo de tarefa:
 **Tarefas de scaffolding/infraestrutura (RACER-TASK-01, 02, 03):**
 - Verifique se `app/` existe com a estrutura esperada (`tsconfig.json`, `vite.config.ts`,
   `package.json` com os scripts certos)
-- `cd app && npm run typecheck && npm run build` sem erros
+- Verifique se existe `mise.toml` (raiz do repo ou dentro de `app/`) fixando a versão do Node
+  — `mise current node` rodado a partir do diretório correspondente deve reportar a versão
+  fixada, não "não definido"
+- `cd app && mise exec -- npm run typecheck && mise exec -- npm run build` sem erros
 - Para a RACER-TASK-02: conferir que `app/public/images/`/`app/public/music/` têm os mesmos
   arquivos que `images/`/`music/` na raiz (`diff -rq` entre os dois)
 
@@ -87,7 +92,8 @@ Dependendo do tipo de tarefa:
 - Confirmar que a tarefa registrou, no Log de Execução, uma comparação real com o HTML
   original (não só "compilou sem erro") — se não há menção a essa comparação, **isso é uma
   discrepância**
-- Se possível, rodar `npm run dev` e abrir a página para uma checagem visual rápida
+- Se possível, rodar `mise exec -- npm run dev` e abrir a página para uma checagem visual
+  rápida
 
 **Tarefas de v4/tráfego (RACER-TASK-13, 14):**
 - Conferir que `TrafficManager`/`Car`/`scenery`/`Hud` preservam os parâmetros "mágicos" do

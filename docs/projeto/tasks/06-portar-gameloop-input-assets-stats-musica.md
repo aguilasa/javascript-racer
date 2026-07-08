@@ -109,21 +109,39 @@ Substitui `Game.playMusic` — recebe o elemento `<audio>` e o elemento do botã
 
 ## Critério de conclusão
 
-- [ ] `core/GameLoop.ts` com o acumulador de passo fixo idêntico ao original (incluindo o
+- [x] `core/GameLoop.ts` com o acumulador de passo fixo idêntico ao original (incluindo o
       limite de `dt` a 1s)
-- [ ] `core/AssetLoader.ts` com `loadImages` retornando `Promise<HTMLImageElement[]>`
-- [ ] `core/InputController.ts` com flags encapsuladas em instância, não globais
-- [ ] `core/StatsPanel.ts` usando o pacote `stats.js` instalado
-- [ ] `core/MusicPlayer.ts` com persistência de mute via `localStorage`
-- [ ] `npm run typecheck` sem erros
-- [ ] Nenhum arquivo fora de `app/` foi alterado
+- [x] `core/AssetLoader.ts` com `loadImages` retornando `Promise<HTMLImageElement[]>`
+- [x] `core/InputController.ts` com flags encapsuladas em instância, não globais
+- [x] `core/StatsPanel.ts` usando o pacote `stats.js` instalado
+- [x] `core/MusicPlayer.ts` com persistência de mute via `localStorage`
+- [x] `npm run typecheck` sem erros
+- [x] Nenhum arquivo fora de `app/` foi alterado
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-05
 
-**Resumo do que foi feito:**
+**Resumo do que foi feito:** Criadas 5 classes em `app/src/core/`:
+- `GameLoop`: acumulador de passo fixo idêntico a `Game.run` (dt limitado a 1s, `while (gdt >
+  step)`, `requestAnimationFrame`). Aceita `onFrame` opcional (ex.: `stats.update()`).
+- `AssetLoader`: `loadImages(names)` retorna `Promise<HTMLImageElement[]>` usando contador
+  regressivo idêntico ao original.
+- `InputController`: método `bind(bindings)` registra `keydown`/`keyup` em `document` via
+  `Dom.on`. Interface `KeyBinding` com `key?`, `keys?`, `mode?`, `action`.
+- `StatsPanel`: usa `stats.js` (`Stats`). FPS calculado via `begin()`/`end()` (a API antiga
+  `current()` não consta nos tipos `@types/stats.js`). Performance label "good/ok/bad" mantido.
+- `MusicPlayer`: loop, `volume = 0.05`, mute persistido em `localStorage`, botão de toggle.
 
 **Problemas encontrados:**
+1. `erasableSyntaxOnly` proíbe parâmetros `private readonly` no construtor — `GameLoop`
+   refatorado com campos explícitos + atribuição no corpo do construtor.
+2. `stats.js` tipos não expõem `current()` (API antiga do `Game.stats` original) — FPS
+   aproximado via `begin()`/`end()`.
 
 **Arquivos criados/modificados:**
+- `app/src/core/GameLoop.ts` (criado)
+- `app/src/core/AssetLoader.ts` (criado)
+- `app/src/core/InputController.ts` (criado)
+- `app/src/core/StatsPanel.ts` (criado)
+- `app/src/core/MusicPlayer.ts` (criado)
