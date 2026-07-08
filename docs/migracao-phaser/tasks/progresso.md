@@ -88,6 +88,13 @@ PHASER-TASK-20 (a única tarefa de merge, 👤).
 | PHASER-TASK-19 | Validar paridade visual/funcional com `v4.final.html`/`RacerGameV4` e atualizar `docs/migracao-phaser` | PHASER-TASK-18 | | ✅ Concluído |
 | PHASER-TASK-20 | Revisar e mergear `feature/phaser-port` em `master` | PHASER-TASK-19 | 👤 | ✅ Concluído |
 
+### Fase 10 — Tweak UI (pós-migração, retomada do item de backlog)
+
+| ID | Tarefa | Dependências | Status |
+| -- | ------ | ------------ | ------ |
+| PHASER-TASK-21 | Tweak UI: controles básicos ao vivo (lanes, roadWidth, cameraHeight, drawDistance, fieldOfView, fogDensity) | PHASER-TASK-20 | ⬜ Pendente |
+| PHASER-TASK-22 | Tweak UI: controle de resolução (redimensionar Scale Manager/TileSprites) | PHASER-TASK-21 | ⬜ Pendente |
+
 **Legenda:** ⬜ Pendente · 🔄 Em andamento · ✅ Concluído · ❌ Bloqueado · 👤 Requer interação/aprovação humana
 
 ---

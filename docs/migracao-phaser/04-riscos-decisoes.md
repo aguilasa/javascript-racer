@@ -17,6 +17,16 @@ desenvolvimento, não uma feature de gameplay, e não bloqueia nenhum critério 
 estabelecida. Ideias de expansão em geral (não específicas de UI de debug) já estão listadas em
 [`docs/projeto/05-ideias-expansao.md`](../projeto/05-ideias-expansao.md) — não duplicadas aqui.
 
+**Retomada (2026-07-08)**: com `feature/phaser-port` já mergeada em `master` (PHASER-TASK-20), a
+paridade funcional está estabelecida — plano de retomada detalhado em
+[`tasks/21-tweak-ui-controles-basicos.md`](tasks/21-tweak-ui-controles-basicos.md) (6 dos 7
+controles) e [`tasks/22-tweak-ui-resolucao.md`](tasks/22-tweak-ui-resolucao.md) (controle de
+resolução, isolado por exigir redimensionar o `Phaser.Scale.ScaleManager` e os game objects de
+tamanho fixo). **Decisão de UI revista a pedido explícito do usuário**: não mais um overlay HTML
+(opção "A" cotada acima) — o painel é construído com elementos nativos do Phaser (`Text`/
+`Rectangle` dentro do `<canvas>`, classe `TweakUi` seguindo o padrão de `Hud.ts`), ancorado no
+canto superior direito da tela do jogo, recolhido por padrão.
+
 ## Performance do pool de sprites/carros
 
 200 carros de tráfego (`TrafficManager`) + centenas de sprites de cenário (`scenery.ts`) exigem
