@@ -198,6 +198,8 @@ export abstract class RacerGame {
       x  = x + dx
       dx = dx + segment.curve
 
+      segment.clip = maxy
+
       if ((segment.p1.camera.z <= this.cameraDepth) || (segment.p2.screen.y >= segment.p1.screen.y) || (segment.p2.screen.y >= maxy))
         continue
 
@@ -208,8 +210,7 @@ export abstract class RacerGame {
         segment.fog!, segment.color,
       )
 
-      segment.clip = maxy
-      maxy = segment.p2.screen.y
+      maxy = segment.p1.screen.y
     }
 
     this.renderExtraLayer(baseSegment, playerSegment, startPosition, this.playerX, this.playerX * this.roadWidth, maxy)

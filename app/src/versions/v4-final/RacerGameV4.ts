@@ -143,10 +143,10 @@ export class RacerGameV4 extends RacerGameV3 {
       }
 
       for (const car of segment.cars) {
-        const carScale = segment.p1.screen.scale;
         const carObj = car as Car;
-        const carX = segment.p1.screen.x + carScale * carObj.offset * this.roadWidth * this.width / 2;
-        const carY = segment.p1.screen.y;
+        const carScale = Util.interpolate(segment.p1.screen.scale, segment.p2.screen.scale, carObj.percent);
+        const carX = Util.interpolate(segment.p1.screen.x, segment.p2.screen.x, carObj.percent) + carScale * carObj.offset * this.roadWidth * this.width / 2;
+        const carY = Util.interpolate(segment.p1.screen.y, segment.p2.screen.y, carObj.percent);
 
         cars.push({ segment, car: carObj, scale: carScale, x: carX, y: carY });
       }
