@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser';
 import { Scene } from 'phaser';
 import { SPRITES } from '../racer/sprites';
 import { BACKGROUND } from '../racer/background';
@@ -59,6 +60,10 @@ export class Preloader extends Scene
         for (const [name, rect] of Object.entries(BACKGROUND)) {
             backgroundTexture.add(name, 0, rect.x, rect.y, rect.w, rect.h);
         }
+        // Force nearest-neighbor sampling: with the default linear filter, tiling a frame
+        // cropped out of the shared atlas bleeds the transparent gutter around it into the
+        // frame edge, producing a vertical white seam at every TileSprite repeat.
+        backgroundTexture.setFilter(Phaser.Textures.FilterMode.NEAREST);
 
         //  Move to the MainMenu. You could also swap this for a Scene Transition, such as a camera fade.
         this.scene.start('MainMenu');

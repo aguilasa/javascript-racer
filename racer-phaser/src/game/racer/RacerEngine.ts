@@ -19,6 +19,7 @@ export interface RenderState {
   hillOffset: number
   treeOffset: number
   segments: Segment[]
+  visibleSegments: Segment[]
   playerX: number
   speed: number
   maxSpeed: number
@@ -262,6 +263,8 @@ export class RacerEngine {
     // when they should have been culled in the current frame (CORR-PHASER-013)
     for (const s of segments) s.clip = undefined
 
+    const visibleSegments: Segment[] = []
+
     for (let n = 0; n < this.drawDistance; n++) {
       const segment    = segments[(baseSegment.index + n) % segments.length]!
       segment.looped   = segment.index < baseSegment.index
@@ -275,11 +278,17 @@ export class RacerEngine {
       x  = x + dx
       dx = dx + segment.curve
 
+      // segment.clip is set unconditionally (even for culled segments) so the sprite/car
+      // reverse pass in SceneryRenderer/TrafficRenderer can clip against the locally-relevant
+      // hill ceiling, mirroring v4.final.html:354. Road-draw visibility is tracked separately
+      // in visibleSegments since it is not the same thing as "has a clip value".
+      segment.clip = maxy
+
       if ((segment.p1.camera.z <= this.cameraDepth) || (segment.p2.screen.y >= segment.p1.screen.y) || (segment.p2.screen.y >= maxy))
         continue
 
-      segment.clip = maxy
-      maxy = segment.p2.screen.y
+      visibleSegments.push(segment)
+      maxy = segment.p1.screen.y
     }
 
     const steer  = this.speed * (this.keyLeft ? -1 : this.keyRight ? 1 : 0)
@@ -299,6 +308,7 @@ export class RacerEngine {
       hillOffset: this.hillOffset,
       treeOffset: this.treeOffset,
       segments,
+      visibleSegments,
       playerX: this.playerX,
       speed: this.speed,
       maxSpeed: this.maxSpeed,
