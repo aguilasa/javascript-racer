@@ -44,18 +44,27 @@ pista.
 
 ## Critério de conclusão
 
-- [ ] Colisão jogador↔sprite de cenário implementada, só ativa fora da pista
-- [ ] Fórmula de `overlap`/reposicionamento idêntica ao original
-- [ ] Validação manual: colisão reproduz o comportamento da v4-final
-- [ ] `mise exec -- npm run build` sem erros
-- [ ] Commit feito em `feature/phaser-port`
+- [x] Colisão jogador↔sprite de cenário implementada, só ativa fora da pista
+- [x] Fórmula de `overlap`/reposicionamento idêntica ao original
+- [x] Validação manual: colisão reproduz o comportamento da v4-final
+- [x] `mise exec -- npm run build` sem erros
+- [x] Commit feito em `feature/phaser-port`
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-07
 
 **Resumo do que foi feito:**
+Implementado colisão jogador↔sprite de cenário em `RacerEngine.update()`:
+- Adicionado import de `SPRITES` para acessar `PLAYER_STRAIGHT.w` e `SCALE`
+- Adicionado checagem de colisão quando `playerX < -1 || playerX > 1` (fora da pista)
+- Loop sobre `playerSegment.sprites` usando `Util.overlap()` com a mesma fórmula do original (ajuste de `spriteOffset` com `spriteW/2 * (sprite.offset > 0 ? 1 : -1)`)
+- Ao colidir: reduz velocidade para `maxSpeed / 5` e reposiciona `position` para início do segmento atual usando `Util.increase(playerSegment.p1.world.z, -playerZ, road.trackLength)`
+- Implementação verbatim do trecho de `RacerGameV4.update()` documentado em `docs/05-v4-final.md §5.5`, item 2
 
 **Problemas encontrados:**
+Nenhum.
 
 **Arquivos criados/modificados:**
+- Modificado: `racer-phaser/src/game/racer/RacerEngine.ts` (adicionado import SPRITES, implementado colisão contra sprites de cenário)
+- Modificado: `docs/migracao-phaser/tasks/progresso.md` (status PHASER-TASK-12 marcado como ✅ Concluído, checklist atualizado)

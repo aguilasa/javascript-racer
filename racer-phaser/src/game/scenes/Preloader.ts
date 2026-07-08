@@ -1,4 +1,6 @@
 import { Scene } from 'phaser';
+import { SPRITES } from '../racer/sprites';
+import { BACKGROUND } from '../racer/background';
 
 export class Preloader extends Scene
 {
@@ -29,16 +31,34 @@ export class Preloader extends Scene
 
     preload ()
     {
-        //  Load the assets for the game - Replace with your own assets
+        //  Load the assets for the game
         this.load.setPath('assets');
 
+        // Load racer assets
+        this.load.image('sprites', 'racer/sprites.png');
+        this.load.image('racer_background', 'racer/background.png');
+        this.load.audio('racer_music', ['racer/music/racer.mp3', 'racer/music/racer.ogg']);
+
+        // Load template assets
         this.load.image('logo', 'logo.png');
     }
 
     create ()
     {
-        //  When all the assets have loaded, it's often worth creating global objects here that the rest of the game can use.
-        //  For example, you can define global animations here, so we can use them in other scenes.
+        // Register named frames for sprites
+        const spritesTexture = this.textures.get('sprites');
+        for (const [name, rect] of Object.entries(SPRITES)) {
+            if (typeof rect === 'object' && 'x' in rect) {
+                // Skip non-rect entries (SCALE, BILLBOARDS, PLANTS, CARS)
+                spritesTexture.add(name, 0, rect.x, rect.y, rect.w, rect.h);
+            }
+        }
+
+        // Register named frames for background
+        const backgroundTexture = this.textures.get('racer_background');
+        for (const [name, rect] of Object.entries(BACKGROUND)) {
+            backgroundTexture.add(name, 0, rect.x, rect.y, rect.w, rect.h);
+        }
 
         //  Move to the MainMenu. You could also swap this for a Scene Transition, such as a camera fade.
         this.scene.start('MainMenu');

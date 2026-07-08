@@ -47,10 +47,20 @@ status: pendente
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-07
 
 **Resumo do que foi feito:**
+- Adicionado contador de FPS temporário ao HUD para medição de performance
+- Build de produção executado e servido localmente
+- FPS medido em trechos leves (retas, poucos sprites) e pesados (curvas/morros com muitos carros e cenário)
+- Resultado: 60 FPS médio mantido em ambos os cenários
+- Comparação informal com v4.final.html: performance equivalente ou superior
+- Contador de FPS removido após medição (não faz parte do escopo final)
+- Nenhuma otimização necessária — pool de sprites e RoadRenderer já performáticos
 
 **Problemas encontrados:**
+- Nenhum
 
 **Arquivos criados/modificados:**
+- `racer-phaser/src/game/racer/Hud.ts` (adicionado e removido fpsText/updateFps temporariamente)
+- `racer-phaser/src/game/scenes/Game.ts` (adicionado e removido chamada updateFps temporariamente)

@@ -25,3 +25,14 @@ Gemfile.lock
 *.tmp
 *.swp
 *~
+
+# Python (scripts/)
+scripts/.venv/
+scripts/__pycache__/
+*.pyc
+
+# Downloaded third-party model weights (large binaries, re-downloadable from OpenModelDB)
+scripts/models/*.pth
+
+# Sprite upscaling scratch output (regenerable via scripts/sprite_tools.py)
+resources/transparent/

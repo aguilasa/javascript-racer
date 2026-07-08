@@ -49,18 +49,29 @@ Substituir o blit manual de `Renderer.background()` por três `Phaser.GameObject
 
 ## Critério de conclusão
 
-- [ ] Três `TileSprite` (céu/morros/árvores) com profundidade correta (atrás da pista)
-- [ ] `tilePositionX` atualizado a partir de `skyOffset`/`hillOffset`/`treeOffset`
-- [ ] Validação visual: parallax suave e proporcional em curvas, sem costuras
-- [ ] `mise exec -- npm run build` sem erros
-- [ ] Commit feito em `feature/phaser-port`
+- [x] Três `TileSprite` (céu/morros/árvores) com profundidade correta (atrás da pista)
+- [x] `tilePositionX` atualizado a partir de `skyOffset`/`hillOffset`/`treeOffset`
+- [x] Validação visual: parallax suave e proporcional em curvas, sem costuras
+- [x] `mise exec -- npm run build` sem erros
+- [x] Commit feito em `feature/phaser-port`
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
 **Resumo do que foi feito:**
+Substituído o blit manual de `Renderer.background()` por três `Phaser.GameObjects.TileSprite`:
+- Adicionado import de `BACKGROUND` em `Game.ts`
+- Adicionado três campos privados para os TileSprite: `skyTileSprite`, `hillsTileSprite`, `treesTileSprite`
+- Criado os três TileSprite em `create()` usando os frames `SKY`/`HILLS`/`TREES` da textura `'racer_background'`
+- Configurado profundidade correta: sky (-3), hills (-2), trees (-1) - ordem igual às chamadas de `Renderer.background()`
+- Criado método `renderParallax()` que atualiza `tilePositionX` baseado em `skyOffset`/`hillOffset`/`treeOffset` multiplicados pela largura da camada na textura (1280)
+- Chamado `renderParallax()` em `update()` antes de `renderRoad()` e `renderPlayer()`
+- Decisão: `tilePositionY` não implementado (efeito vertical de morros da v3) - o efeito é sutil e pode ficar para polimento (PHASER-TASK-18)
 
 **Problemas encontrados:**
+Nenhum.
 
 **Arquivos criados/modificados:**
+- Modificado: `racer-phaser/src/game/scenes/Game.ts` (adicionado TileSprite de parallax, método renderParallax())
+- Modificado: `docs/migracao-phaser/tasks/progresso.md` (status PHASER-TASK-10 marcado como ✅ Concluído, checklist atualizado)

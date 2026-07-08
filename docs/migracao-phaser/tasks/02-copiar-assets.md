@@ -60,19 +60,29 @@ git commit -m "chore(racer-phaser): copia sprites/background/música de app/publ
 
 ## Critério de conclusão
 
-- [ ] `racer-phaser/public/assets/racer/sprites.png` idêntico a `app/public/images/sprites.png`
-- [ ] `racer-phaser/public/assets/racer/background.png` idêntico a
+- [x] `racer-phaser/public/assets/racer/sprites.png` idêntico a `app/public/images/sprites.png`
+- [x] `racer-phaser/public/assets/racer/background.png` idêntico a
       `app/public/images/background.png`
-- [ ] `racer-phaser/public/assets/racer/music/` com os mesmos arquivos de `app/public/music/`
-- [ ] Nenhum arquivo em `app/` foi alterado (só leitura, para copiar)
-- [ ] Commit feito em `feature/phaser-port`
+- [x] `racer-phaser/public/assets/racer/music/` com os mesmos arquivos de `app/public/music/`
+- [x] Nenhum arquivo em `app/` foi alterado (só leitura, para copiar)
+- [x] Commit feito em `feature/phaser-port`
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
 **Resumo do que foi feito:**
+- Criou diretório `racer-phaser/public/assets/racer/music/`
+- Copiou `sprites.png` de `app/public/images/` para `racer-phaser/public/assets/racer/`
+- Copiou `background.png` de `app/public/images/` para `racer-phaser/public/assets/racer/`
+- Copiou todas as faixas de música de `app/public/music/` para `racer-phaser/public/assets/racer/music/`
+- Verificou integridade via `diff` - todos os arquivos são idênticos aos originais
 
 **Problemas encontrados:**
+- Nenhum
 
 **Arquivos criados/modificados:**
+- `racer-phaser/public/assets/racer/sprites.png` (copiado)
+- `racer-phaser/public/assets/racer/background.png` (copiado)
+- `racer-phaser/public/assets/racer/music/racer.mp3` (copiado)
+- `racer-phaser/public/assets/racer/music/racer.ogg` (copiado)

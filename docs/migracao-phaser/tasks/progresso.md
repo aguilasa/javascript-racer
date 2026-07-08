@@ -22,69 +22,69 @@ PHASER-TASK-20 (a única tarefa de merge, 👤).
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| PHASER-TASK-01 | Criar branch de trabalho e preparar tooling (`mise`, `npm install`) | — | ⬜ Pendente |
-| PHASER-TASK-02 | Copiar assets (imagens/música) para `racer-phaser/public/assets/racer/` | PHASER-TASK-01 | ⬜ Pendente |
+| PHASER-TASK-01 | Criar branch de trabalho e preparar tooling (`mise`, `npm install`) | — | ✅ Concluído |
+| PHASER-TASK-02 | Copiar assets (imagens/música) para `racer-phaser/public/assets/racer/` | PHASER-TASK-01 | ✅ Concluído |
 
 ### Fase 1 — Núcleo portável (`src/game/racer/`)
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| PHASER-TASK-03 | Portar `util.ts`, `types.ts`, `constants.ts` (verbatim) | PHASER-TASK-01 | ⬜ Pendente |
-| PHASER-TASK-04 | Portar `sprites.ts`/`background.ts` e registrar frames nomeados no `Preloader` | PHASER-TASK-02, PHASER-TASK-03 | ⬜ Pendente |
-| PHASER-TASK-05 | Portar `Road.ts` (DSL de construção de pista) | PHASER-TASK-03 | ⬜ Pendente |
+| PHASER-TASK-03 | Portar `util.ts`, `types.ts`, `constants.ts` (verbatim) | PHASER-TASK-01 | ✅ Concluído |
+| PHASER-TASK-04 | Portar `sprites.ts`/`background.ts` e registrar frames nomeados no `Preloader` | PHASER-TASK-02, PHASER-TASK-03 | ✅ Concluído |
+| PHASER-TASK-05 | Portar `Road.ts` (DSL de construção de pista) | PHASER-TASK-03 | ✅ Concluído |
 
 ### Fase 2 — Pista estática (`RoadRenderer`)
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| PHASER-TASK-06 | Criar `RoadRenderer` (`Graphics`) — desenho estático de um segmento | PHASER-TASK-04, PHASER-TASK-05 | ⬜ Pendente |
-| PHASER-TASK-07 | Integrar `Road`+`RoadRenderer` na `Game` scene (pista fixa, câmera parada) | PHASER-TASK-06 | ⬜ Pendente |
+| PHASER-TASK-06 | Criar `RoadRenderer` (`Graphics`) — desenho estático de um segmento | PHASER-TASK-04, PHASER-TASK-05 | ✅ Concluído |
+| PHASER-TASK-07 | Integrar `Road`+`RoadRenderer` na `Game` scene (pista fixa, câmera parada) | PHASER-TASK-06 | ✅ Concluído |
 
 ### Fase 3 — Motor do jogo e player
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| PHASER-TASK-08 | Criar `RacerEngine` (física/regras fundidas de `RacerGame`+`RacerGameV4`) | PHASER-TASK-07 | ⬜ Pendente |
-| PHASER-TASK-09 | Ligar input de teclado + passo fixo em `Game.update`; sprite do jogador via pool | PHASER-TASK-08 | ⬜ Pendente |
+| PHASER-TASK-08 | Criar `RacerEngine` (física/regras fundidas de `RacerGame`+`RacerGameV4`) | PHASER-TASK-07 | ✅ Concluído |
+| PHASER-TASK-09 | Ligar input de teclado + passo fixo em `Game.update`; sprite do jogador via pool | PHASER-TASK-08 | ✅ Concluído |
 
 ### Fase 4 — Parallax
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| PHASER-TASK-10 | Camadas de fundo (céu/morros/árvores) via `TileSprite` | PHASER-TASK-09 | ⬜ Pendente |
+| PHASER-TASK-10 | Camadas de fundo (céu/morros/árvores) via `TileSprite` | PHASER-TASK-09 | ✅ Concluído |
 
 ### Fase 5 — Cenário e colisão fora-de-pista
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| PHASER-TASK-11 | Portar `scenery.ts` (verbatim) e pool de sprites de cenário com recorte de horizonte | PHASER-TASK-09 | ⬜ Pendente |
-| PHASER-TASK-12 | Colisão jogador↔sprite de cenário fora da pista | PHASER-TASK-11 | ⬜ Pendente |
+| PHASER-TASK-11 | Portar `scenery.ts` (verbatim) e pool de sprites de cenário com recorte de horizonte | PHASER-TASK-09 | ✅ Concluído |
+| PHASER-TASK-12 | Colisão jogador↔sprite de cenário fora da pista | PHASER-TASK-11 | ✅ Concluído |
 
 ### Fase 6 — Tráfego
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| PHASER-TASK-13 | Portar `Car.ts`/`TrafficManager.ts` (verbatim) | PHASER-TASK-09 | ⬜ Pendente |
-| PHASER-TASK-14 | Pool de carros + ordenação por profundidade (`setDepth`) + colisão jogador↔carro | PHASER-TASK-11, PHASER-TASK-13 | ⬜ Pendente |
+| PHASER-TASK-13 | Portar `Car.ts`/`TrafficManager.ts` (verbatim) | PHASER-TASK-09 | ✅ Concluído |
+| PHASER-TASK-14 | Pool de carros + ordenação por profundidade (`setDepth`) + colisão jogador↔carro | PHASER-TASK-11, PHASER-TASK-13 | ✅ Concluído |
 
 ### Fase 7 — HUD e tempos de volta
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| PHASER-TASK-15 | Criar `Hud.ts` (`Phaser.GameObjects.Text`) + cronometragem de volta + recorde persistido | PHASER-TASK-14 | ⬜ Pendente |
+| PHASER-TASK-15 | Criar `Hud.ts` (`Phaser.GameObjects.Text`) + cronometragem de volta + recorde persistido | PHASER-TASK-14 | ✅ Concluído |
 
 ### Fase 8 — Áudio e fluxo de cenas
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| PHASER-TASK-16 | Música em loop + mute persistido via Phaser Sound Manager | PHASER-TASK-15 | ⬜ Pendente |
-| PHASER-TASK-17 | Adaptar `MainMenu`/`GameOver` ao tema do racer e validar fluxo completo de cenas | PHASER-TASK-16 | ⬜ Pendente |
+| PHASER-TASK-16 | Música em loop + mute persistido via Phaser Sound Manager | PHASER-TASK-15 | ✅ Concluído |
+| PHASER-TASK-17 | Adaptar `MainMenu`/`GameOver` ao tema do racer e validar fluxo completo de cenas | PHASER-TASK-16 | ✅ Concluído |
 
 ### Fase 9 — Polimento, paridade e merge
 
 | ID | Tarefa | Dependências | 👤 | Status |
 | -- | ------ | ------------ | -- | ------ |
-| PHASER-TASK-18 | Medir e otimizar performance do pool (200 carros + cenário denso) | PHASER-TASK-17 | | ⬜ Pendente |
+| PHASER-TASK-18 | Medir e otimizar performance do pool (200 carros + cenário denso) | PHASER-TASK-17 | | ✅ Concluído |
 | PHASER-TASK-19 | Validar paridade visual/funcional com `v4.final.html`/`RacerGameV4` e atualizar `docs/migracao-phaser` | PHASER-TASK-18 | | ⬜ Pendente |
 | PHASER-TASK-20 | Revisar e mergear `feature/phaser-port` em `master` | PHASER-TASK-19 | 👤 | ⬜ Pendente |
 
@@ -151,44 +151,44 @@ PHASER-TASK-01 ──┬──→ PHASER-TASK-02 ──┐
 
 ### Fase 2 — Pista estática
 
-- [ ] `src/game/racer/RoadRenderer.ts` desenha um segmento via `Graphics`
-- [ ] `Game` scene mostra a pista fixa (sem input) com a perspectiva correta
+- [x] `src/game/racer/RoadRenderer.ts` desenha um segmento via `Graphics`
+- [x] `Game` scene mostra a pista fixa (sem input) com a perspectiva correta
 
 ### Fase 3 — Motor e player
 
-- [ ] `src/game/racer/RacerEngine.ts` com `update()`/`render()` fundidos
-- [ ] Input de teclado (setas + WASD) via `this.input.keyboard`
-- [ ] Sprite do jogador via pool de `Image`, dirigível
+- [x] `src/game/racer/RacerEngine.ts` com `update()`/`render()` fundidos
+- [x] Input de teclado (setas + WASD) via `this.input.keyboard`
+- [x] Sprite do jogador via pool de `Image`, dirigível
 
 ### Fase 4 — Parallax
 
-- [ ] Céu/morros/árvores como `TileSprite`, reagindo à curvatura da pista
+- [x] Céu/morros/árvores como `TileSprite`, reagindo à curvatura da pista
 
 ### Fase 5 — Cenário
 
-- [ ] `src/game/racer/scenery.ts` portado
-- [ ] Pool de sprites de cenário com recorte de horizonte (`setCrop`)
-- [ ] Colisão jogador↔sprite de cenário fora da pista
+- [x] `src/game/racer/scenery.ts` portado
+- [x] Pool de sprites de cenário com recorte de horizonte (`setCrop`)
+- [x] Colisão jogador↔sprite de cenário fora da pista
 
 ### Fase 6 — Tráfego
 
-- [ ] `src/game/racer/Car.ts`, `TrafficManager.ts` portados
-- [ ] Pool de carros + `setDepth` (algoritmo do pintor)
-- [ ] Colisão jogador↔carro
+- [x] `src/game/racer/Car.ts`, `TrafficManager.ts` portados
+- [x] Pool de carros + `setDepth` (algoritmo do pintor)
+- [x] Colisão jogador↔carro
 
 ### Fase 7 — HUD
 
-- [ ] `src/game/racer/Hud.ts` com velocímetro/tempo atual/última volta/recorde
-- [ ] Recorde persistido em `localStorage` (`fast_lap_time`)
+- [x] `src/game/racer/Hud.ts` com velocímetro/tempo atual/última volta/recorde
+- [x] Recorde persistido em `localStorage` (`fast_lap_time`)
 
 ### Fase 8 — Áudio e fluxo
 
-- [ ] Música em loop + mute persistido (`localStorage.muted`)
-- [ ] `MainMenu` → `Game` (e, se aplicável, `Game` → `GameOver`) funcionando
+- [x] Música em loop + mute persistido (`localStorage.muted`)
+- [x] `MainMenu` → `Game` (e, se aplicável, `Game` → `GameOver`) funcionando
 
 ### Fase 9 — Polimento, paridade e merge
 
-- [ ] Performance validada com 200 carros + cenário denso simultâneos
+- [x] Performance validada com 200 carros + cenário denso simultâneos
 - [ ] Paridade visual/funcional confirmada contra `v4.final.html`/`RacerGameV4`
 - [ ] `docs/migracao-phaser` atualizado refletindo o estado final
 - [ ] `feature/phaser-port` revisada e mergeada em `master` (ou decisão explícita de não mergear
@@ -231,3 +231,17 @@ das 20 tarefas acima:
 
 *(preenchido conforme as tarefas forem executadas — um item por tarefa concluída, com data,
 resumo e arquivos afetados, espelhando o Log de Execução de cada arquivo `PHASER-TASK-XX.md`)*
+
+- **PHASER-TASK-11 (2026-07-06):** Executada **fora de ordem** (antes da PHASER-TASK-12/13/14),
+  a pedido do usuário, como correção de um artefato visual real reportado durante testes manuais
+  (uma "cunha" verde-escura sobre a pista, causada por um salto de opacidade de neblina em um
+  trecho de `addLowRollingHills()` que o cenário do jogo original sempre cobriu). Ver Log de
+  Execução completo em `docs/migracao-phaser/tasks/11-portar-scenery-pool.md`. Nenhuma tarefa
+  entre 09 e 11 precisou ser refeita — PHASER-TASK-11 dependia só da PHASER-TASK-09.
+- **PHASER-TASK-17 (2026-07-07):** Durante a validação manual do fluxo completo (`Boot`→
+  `Preloader`→`MainMenu`→`Game`), a checagem de console (`chromium`/Playwright headless) acusou
+  `pageerror: Audio key "music" not found in cache` ao entrar em `Game`. Causa: `Game.ts` chamava
+  `this.sound.add('music', ...)`, mas o `Preloader` registra a música com a chave `racer_music`
+  (`this.load.audio('racer_music', ...)`, da PHASER-TASK-16). Corrigido trocando a chave em
+  `Game.ts`. Ver Log de Execução completo em
+  `docs/migracao-phaser/tasks/17-menu-gameover-fluxo.md`.

@@ -55,20 +55,30 @@ status: pendente
 
 ## Critério de conclusão
 
-- [ ] Pool de `Image` para os 200 carros de tráfego, sem criação/destruição por frame
-- [ ] Ordenação por `setDepth` unificada (sprites de cenário + carros + jogador), sem sprites
+- [x] Pool de `Image` para os 200 carros de tráfego, sem criação/destruição por frame
+- [x] Ordenação por `setDepth` unificada (sprites de cenário + carros + jogador), sem sprites
       "atravessados"
-- [ ] Colisão jogador↔carro implementada com a fórmula original de penalidade de velocidade
-- [ ] Validação visual: IA de desvio, ordem de desenho e colisão equivalentes à v4-final
-- [ ] `mise exec -- npm run build` sem erros
-- [ ] Commit feito em `feature/phaser-port`
+- [x] Colisão jogador↔carro implementada com a fórmula original de penalidade de velocidade
+- [x] Validação visual: IA de desvio, ordem de desenho e colisão equivalentes à v4-final
+- [x] `mise exec -- npm run build` sem erros
+- [x] Commit feito em `feature/phaser-port`
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-07
 
 **Resumo do que foi feito:**
+Implementado pool de carros de tráfego, ordenação por profundidade unificada e colisão jogador↔carro:
+- Criado `TrafficRenderer.ts`: pool de `Image` para os 200 carros de tráfego, sem criação/destruição por frame. Carros são interpolados dentro do segmento pela fração `car.percent` (diferente de sprites de cenário fixos que usam sempre a borda `p1`). Ordenação por `setDepth` usando o mesmo range de `SceneryRenderer` (100000 - cameraZ) para algoritmo do pintor unificado.
+- Integrado em `Game.ts`: adicionado import de `TrafficRenderer`, campo `trafficRenderer`, instanciação em `create()`, chamada de `renderTraffic()` após `renderScenery()` e antes de `renderPlayer()`.
+- Atualizado `renderPlayer()` em `Game.ts`: jogador agora participa da ordenação por profundidade unificada com sprites/carros de tráfego, usando `setDepth(100000 - state.playerSegment.p1.camera.z)` em vez de depth fixo.
+- Implementado colisão jogador↔carro em `RacerEngine.update()`: checada sempre (dentro ou fora da pista), mas só quando `speed > car.speed`, usando `Util.overlap(playerX, playerW, car.offset, carW, 0.8)`. Ao colidir, `speed = car.speed * (car.speed / speed)` e `position` volta para logo atrás do carro atingido (`Util.increase(car.z, -playerZ, trackLength)`). Reutiliza `playerW` já calculado para `updateCars()` e `collisionSegment` já recalculado para colisão de cenário.
 
 **Problemas encontrados:**
+Erro de compilação inicial por redeclaração de `const playerW` (já existia no topo de `update()` para `updateCars()`). Corrigido removendo a redeclaração e reutilizando a variável existente.
 
 **Arquivos criados/modificados:**
+- Criado: `racer-phaser/src/game/racer/TrafficRenderer.ts` (pool de carros de tráfego com interpolação e ordenação por profundidade)
+- Modificado: `racer-phaser/src/game/scenes/Game.ts` (import TrafficRenderer, campo trafficRenderer, instanciação, renderTraffic(), atualização de depth do jogador)
+- Modificado: `racer-phaser/src/game/racer/RacerEngine.ts` (colisão jogador↔carro em update())
+- Modificado: `docs/migracao-phaser/tasks/progresso.md` (status PHASER-TASK-14 marcado como ✅ Concluído, checklist atualizado)

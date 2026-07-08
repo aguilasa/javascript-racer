@@ -55,20 +55,30 @@ Criar em `racer-phaser/src/game/racer/`:
 
 ## Critério de conclusão
 
-- [ ] `racer-phaser/src/game/racer/util.ts` com as mesmas 16 funções exportadas de
+- [x] `racer-phaser/src/game/racer/util.ts` com as mesmas 16 funções exportadas de
       `app/src/core/util.ts`, fórmulas idênticas
-- [ ] `racer-phaser/src/game/racer/types.ts` com as mesmas interfaces de `app/src/core/types.ts`
-- [ ] `racer-phaser/src/game/racer/constants.ts` com `KEY`/`COLORS` idênticos
-- [ ] `mise exec -- npm run build` (dentro de `racer-phaser/`) sem erros
-- [ ] Nenhum arquivo em `app/` foi alterado (só lido, como referência)
-- [ ] Commit feito em `feature/phaser-port`
+- [x] `racer-phaser/src/game/racer/types.ts` com as mesmas interfaces de `app/src/core/types.ts`
+- [x] `racer-phaser/src/game/racer/constants.ts` com `KEY`/`COLORS` idênticos
+- [x] `mise exec -- npm run build` (dentro de `racer-phaser/`) sem erros
+- [x] Nenhum arquivo em `app/` foi alterado (só lido, como referência)
+- [x] Commit feito em `feature/phaser-port`
 
 ## Log de Execução *(preenchido após execução)*
 
-**Executado em:**
+**Executado em:** 2026-07-06
 
 **Resumo do que foi feito:**
+- Criou diretório `racer-phaser/src/game/racer/`
+- Copiou `util.ts` de `app/src/core/` para `racer-phaser/src/game/racer/` (16 funções exportadas, fórmulas idênticas)
+- Copiou `types.ts` de `app/src/core/` para `racer-phaser/src/game/racer/` (7 interfaces exportadas)
+- Copiou `constants.ts` de `app/src/core/` para `racer-phaser/src/game/racer/` (KEY e COLORS idênticos)
+- Ajustou imports relativos para `./types` (mantidos iguais pois a estrutura entre os arquivos não mudou)
+- Validou `mise exec -- npm run build` - build concluído sem erros
 
 **Problemas encontrados:**
+- Nenhum
 
 **Arquivos criados/modificados:**
+- `racer-phaser/src/game/racer/util.ts` (criado)
+- `racer-phaser/src/game/racer/types.ts` (criado)
+- `racer-phaser/src/game/racer/constants.ts` (criado)
