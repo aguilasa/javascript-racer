@@ -89,6 +89,11 @@ export class RacerEngine {
   // Traffic manager
   trafficManager!: TrafficManager
 
+  // DEBUG: quando o Game esconde a renderização do tráfego (Game.DEBUG_HIDE_TRAFFIC), os carros
+  // continuam sendo simulados e posicionados na pista — sem isto, o player colide com carros
+  // invisíveis, o que explica quedas bruscas de velocidade perto da velocidade máxima.
+  disableCarCollisions = false
+
   reset(): void {
     this.cameraDepth  = 1 / Math.tan((this.fieldOfView / 2) * Math.PI / 180)
     this.playerZ      = this.cameraHeight * this.cameraDepth
@@ -181,14 +186,16 @@ export class RacerEngine {
     // Collision against traffic cars (PHASER-TASK-14) — checada sempre (dentro ou fora da pista),
     // mas só quando speed > car.speed. Ao colidir, speed = car.speed * (car.speed/speed) e
     // position volta para logo atrás do carro atingido.
-    for (const carUnknown of collisionSegment.cars) {
-      const car = carUnknown as Car
-      const carW = car.sprite.w * SPRITES.SCALE
-      if (this.speed > car.speed) {
-        if (Util.overlap(this.playerX, playerW, car.offset, carW, 0.8)) {
-          this.speed = car.speed * (car.speed / this.speed)
-          this.position = Util.increase(car.z, -this.playerZ, this.road.trackLength)
-          break
+    if (!this.disableCarCollisions) {
+      for (const carUnknown of collisionSegment.cars) {
+        const car = carUnknown as Car
+        const carW = car.sprite.w * SPRITES.SCALE
+        if (this.speed > car.speed) {
+          if (Util.overlap(this.playerX, playerW, car.offset, carW, 0.8)) {
+            this.speed = car.speed * (car.speed / this.speed)
+            this.position = Util.increase(car.z, -this.playerZ, this.road.trackLength)
+            break
+          }
         }
       }
     }

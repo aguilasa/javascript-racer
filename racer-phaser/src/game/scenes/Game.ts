@@ -11,6 +11,9 @@ import { RacerEngine, RenderState } from '../racer/RacerEngine';
 
 export class Game extends Scene
 {
+    // DEBUG: desligado temporariamente a pedido do usuário para isolar um bug visual
+    private static readonly DEBUG_HIDE_TRAFFIC = true;
+
     private racerEngine!: RacerEngine;
     private roadRenderer!: RoadRenderer;
     private sceneryRenderer!: SceneryRenderer;
@@ -38,6 +41,9 @@ export class Game extends Scene
 
         this.racerEngine = new RacerEngine();
         this.racerEngine.reset();
+        // DEBUG: carros de tráfego continuam sendo simulados mesmo com a renderização
+        // desligada — sem isto o player colide com carros invisíveis.
+        this.racerEngine.disableCarCollisions = Game.DEBUG_HIDE_TRAFFIC;
 
         this.roadRenderer = new RoadRenderer(this);
         this.sceneryRenderer = new SceneryRenderer(this);
@@ -63,6 +69,17 @@ export class Game extends Scene
             s: Phaser.Input.Keyboard.KeyCodes.S,
         }) as typeof this.keys;
 
+        // DEBUG: pressione "P" para baixar um screenshot da tela atual (para reportar bugs visuais)
+        this.input.keyboard!.on('keydown-P', () => {
+            this.game.renderer.snapshot((snapshot) => {
+                if (!(snapshot instanceof HTMLImageElement)) return;
+                const link = document.createElement('a');
+                link.href = snapshot.src;
+                link.download = `racer-phaser-${Date.now()}.png`;
+                link.click();
+            });
+        });
+
         // Create parallax background layers (sky, hills, trees)
         // Order: sky (back), hills (middle), trees (front) - same as Renderer.background() calls
         this.skyTileSprite = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, 'racer_background', 'SKY');
@@ -79,7 +96,8 @@ export class Game extends Scene
 
         // Music setup (PHASER-TASK-16)
         this.music = this.sound.add('racer_music', { loop: true, volume: 0.05 });
-        const isMuted = localStorage.getItem('muted') === 'true';
+        // DEBUG: som desligado junto com o tráfego enquanto DEBUG_HIDE_TRAFFIC estiver ativo.
+        const isMuted = Game.DEBUG_HIDE_TRAFFIC || localStorage.getItem('muted') === 'true';
         this.music.setMute(isMuted);
         this.music.play();
 
@@ -119,7 +137,7 @@ export class Game extends Scene
         this.renderParallax(state);
         this.renderRoad(state);
         this.renderScenery(state);
-        this.renderTraffic(state);
+        if (!Game.DEBUG_HIDE_TRAFFIC) this.renderTraffic(state);
         this.renderPlayer(state);
         this.renderHud(state);
     }
