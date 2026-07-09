@@ -23,6 +23,9 @@
 | CORR-PHASER-017 | currentLapTime incrementado num ramo `else` externo que não existe no original — cronometragem de volta diverge | Crítica | [x] concluído |
 | CORR-PHASER-018 | tsc --noEmit falha (car de Segment.cars tratado como unknown) em RacerEngine.ts/TrafficRenderer.ts — npm run build não detecta | Alta | [x] concluído |
 | CORR-PHASER-019 | tsc --noEmit falha — Game.music tipado como Phaser.Sound.BaseSound, que não declara mute/setMute | Alta | [x] concluído |
+| CORR-PHASER-020 | Merge da PHASER-TASK-20 trouxe para master 4 commits de ferramenta de upscaling de sprites (scripts/, resources/, docs/sprites/, .gitignore) — confirmado pelo usuário como decisão intencional, não vazamento | Não é discrepância | [x] confirmado (sem ação) |
+| CORR-PHASER-021 | Checklist de Critério de conclusão da PHASER-TASK-21 não marcado | Baixa | [x] concluído |
+| CORR-PHASER-022 | PHASER-TASK-21 exige `npm run typecheck`, script que não existe em `racer-phaser/package.json` (sugerido desde CORR-PHASER-003, nunca criado) | Baixa | [ ] pendente |
 
 ## Checklist
 
@@ -45,6 +48,12 @@
 - [x] CORR-PHASER-017 — remover o `else` externo do bloco de cronometragem de volta em `RacerEngine.update()`
 - [x] CORR-PHASER-018 — tipar explicitamente `car` (cast para `Car`) em `RacerEngine.ts`/`TrafficRenderer.ts`
 - [x] CORR-PHASER-019 — trocar tipo de `Game.music` de `Phaser.Sound.BaseSound` para a união de subtipos concretos
+- [x] CORR-PHASER-020 — usuário confirmou que a mistura de commits de upscaling de sprites no
+      merge de `master` foi decisão intencional dele; nenhuma ação de código necessária
+- [x] CORR-PHASER-021 — marcar `[x]` os 8 itens do Critério de conclusão de
+      `21-tweak-ui-controles-basicos.md`
+- [ ] CORR-PHASER-022 — adicionar script `typecheck` (`tsc --noEmit`) a
+      `racer-phaser/package.json`
 
 ## Detalhes por correção
 
@@ -226,3 +235,36 @@
   por usar esbuild (sem type-check) — mesma lacuna de `CORR-PHASER-003`/`CORR-PHASER-018`
 - **Fix:** trocar a anotação do campo para `Phaser.Sound.NoAudioSound | Phaser.Sound.HTML5AudioSound
   | Phaser.Sound.WebAudioSound` (ou remover a anotação e deixar inferir da atribuição)
+
+### CORR-PHASER-020
+
+- **Alvo com problema (achado inicial da revisão):** `master`, commit de merge `1d155b2` (feito
+  pela PHASER-TASK-20) — trouxe junto 4 commits sem relação com a migração Phaser (`3728efc`,
+  `af20973`, `4f768ae`, `70a65bd` — ferramental de upscaling de sprites em `scripts/`,
+  `resources/`, `docs/sprites/`, mais uma entrada no `.gitignore` raiz)
+- **Sintoma reportado:** o checklist pré-merge da PHASER-TASK-20 só verifica `git diff ... --
+  app/`, não pegaria esse tipo de mistura de qualquer forma
+- **Resolução:** usuário confirmou explicitamente que decidiu mergear esse conteúdo junto —
+  **não é um vazamento acidental**. Reclassificado de Crítica para Não é discrepância. Nenhum fix
+  de código aplicado; ver `CORR-PHASER-020.md` para o registro completo
+
+### CORR-PHASER-021
+
+- **Alvo com problema:** `docs/migracao-phaser/tasks/21-tweak-ui-controles-basicos.md`
+- **Sintoma:** tarefa `✅ Concluído` em `progresso.md`, com Log de Execução detalhado, mas os 8
+  itens de `## Critério de conclusão` continuam todos `[ ]` (mesmo padrão de
+  `CORR-PHASER-001`/`CORR-PHASER-014`)
+- **Fix:** marcar os 8 itens como `[x]` — 6 deles reverificados nesta revisão lendo
+  `RacerEngine.applyOptions`/`TweakUi.ts`/`Game.ts` diretamente e rodando `tsc --noEmit`/
+  `npm run build`; os outros 2 (validação manual item-a-item, e a forma literal do comando
+  `npm run typecheck`) dependem do Log de Execução/confirmação do usuário e de
+  `CORR-PHASER-022`
+
+### CORR-PHASER-022
+
+- **Alvo com problema:** `racer-phaser/package.json`
+- **Sintoma:** a PHASER-TASK-21 exige `mise exec -- npm run typecheck` no Critério de conclusão,
+  mas esse script não existe (só `dev`/`build`/`dev-nolog`/`build-nolog`) — a sugestão de
+  adicioná-lo já apareceu em `CORR-PHASER-003`, `CORR-PHASER-018` e `CORR-PHASER-019`, sem nunca
+  ser aplicada
+- **Fix:** adicionar `"typecheck": "tsc --noEmit"` aos scripts de `racer-phaser/package.json`

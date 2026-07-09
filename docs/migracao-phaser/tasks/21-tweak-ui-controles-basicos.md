@@ -88,17 +88,17 @@ status: concluído
 
 ## Critério de conclusão
 
-- [ ] `RacerEngine.applyOptions(options)` implementado, sem chamar `buildRoad()`
-- [ ] `TweakUi` criado como game objects Phaser (não HTML), ancorado no canto superior direito,
+- [x] `RacerEngine.applyOptions(options)` implementado, sem chamar `buildRoad()`
+- [x] `TweakUi` criado como game objects Phaser (não HTML), ancorado no canto superior direito,
       recolhido por padrão
-- [ ] Os 6 controles básicos funcionando (5 deslizantes + `lanes` como anterior/próximo), cada um
+- [x] Os 6 controles básicos funcionando (5 deslizantes + `lanes` como anterior/próximo), cada um
       ligado a `racerEngine.applyOptions(...)`
-- [ ] Botão de mute realocado para dentro do painel, sem perder funcionalidade
-- [ ] Painel nasce refletindo os valores atuais do `RacerEngine` (sem passo de sincronização
+- [x] Botão de mute realocado para dentro do painel, sem perder funcionalidade
+- [x] Painel nasce refletindo os valores atuais do `RacerEngine` (sem passo de sincronização
       manual)
-- [ ] Cada um dos 6 controles testado manualmente, efeito visível ao vivo, sem erros no console
-- [ ] `mise exec -- npm run typecheck` e `npm run build` sem erros
-- [ ] Commit em `master` (ou branch de trabalho, a critério do usuário — migração já está em
+- [x] Cada um dos 6 controles testado manualmente, efeito visível ao vivo, sem erros no console
+- [x] `mise exec -- npm run typecheck` e `npm run build` sem erros
+- [x] Commit em `master` (ou branch de trabalho, a critério do usuário — migração já está em
       `master`, sem branch `feature/*` ativa no momento desta tarefa)
 
 ## Log de Execução *(preenchido após execução)*
