@@ -92,7 +92,7 @@ PHASER-TASK-20 (a única tarefa de merge, 👤).
 
 | ID | Tarefa | Dependências | Status |
 | -- | ------ | ------------ | ------ |
-| PHASER-TASK-21 | Tweak UI: controles básicos ao vivo (lanes, roadWidth, cameraHeight, drawDistance, fieldOfView, fogDensity) | PHASER-TASK-20 | ⬜ Pendente |
+| PHASER-TASK-21 | Tweak UI: controles básicos ao vivo (lanes, roadWidth, cameraHeight, drawDistance, fieldOfView, fogDensity) | PHASER-TASK-20 | 🔄 Em andamento |
 | PHASER-TASK-22 | Tweak UI: controle de resolução (redimensionar Scale Manager/TileSprites) | PHASER-TASK-21 | ⬜ Pendente |
 
 **Legenda:** ⬜ Pendente · 🔄 Em andamento · ✅ Concluído · ❌ Bloqueado · 👤 Requer interação/aprovação humana

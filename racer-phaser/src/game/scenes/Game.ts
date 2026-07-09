@@ -4,6 +4,7 @@ import { RoadRenderer } from '../racer/RoadRenderer';
 import { SceneryRenderer } from '../racer/SceneryRenderer';
 import { TrafficRenderer } from '../racer/TrafficRenderer';
 import { Hud } from '../racer/Hud';
+import { TweakUi } from '../racer/TweakUi';
 import { COLORS } from '../racer/constants';
 import { SPRITES } from '../racer/sprites';
 import { BACKGROUND } from '../racer/background';
@@ -19,13 +20,13 @@ export class Game extends Scene
     private sceneryRenderer!: SceneryRenderer;
     private trafficRenderer!: TrafficRenderer;
     private hud!: Hud;
+    private tweakUi!: TweakUi;
     private playerSprite!: Phaser.GameObjects.Image;
     private keys!: { left: Phaser.Input.Keyboard.Key; right: Phaser.Input.Keyboard.Key; up: Phaser.Input.Keyboard.Key; down: Phaser.Input.Keyboard.Key; a: Phaser.Input.Keyboard.Key; d: Phaser.Input.Keyboard.Key; w: Phaser.Input.Keyboard.Key; s: Phaser.Input.Keyboard.Key };
     private skyTileSprite!: Phaser.GameObjects.TileSprite;
     private hillsTileSprite!: Phaser.GameObjects.TileSprite;
     private treesTileSprite!: Phaser.GameObjects.TileSprite;
     private music!: Phaser.Sound.NoAudioSound | Phaser.Sound.HTML5AudioSound | Phaser.Sound.WebAudioSound;
-    private muteText!: Phaser.GameObjects.Text;
 
     private gdt = 0; // accumulated time for fixed timestep
     private step = 1 / 60; // fixed timestep (60 FPS)
@@ -49,6 +50,7 @@ export class Game extends Scene
         this.sceneryRenderer = new SceneryRenderer(this);
         this.trafficRenderer = new TrafficRenderer(this);
         this.hud = new Hud(this);
+        this.tweakUi = new TweakUi(this, this.racerEngine);
 
         // Create player sprite pool (single image reused)
         this.playerSprite = this.add.image(0, 0, 'sprites');
@@ -101,20 +103,8 @@ export class Game extends Scene
         this.music.setMute(isMuted);
         this.music.play();
 
-        // Mute button (text-based, clickable)
-        this.muteText = this.add.text(this.scale.width - 80, 10, isMuted ? '🔇' : '🔊', {
-            fontSize: '24px',
-            color: '#fff',
-            backgroundColor: '#000',
-            padding: { x: 8, y: 4 }
-        });
-        this.muteText.setInteractive({ useHandCursor: true });
-        this.muteText.on('pointerdown', () => {
-            const newMuted = !this.music.mute;
-            this.music.setMute(newMuted);
-            localStorage.setItem('muted', String(newMuted));
-            this.muteText.setText(newMuted ? '🔇' : '🔊');
-        });
+        // Wire music into TweakUi so the mute button inside the panel works
+        this.tweakUi.setMusic(this.music);
     }
 
     update (_time: number, delta: number)

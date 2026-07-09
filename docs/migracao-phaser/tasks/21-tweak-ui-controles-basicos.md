@@ -103,4 +103,41 @@ status: pendente
 
 ## Log de Execução *(preenchido após execução)*
 
-*(pendente — tarefa ainda não iniciada)*
+**Data:** 2026-07-08
+
+**Status:** 🔄 Em andamento — implementação completa, aguardando validação manual dos 6 controles.
+
+**Resumo do que foi feito:**
+
+1. `RacerEngine.applyOptions(options)` adicionado em `RacerEngine.ts` (método público): aplica cada campo
+   presente em `options` e recomputa `cameraDepth`/`playerZ` — sem chamar `buildRoad()`.
+2. `TweakUi.ts` criado (novo arquivo): painel nativo Phaser, `Container` ancorado no canto superior
+   direito (`scale.width - PANEL_WIDTH - 10, 10`), iniciando **recolhido**. Inclui:
+   - Cabeçalho com botão ⚙ (abre/fecha) e botão 🔊/🔇 (mute), sempre visível.
+   - 1 linha de stepper (◀/▶) para `lanes` (1-4).
+   - 5 sliders (`roadWidth` 500-3000, `cameraHeight` 500-5000, `drawDistance` 100-500,
+     `fieldOfView` 80-140, `fogDensity` 0-50) — trilho `Rectangle` + alça `Rectangle` draggable.
+   - Cada controle nasce com o valor atual do `engine` (sem passo de sincronização extra).
+   - `setMusic(music)` para receber a referência de `Phaser.Sound.BaseSound` após construção.
+3. `Game.ts` atualizado:
+   - `import { TweakUi }` adicionado.
+   - Campo `tweakUi` adicionado; `muteText` standalone removido.
+   - `this.tweakUi = new TweakUi(this, this.racerEngine)` instanciado em `create()` após
+     `racerEngine.reset()`.
+   - `this.tweakUi.setMusic(this.music)` chamado após configurar a música.
+
+**Arquivos criados:**
+- `racer-phaser/src/game/racer/TweakUi.ts`
+
+**Arquivos modificados:**
+- `racer-phaser/src/game/racer/RacerEngine.ts` (método `applyOptions`)
+- `racer-phaser/src/game/scenes/Game.ts` (integração TweakUi, remoção muteText standalone)
+
+**Verificação automatizada:**
+- `npx tsc --noEmit` → 0 erros
+- `npm run build-nolog` → build limpo (vite, sem erros)
+
+**Pendente (requer ação do usuário):**
+- Validação manual: abrir `npm run dev`, clicar em ⚙, ajustar cada um dos 6 controles enquanto
+  dirige, confirmar efeito ao vivo e botão mute funcional. Após confirmação, marcar como ✅ e
+  commitar.
