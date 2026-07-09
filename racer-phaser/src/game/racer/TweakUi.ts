@@ -238,10 +238,12 @@ export class TweakUi {
     // Value label
     const valueText = this.scene.add.text(trackX + TRACK_WIDTH + 6, y + 6, String(Math.round(initialValue)), STYLE_VALUE)
 
-    // dragX from Phaser is in world space; subtract container's world x to get local x
+    // For a GameObject with a parentContainer, Phaser's 'drag' event already reports dragX in
+    // the container's local space (InputPlugin#processDragEvents adds the delta to
+    // input.dragStartX, itself local) — do NOT subtract this.container.x again, or the value
+    // always clamps to the track minimum regardless of where the pointer actually is.
     handle.on('drag', (_pointer: Phaser.Input.Pointer, dragX: number) => {
-      const localX   = dragX - this.container.x
-      const clampedX = Phaser.Math.Clamp(localX, trackX, trackX + TRACK_WIDTH)
+      const clampedX = Phaser.Math.Clamp(dragX, trackX, trackX + TRACK_WIDTH)
       handle.setX(clampedX)
       const t = (clampedX - trackX) / TRACK_WIDTH
       const value = Math.round(min + t * (max - min))
