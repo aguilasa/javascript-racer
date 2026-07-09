@@ -25,7 +25,7 @@
 | CORR-PHASER-019 | tsc --noEmit falha — Game.music tipado como Phaser.Sound.BaseSound, que não declara mute/setMute | Alta | [x] concluído |
 | CORR-PHASER-020 | Merge da PHASER-TASK-20 trouxe para master 4 commits de ferramenta de upscaling de sprites (scripts/, resources/, docs/sprites/, .gitignore) — confirmado pelo usuário como decisão intencional, não vazamento | Não é discrepância | [x] confirmado (sem ação) |
 | CORR-PHASER-021 | Checklist de Critério de conclusão da PHASER-TASK-21 não marcado | Baixa | [x] concluído |
-| CORR-PHASER-022 | PHASER-TASK-21 exige `npm run typecheck`, script que não existe em `racer-phaser/package.json` (sugerido desde CORR-PHASER-003, nunca criado) | Baixa | [ ] pendente |
+| CORR-PHASER-022 | PHASER-TASK-21 exige `npm run typecheck`, script que não existe em `racer-phaser/package.json` (sugerido desde CORR-PHASER-003, nunca criado) | Baixa | [x] concluído |
 
 ## Checklist
 
@@ -52,7 +52,7 @@
       merge de `master` foi decisão intencional dele; nenhuma ação de código necessária
 - [x] CORR-PHASER-021 — marcar `[x]` os 8 itens do Critério de conclusão de
       `21-tweak-ui-controles-basicos.md`
-- [ ] CORR-PHASER-022 — adicionar script `typecheck` (`tsc --noEmit`) a
+- [x] CORR-PHASER-022 — adicionar script `typecheck` (`tsc --noEmit`) a
       `racer-phaser/package.json`
 
 ## Detalhes por correção
