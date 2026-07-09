@@ -5,7 +5,7 @@ type: implementação
 category: frontend
 phase: 10
 depends_on: ["PHASER-TASK-20"]
-status: pendente
+status: concluído
 ---
 
 # PHASER-TASK-21: Tweak UI — controles básicos ao vivo
@@ -105,7 +105,7 @@ status: pendente
 
 **Data:** 2026-07-08
 
-**Status:** 🔄 Em andamento — implementação completa, aguardando validação manual dos 6 controles.
+**Status:** ✅ Concluído — validação manual confirmada pelo usuário.
 
 **Resumo do que foi feito:**
 
@@ -137,7 +137,4 @@ status: pendente
 - `npx tsc --noEmit` → 0 erros
 - `npm run build-nolog` → build limpo (vite, sem erros)
 
-**Pendente (requer ação do usuário):**
-- Validação manual: abrir `npm run dev`, clicar em ⚙, ajustar cada um dos 6 controles enquanto
-  dirige, confirmar efeito ao vivo e botão mute funcional. Após confirmação, marcar como ✅ e
-  commitar.
+**Validação manual:** confirmada pelo usuário (2026-07-09).
