@@ -85,7 +85,10 @@ export class TweakUi {
     this.container.add(this.toggleBtn)
     this.container.add(this.muteBtn)
     for (const obj of this.rows) this.container.add(obj)
-    this.container.setDepth(1000)
+    // Sprites/carros/player usam setDepth(100000 - cameraZ) (SceneryRenderer/TrafficRenderer/
+    // Game.renderPlayer), chegando perto de 100000 para objetos próximos da câmera — o painel
+    // precisa ficar acima disso para não renderizar atrás deles.
+    this.container.setDepth(1_000_000)
 
     // Start collapsed
     this.setRowsVisible(false)
