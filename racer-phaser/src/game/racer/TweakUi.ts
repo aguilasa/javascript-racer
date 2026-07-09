@@ -14,6 +14,13 @@ type SliderKey = (typeof SLIDER_CONFIGS)[number]['key']
 
 const LANES_OPTIONS = [1, 2, 3, 4]
 
+const RESOLUTION_OPTIONS = [
+  { label: 'fine',   width: 1280, height: 960 },
+  { label: 'high',   width: 1024, height: 768 },
+  { label: 'medium', width: 640,  height: 480 },
+  { label: 'low',    width: 480,  height: 360 },
+] as const
+
 // Layout constants
 const PANEL_X_RIGHT_MARGIN = 10
 const PANEL_Y_TOP_MARGIN   = 10
@@ -43,10 +50,15 @@ export class TweakUi {
   // Music ref (set by Game after construction)
   private music: Phaser.Sound.BaseSound | null = null
 
+  // Callback for resolution changes (called with width, height)
+  private onResolutionChange: (width: number, height: number) => void
+
   constructor(
     private scene: Phaser.Scene,
     private engine: RacerEngine,
+    onResolutionChange: (width: number, height: number) => void,
   ) {
+    this.onResolutionChange = onResolutionChange
     const sw = scene.scale.width
 
     // Panel background (initially sized to header only)
@@ -69,6 +81,10 @@ export class TweakUi {
 
     // Lanes stepper row
     rowY = this.createStepperRow(rowY, 'Lanes', LANES_OPTIONS, LANES_OPTIONS.indexOf(engine.lanes))
+
+    // Resolution stepper row
+    const currentResIndex = RESOLUTION_OPTIONS.findIndex(r => r.width === engine.width && r.height === engine.height)
+    rowY = this.createResolutionRow(rowY, RESOLUTION_OPTIONS, currentResIndex)
 
     // Slider rows
     for (const cfg of SLIDER_CONFIGS) {
@@ -99,6 +115,10 @@ export class TweakUi {
     this.music = music
     // Sync mute icon to current state
     this.muteBtn.setText((music as any).mute ? '🔇' : '🔊')
+  }
+
+  reposition(width: number): void {
+    this.container.setX(width - PANEL_WIDTH - PANEL_X_RIGHT_MARGIN)
   }
 
   private handleMute(): void {
@@ -150,6 +170,37 @@ export class TweakUi {
       this.stepperIndex = Math.min(options.length - 1, this.stepperIndex + 1)
       valText.setText(String(options[this.stepperIndex]))
       this.engine.applyOptions({ lanes: options[this.stepperIndex] })
+    })
+
+    this.rows.push(labelText, prevBtn, valText, nextBtn)
+    return y + ROW_HEIGHT
+  }
+
+  // -------------------------------------------------------------------------
+  // Resolution stepper row (fine/high/medium/low)
+  // -------------------------------------------------------------------------
+  private resolutionIndex = 0
+
+  private createResolutionRow(y: number, options: readonly { label: string; width: number; height: number }[], initialIndex: number): number {
+    this.resolutionIndex = initialIndex
+
+    const labelText = this.scene.add.text(PANEL_PAD, y + 6, 'Res:', STYLE_LABEL)
+    const prevBtn   = this.scene.add.text(LABEL_WIDTH + PANEL_PAD, y + 2, '◀', STYLE_BTN)
+    const valText   = this.scene.add.text(LABEL_WIDTH + PANEL_PAD + 26, y + 6, options[initialIndex].label, STYLE_VALUE)
+    const nextBtn   = this.scene.add.text(LABEL_WIDTH + PANEL_PAD + 60, y + 2, '▶', STYLE_BTN)
+
+    prevBtn.setInteractive({ useHandCursor: true })
+    prevBtn.on('pointerdown', () => {
+      this.resolutionIndex = Math.max(0, this.resolutionIndex - 1)
+      valText.setText(options[this.resolutionIndex].label)
+      this.onResolutionChange(options[this.resolutionIndex].width, options[this.resolutionIndex].height)
+    })
+
+    nextBtn.setInteractive({ useHandCursor: true })
+    nextBtn.on('pointerdown', () => {
+      this.resolutionIndex = Math.min(options.length - 1, this.resolutionIndex + 1)
+      valText.setText(options[this.resolutionIndex].label)
+      this.onResolutionChange(options[this.resolutionIndex].width, options[this.resolutionIndex].height)
     })
 
     this.rows.push(labelText, prevBtn, valText, nextBtn)

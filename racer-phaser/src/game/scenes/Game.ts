@@ -50,7 +50,7 @@ export class Game extends Scene
         this.sceneryRenderer = new SceneryRenderer(this);
         this.trafficRenderer = new TrafficRenderer(this);
         this.hud = new Hud(this);
-        this.tweakUi = new TweakUi(this, this.racerEngine);
+        this.tweakUi = new TweakUi(this, this.racerEngine, (w, h) => this.applyResolution(w, h));
 
         // Create player sprite pool (single image reused)
         this.playerSprite = this.add.image(0, 0, 'sprites');
@@ -105,6 +105,25 @@ export class Game extends Scene
 
         // Wire music into TweakUi so the mute button inside the panel works
         this.tweakUi.setMusic(this.music);
+    }
+
+    private applyResolution(width: number, height: number): void {
+        // Resize the game canvas via ScaleManager
+        this.scale.resize(width, height);
+
+        // Update RacerEngine fields and recompute resolution
+        this.racerEngine.applyOptions({ width, height });
+
+        // Resize parallax TileSprites
+        this.skyTileSprite.setSize(width, height);
+        this.hillsTileSprite.setSize(width, height);
+        this.treesTileSprite.setSize(width, height);
+
+        // Reposition TweakUi panel (anchored to top-right)
+        this.tweakUi.reposition(width);
+
+        // Camera should auto-adjust via scale.resize(), but validate if needed
+        // (Phaser docs suggest ScaleManager handles camera resize automatically)
     }
 
     update (_time: number, delta: number)

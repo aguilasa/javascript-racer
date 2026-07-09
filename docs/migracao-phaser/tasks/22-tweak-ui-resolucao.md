@@ -90,4 +90,41 @@ precisar recarregar a página.
 
 ## Log de Execução *(preenchido após execução)*
 
-*(pendente — tarefa ainda não iniciada, depende da PHASER-TASK-21)*
+**Data:** 2026-07-09
+
+**Status:** 🔄 Em andamento — implementação completa, aguardando validação manual das 4 resoluções.
+
+**Resumo do que foi feito:**
+
+1. `RacerEngine.applyOptions()` estendido para aceitar `width`/`height` opcionais, recomputando
+   `this.resolution = this.height / 480` (mesma fórmula do `reset()` original).
+2. `Game.applyResolution(width, height)` implementado:
+   - Chama `this.scale.resize(width, height)` para redimensionar o canvas.
+   - Chama `racerEngine.applyOptions({ width, height })` para atualizar campos.
+   - Redimensiona os 3 `TileSprite` de parallax (`skyTileSprite`, `hillsTileSprite`,
+     `treesTileSprite`) via `.setSize(width, height)`.
+   - Chama `this.tweakUi.reposition(width)` para realocar o painel.
+3. `TweakUi.reposition(width)` implementado: recalcule a posição-x do container como
+   `width - PANEL_WIDTH - PANEL_X_RIGHT_MARGIN`.
+4. Controle de resolução adicionado ao `TweakUi`:
+   - Constante `RESOLUTION_OPTIONS` com as 4 opções (fine/high/medium/low) e pares
+     `width`/`height` correspondentes.
+   - Método `createResolutionRow()` reaproveitando o padrão stepper ◀/▶ (similar a `lanes`).
+   - Callback `onResolutionChange` adicionado ao construtor, chamado pelos botões.
+   - Linha de resolução inserida após o stepper de `lanes`.
+5. `Game.ts` atualizado: `TweakUi` instanciado com callback `(w, h) => this.applyResolution(w, h)`.
+
+**Arquivos modificados:**
+- `racer-phaser/src/game/racer/RacerEngine.ts` (applyOptions estendido)
+- `racer-phaser/src/game/scenes/Game.ts` (applyResolution + callback para TweakUi)
+- `racer-phaser/src/game/racer/TweakUi.ts` (reposition + createResolutionRow + callback)
+
+**Verificação automatizada:**
+- `mise exec -- npm run typecheck` → 0 erros
+- `mise exec -- npm run build-nolog` → build limpo (vite, sem erros)
+
+**Pendente (requer ação do usuário):**
+- Validação manual: abrir `npm run dev`, clicar em ⚙, testar as 4 resoluções (fine/high/medium/low)
+  dirigindo em cada uma, conferindo canvas, parallax, HUD, painel/mute sem gaps/erros, e troca
+  repetida (5 trocas seguidas) sem estado inconsistente. Após confirmação, marcar como ✅ e
+  commitar.

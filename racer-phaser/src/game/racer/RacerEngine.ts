@@ -249,16 +249,19 @@ export class RacerEngine {
     this.lastLapTime = null
   }
 
-  applyOptions(options: Partial<{ lanes: number; roadWidth: number; cameraHeight: number; drawDistance: number; fieldOfView: number; fogDensity: number }>): void {
+  applyOptions(options: Partial<{ lanes: number; roadWidth: number; cameraHeight: number; drawDistance: number; fieldOfView: number; fogDensity: number; width: number; height: number }>): void {
     if (options.lanes        !== undefined) this.lanes        = options.lanes
     if (options.roadWidth    !== undefined) this.roadWidth    = options.roadWidth
     if (options.cameraHeight !== undefined) this.cameraHeight = options.cameraHeight
     if (options.drawDistance !== undefined) this.drawDistance = options.drawDistance
     if (options.fieldOfView  !== undefined) this.fieldOfView  = options.fieldOfView
     if (options.fogDensity   !== undefined) this.fogDensity   = options.fogDensity
-    // Recompute derived values (same two lines as reset())
-    this.cameraDepth = 1 / Math.tan((this.fieldOfView / 2) * Math.PI / 180)
-    this.playerZ     = this.cameraHeight * this.cameraDepth
+    if (options.width        !== undefined) this.width        = options.width
+    if (options.height       !== undefined) this.height       = options.height
+    // Recompute derived values (same three lines as reset())
+    this.resolution   = this.height / 480
+    this.cameraDepth  = 1 / Math.tan((this.fieldOfView / 2) * Math.PI / 180)
+    this.playerZ      = this.cameraHeight * this.cameraDepth
   }
 
   getRenderState(): RenderState {
